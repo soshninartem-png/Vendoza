@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Success</title>
+<style>
+body {
+    background: #f4f5f7;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.box {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,.1);
+}
+</style>
+</head>
+
+<body>
+<div class="box">
+    <h1>✅ Order Placed</h1>
+    <p>Thank you for your purchase</p>
+    <a href="{% url 'home' %}">Back to Home</a>
+</div>
+</body>
+</html>

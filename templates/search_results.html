@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Results</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #f4f6f8;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent: #4f46e5;
+    --accent-hover: #6366f1;
+    --radius: 16px;
+    --gap: 28px;
+    --shadow-light: rgba(0, 0, 0, 0.06);
+    --shadow-dark: rgba(0, 0, 0, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+.header h1 {
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.header span {
+    color: var(--accent);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(280px,1fr));
+    gap: var(--gap);
+    margin-top: 50px;
+}
+
+/* Карточки */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 6px 18px var(--shadow-light);
+}
+
+.card img {
+    width: 100%;
+    aspect-ratio: 1.25;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card:hover img {
+    transform: scale(1.07);
+}
+
+.card-body {
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-body h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+    transition: color 0.3s ease;
+}
+
+.card-body p {
+    font-size: 14px;
+    color: var(--muted);
+    flex-grow: 1;
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+/* Footer карточки */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Цена */
+.price {
+    font-weight: 700;
+    font-size: 17px;
+}
+
+/* Кнопка */
+.btn-add {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px var(--shadow-light);
+}
+
+.btn-add:hover {
+    transform: scale(1.08);
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    box-shadow: 0 8px 20px var(--shadow-dark);
+}
+
+/* Пустой результат */
+.empty {
+    text-align: center;
+    padding: 160px 20px;
+    color: var(--muted);
+}
+
+.empty h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.empty p {
+    font-size: 16px;
+}
+
+/* Адаптивность */
+@media (max-width: 640px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+    <h1>Search results for <span>"{{ query }}"</span></h1>
+</div>
+
+{% if products %}
+<div class="results-grid">
+    {% for product in products %}
+    <div class="card">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/images/placeholder.png{% endif %}" alt="{{ product.name }}">
+        <div class="card-body">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description|truncatechars:100 }}</p>
+            <div class="card-footer">
+                <span class="price">${{ product.price }}</span>
+                <a href="#" class="btn-add">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty">
+    <h2>No products found</h2>
+    <p>Try changing your search or browse popular items.</p>
+</div>
+{% endif %}
+
+</div>
+</body>
+</html>

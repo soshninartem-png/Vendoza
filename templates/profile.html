@@ -1,0 +1,33 @@
+<!-- Иконка профиля -->
+<a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile" aria-controls="offcanvasProfile">
+    <svg width="24" height="24"><use xlink:href="#user"></use></svg>
+</a>
+
+<!-- Offcanvas: профиль -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfile" aria-labelledby="offcanvasProfileLabel" style="width:50%;">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasProfileLabel">My Profile</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column align-items-center">
+        <!-- Фото профиля -->
+        {% if user.profile.avatar %}
+            <img src="{{ user.profile.avatar.url }}" class="rounded-circle mb-3" alt="Profile Photo">
+        {% else %}
+            <img src="https://via.placeholder.com/100" class="rounded-circle mb-3" alt="Profile Photo">
+        {% endif %}
+
+        <!-- Никнейм -->
+        <h6 class="mb-2">{{ user.username }}</h6>
+
+        <!-- Email -->
+        <p class="text-muted mb-3">{{ user.email }}</p>
+
+        <!-- Кнопки -->
+        <div class="d-flex flex-column w-100 gap-2">
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary w-100">Edit Profile</a>
+            <a href="{% url 'settings' %}" class="btn btn-outline-secondary w-100">Settings</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100">Logout</a>
+        </div>
+    </div>
+</div>

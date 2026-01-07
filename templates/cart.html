@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+  <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div class="cart-page">
+  <div class="cart-page-container">
+
+    <!-- Notification -->
+    <div class="cart-notice">
+      <div class="notice-icon"><i class="fa fa-check"></i></div>
+      <div class="notice-text"><span class="red-text">Item Added</span> to your cart</div>
+      <a href="{% url 'home' %}" class="notice-cta">Continue Browsing</a>
+    </div>
+
+    <!-- Order Received -->
+    <div class="order-received">
+      <div class="order-header"><i class="fa fa-check"></i> Thank you. Your order has been received.</div>
+      <div class="order-info">
+        <div><strong>Order Number:</strong> #{{ order_number }}</div>
+        <div><strong>Date:</strong> {{ order_date }}</div>
+        <div><strong>Total:</strong> ${{ total }}</div>
+        <div><strong>Payment Method:</strong> {{ payment_method }}</div>
+      </div>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="cart-items">
+      {% for item in cart_items %}
+      <div class="cart-item">
+        <div class="item-image">
+          <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+        </div>
+        <div class="item-details">
+          <div class="item-name red-text bold-text">{{ item.product.name }}</div>
+          <div>Payment Type: {{ item.payment_type }}</div>
+          <div>Start Date: {{ item.start_date }}</div>
+          <div class="item-subtotal">Price Today: ${{ item.subtotal }}</div>
+        </div>
+        <div class="item-remove">
+          <a href="{% url 'remove_from_cart' item.id %}"><i class="fa fa-close"></i></a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="cart-summary">
+      <div class="discount-code">
+        <form method="post" action="{% url 'apply_discount' %}">
+          {% csrf_token %}
+          <input type="text" placeholder="Discount Code" name="discount_code">
+          <button type="submit" class="btn-apply">Apply</button>
+        </form>
+      </div>
+      <div class="summary-details">
+        <div><strong>Subtotal:</strong> ${{ subtotal }}</div>
+        <div><strong>Tax (13%):</strong> ${{ tax }}</div>
+        <div class="summary-total"><strong>Total:</strong> ${{ total }}</div>
+      </div>
+      <a href="{% url 'checkout' %}" class="btn-checkout">Proceed to Checkout</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

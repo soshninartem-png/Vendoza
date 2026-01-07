@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Разместить объявление</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label">Название</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" placeholder="Название товара">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Цена</label>
+                <div class="control">
+                    <input class="input" type="number" name="price" placeholder="Цена">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Город</label>
+                <div class="control">
+                    <input class="input" type="text" name="city" placeholder="Город">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Описание</label>
+                <div class="control">
+                    <textarea class="textarea" name="description" placeholder="Описание товара"></textarea>
+                </div>
+            </div>
+            <div class="control">
+                <button class="button is-primary">Добавить объявление</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Разместить объявление</h1>
+
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="notification {% if message.tags %}is-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- enctype обязательно для загрузки файлов -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="field">
+                <label class="label">Название</label>
+                <div class="control">
+                    <input class="input" type="text" name="title" placeholder="Название товара" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Описание</label>
+                <div class="control">
+                    <textarea class="textarea" name="description" placeholder="Описание товара"></textarea>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Цена</label>
+                <div class="control">
+                    <input class="input" type="number" name="price" placeholder="Цена" required>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Город</label>
+                <div class="control">
+                    <input class="input" type="text" name="city" placeholder="Город">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Категория</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="category" required>
+                            <option value="">Выберите категорию</option>
+                            {% for category in categories %}
+                            <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Фото</label>
+                <div class="control">
+                    <input class="input" type="file" name="image" accept="image/*">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button type="submit" class="button is-link">Разместить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

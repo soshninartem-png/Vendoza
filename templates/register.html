@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Регистрация</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="field">
+                <label class="label">Имя</label>
+                <div class="control">
+                    <input class="input" type="text" name="username" placeholder="Ваше имя">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input class="input" type="email" name="email" placeholder="Email">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Пароль</label>
+                <div class="control">
+                    <input class="input" type="password" name="password" placeholder="Пароль">
+                </div>
+            </div>
+            <div class="control">
+                <button class="button is-primary">Зарегистрироваться</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

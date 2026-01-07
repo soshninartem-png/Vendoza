@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section py-5">
+  <div class="container">
+    <h1 class="title has-text-centered mb-5">Каталог</h1>
+
+    <!-- Категории -->
+    {% if categories %}
+    <div class="mb-5">
+      <h2 class="subtitle mb-3">Категории</h2>
+      <div class="columns is-multiline is-variable is-3">
+        {% for category in categories %}
+        <div class="column is-3">
+          <a href="{% url 'catalog' %}?category={{ category.slug }}">
+            <div class="box has-text-centered p-4">
+              {% if category.image %}
+              <img src="{{ category.image.url }}" class="mb-2" style="width:80px; height:80px; object-fit:cover; border-radius:50%;" alt="{{ category.name }}">
+              {% else %}
+              <img src="{% static 'default-category.png' %}" class="mb-2" style="width:80px; height:80px; object-fit:cover; border-radius:50%;" alt="{{ category.name }}">
+              {% endif %}
+              <p class="is-size-6 has-text-weight-semibold">{{ category.name }}</p>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Товары -->
+    {% if products %}
+    <h2 class="subtitle mb-4">Товары{% if request.GET.category %} в категории "{{ request.GET.category }}"{% endif %}</h2>
+    <div class="columns is-multiline is-variable is-3">
+      {% for product in products %}
+      <div class="column is-3">
+        <div class="card">
+          <div class="card-image">
+            <figure class="image is-4by3">
+              {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.name }}">
+              {% else %}
+              <img src="{% static 'default-product.png' %}" alt="{{ product.name }}">
+              {% endif %}
+            </figure>
+          </div>
+          <div class="card-content">
+            <p class="title is-6">{{ product.name }}</p>
+            <p class="subtitle is-6">{{ product.price }} сум</p>
+            <p class="is-size-7">{{ product.description|truncatewords:15 }}</p>
+          </div>
+          <footer class="card-footer">
+            <a href="{% url 'product_detail' product.pk %}" class="card-footer-item">Подробнее</a>
+          </footer>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="has-text-centered">В этой категории пока нет товаров.</p>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}

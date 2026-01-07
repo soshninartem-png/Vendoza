@@ -1,0 +1,42 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ category.name }}</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f4f5f7; color: #0f172a; }
+.container { max-width: 1200px; margin: auto; padding: 20px; }
+h1 { margin-bottom: 20px; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+.product-card { background: #fff; border-radius: 15px; padding: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: transform 0.25s; }
+.product-card:hover { transform: translateY(-5px); }
+.product-card img { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; }
+.product-card h2 { font-size: 18px; margin-bottom: 6px; }
+.product-card p { font-size: 14px; color: #6b7280; margin-bottom: 10px; }
+.product-card .price { font-weight: 700; margin-bottom: 10px; display: block; }
+.product-card .btn { display: inline-block; padding: 8px 14px; background: #2563eb; color: white; border-radius: 12px; text-decoration: none; transition: background 0.25s; }
+.product-card .btn:hover { background: #1d4ed8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>{{ category.name }}</h1>
+  {% if products %}
+  <div class="products-grid">
+    {% for product in products %}
+    <div class="product-card">
+      <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/images/placeholder.png{% endif %}" alt="{{ product.name }}">
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description|truncatechars:80 }}</p>
+      <span class="price">${{ product.price }}</span>
+      <a href="{% url 'cart_add' product.id %}" class="btn">Add to Cart</a>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No products found in this category.</p>
+  {% endif %}
+</div>
+</body>
+</html> -->
