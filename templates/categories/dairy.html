@@ -1,0 +1,236 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dairy & Eggs Store</title>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #2563eb;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px; /* меньше расстояние */
+  }
+
+  .product-item {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 240px; /* компактнее */
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+  }
+
+  .product-item figure {
+    margin: 0;
+  }
+
+  .product-item figure img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+  }
+
+  .text-center {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .text-center h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #111827;
+  }
+
+  .rating {
+    margin: 6px 0;
+    color: gold;
+    font-size: 0.95rem;
+  }
+
+  .price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+  }
+
+  .price del {
+    color: #9ca3af;
+    font-size: 0.9rem;
+  }
+
+  .price span {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  .badge {
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .button-area {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .button-area input {
+    width: 55px;
+    padding: 5px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .button-area button {
+    flex-grow: 1;
+    background-color: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 0.9rem;
+  }
+
+  .button-area button:hover {
+    background-color: #1d4ed8;
+  }
+
+  .button-area .wishlist {
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    color: #111827;
+  }
+
+  .button-area .wishlist:hover {
+    background-color: #f3f4f6;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Dairy & Eggs</h1>
+
+<div class="row">
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Milk"></figure>
+  <div class="text-center">
+    <h3>Milk</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ (140)</div>
+    <div class="price"><del>$3.50</del><span>$3.00</span><span class="badge">14% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Eggs"></figure>
+  <div class="text-center">
+    <h3>Eggs</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ (180)</div>
+    <div class="price"><del>$4.00</del><span>$3.50</span><span class="badge">12% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Cheese"></figure>
+  <div class="text-center">
+    <h3>Cheese</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (95)</div>
+    <div class="price"><del>$6.00</del><span>$5.20</span><span class="badge">13% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Butter"></figure>
+  <div class="text-center">
+    <h3>Butter</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (88)</div>
+    <div class="price"><del>$4.50</del><span>$4.00</span><span class="badge">11% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Yogurt"></figure>
+  <div class="text-center">
+    <h3>Yogurt</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (76)</div>
+    <div class="price"><del>$3.00</del><span>$2.50</span><span class="badge">17% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Cream"></figure>
+  <div class="text-center">
+    <h3>Cream</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (65)</div>
+    <div class="price"><del>$3.80</del><span>$3.20</span><span class="badge">16% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Cottage Cheese"></figure>
+  <div class="text-center">
+    <h3>Cottage Cheese</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (72)</div>
+    <div class="price"><del>$4.00</del><span>$3.40</span><span class="badge">15% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Sour Cream"></figure>
+  <div class="text-center">
+    <h3>Sour Cream</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (60)</div>
+    <div class="price"><del>$3.50</del><span>$3.00</span><span class="badge">14% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>

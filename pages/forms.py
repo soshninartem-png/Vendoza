@@ -4,7 +4,12 @@ from django.contrib.auth.models import User
 
 from pages.models import Profile
 
-# Форма регистрации
+
+
+
+
+
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'placeholder':'Email'}))
     username = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Username'}))
@@ -42,3 +47,6 @@ class ProfileEditForm(forms.ModelForm):
                 'placeholder': 'About you'
             }),
         }
+
+
+

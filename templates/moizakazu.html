@@ -1,0 +1,748 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои заказы</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .order-card {
+            background: #ffffff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .order-header {
+            padding: 20px 24px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .order-header:hover {
+            background: #fafafa;
+        }
+
+        .order-main-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .order-id {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .order-status-badge {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-pending {
+            background: #fbbf24;
+        }
+
+        .status-processing {
+            background: #3b82f6;
+        }
+
+        .status-shipping {
+            background: #8b5cf6;
+        }
+
+        .status-delivered {
+            background: #22c55e;
+        }
+
+        .status-picked-up {
+            background: #10b981;
+        }
+
+        .status-cancelled {
+            background: #ef4444;
+        }
+
+        .status-processing::before,
+        .status-shipping::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .order-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .order-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .order-meta-label {
+            color: #999;
+        }
+
+        .order-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .order-total {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .toggle-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background: #16a34a;
+        }
+
+        .pickup-btn {
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(34, 197, 94, 0.3);
+        }
+
+        .pickup-btn:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(34, 197, 94, 0.4);
+        }
+
+        .pickup-btn:active {
+            transform: translateY(0);
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s;
+            font-size: 12px;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .order-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .order-items.expanded {
+            max-height: 2000px;
+        }
+
+        .order-items-content {
+            padding: 20px 24px;
+        }
+
+        .items-count {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .item-specs {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .item-quantity {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .item-price {
+            text-align: right;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .empty-state {
+            background: white;
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            color: #999;
+        }
+
+        .timer-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .delivered-notice {
+            background: #dcfce7;
+            border: 1px solid #22c55e;
+            color: #166534;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .delivery-cost-highlight {
+            background: linear-gradient(135deg, #2c7be5, #6aa8ff);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .delivery-location-text {
+            font-weight: 600;
+            color: #2c7be5;
+        }
+
+        .total-amount-highlight {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 800;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+        }
+
+        .no-delivery-notice {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .order-header {
+                padding: 16px;
+            }
+
+            .order-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .order-total {
+                font-size: 16px;
+            }
+
+            .item-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .order-footer-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .pickup-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Мои заказы</h1>
+
+    {% if orders %}
+        {% for order in orders %}
+        <div class="order-card" id="order-card-{{ order.id }}">
+            <div class="order-header" onclick="toggleOrder('order-{{ order.id }}')">
+                <div class="order-main-info">
+                    <div>
+                        <div class="order-id">ID заказа {{ order.id }}</div>
+                        <div class="timer-info" id="timer-{{ order.id }}"></div>
+                    </div>
+                    <div class="order-status-badge status-{{ order.status }}" id="status-badge-{{ order.id }}">
+                        {{ order.get_status_display }}
+                    </div>
+                </div>
+
+                <div class="order-meta">
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">Статус:</span>
+                        <span id="status-text-{{ order.id }}">{{ order.get_status_display }}</span>
+                    </div>
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">Обновлен:</span>
+                        <span id="updated-time-{{ order.id }}">{{ order.updated_at|date:"Y-m-d H:i" }}</span>
+                    </div>
+                </div>
+
+                <!-- ИНФОРМАЦИЯ О ДОСТАВКЕ -->
+                {% if order.delivery_city %}
+                <div class="order-meta">
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">🌍 Город:</span>
+                        <span class="delivery-location-text">{{ order.delivery_city }}</span>
+                    </div>
+                    
+                    {% if order.delivery_distance %}
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">📍 Расстояние:</span>
+                        <span>{{ order.delivery_distance }} км</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if order.delivery_cost %}
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">🚚 Доставка:</span>
+                        <span class="delivery-cost-highlight">{{ order.delivery_cost }} $</span>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div class="no-delivery-notice">
+                    ⚠️ Город доставки не выбран. Пожалуйста, выберите город в корзине при оформлении заказа.
+                </div>
+                {% endif %}
+
+                <div class="order-meta">
+                    {% if order.storage_deadline %}
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">Срок хранения:</span>
+                        <span>до {{ order.storage_deadline|date:"d M" }}</span>
+                    </div>
+                    {% endif %}
+                    
+                    {% if order.pickup_point %}
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">Пункт выдачи:</span>
+                        <span>{{ order.pickup_point }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="order-meta">
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">Дата заказа:</span>
+                        <span>{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                    </div>
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">Сумма товаров:</span>
+                        <span>{{ order.total_amount }} $</span>
+                    </div>
+                </div>
+
+                {% if order.delivery_cost %}
+                <div class="order-meta">
+                    <div class="order-meta-item">
+                        <span class="order-meta-label">💳 ИТОГО:</span>
+                        <span class="total-amount-highlight">{{ order.total_amount|add:order.delivery_cost }} $</span>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="delivered-notice" id="delivered-notice-{{ order.id }}" style="display: none;">
+                    ✓ Ваш заказ доставлен! Заберите его в пункте выдачи
+                </div>
+
+                <div class="order-footer-row">
+                    <div class="order-total">
+                        {% if order.items.count == 1 %}
+                            {{ order.items.count }} товар
+                        {% elif order.items.count < 5 %}
+                            {{ order.items.count }} товара
+                        {% else %}
+                            {{ order.items.count }} товаров
+                        {% endif %}
+                    </div>
+                    
+                    <button class="pickup-btn" id="pickup-btn-{{ order.id }}" style="display: none;" onclick="confirmPickup({{ order.id }}, event)">
+                        ✓ Забрал заказ
+                    </button>
+                    
+                    <button class="toggle-btn" onclick="event.stopPropagation();">
+                        <span>Детали</span>
+                        <span class="toggle-icon" id="icon-{{ order.id }}">▼</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="order-items" id="order-{{ order.id }}">
+                <div class="order-items-content">
+                    <div class="items-count">
+                        {% if order.items.count == 1 %}
+                            {{ order.items.count }} товар
+                        {% elif order.items.count < 5 %}
+                            {{ order.items.count }} товара
+                        {% else %}
+                            {{ order.items.count }} товаров
+                        {% endif %}
+                    </div>
+                    
+                    {% for item in order.items.all %}
+                    <div class="order-item">
+                        <div>
+                            {% if item.product.image %}
+                                <img class="item-image" src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                            {% else %}
+                                <img class="item-image" src="{% static 'img/no-image.png' %}" alt="Нет изображения">
+                            {% endif %}
+                        </div>
+                        <div class="item-details">
+                            <div class="item-name">{{ item.product.name }}</div>
+                            {% if item.product.color %}
+                            <div class="item-specs">Цвет: {{ item.product.color }}</div>
+                            {% endif %}
+                            <div class="item-quantity">Количество: {{ item.quantity }}</div>
+                        </div>
+                        <div class="item-price">
+                            {{ item.get_subtotal }} $
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <p>У вас пока нет заказов</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+    (function() {
+        'use strict';
+        
+        // Инициализация данных заказов
+        var orders = {};
+        
+        {% for order in orders %}
+        try {
+            // Расчет времени на основе расстояния: 100 км = 1 минута
+            var deliveryDistance = {{ order.delivery_distance|default:0 }};
+            var processingDuration = 3 * 60 * 1000; // 3 минуты на сборку
+            var shippingDuration = (deliveryDistance / 100) * 60 * 1000; // 100км = 1 минута
+            
+            orders[{{ order.id }}] = {
+                status: '{{ order.status }}',
+                processingDuration: processingDuration,
+                shippingDuration: shippingDuration,
+                processingStartTime: null,
+                shippingStartTime: null,
+                deliveryDistance: deliveryDistance
+            };
+            
+            if ('{{ order.status }}' === 'processing') {
+                orders[{{ order.id }}].processingStartTime = Date.now();
+            }
+            
+            if ('{{ order.status }}' === 'shipping') {
+                orders[{{ order.id }}].shippingStartTime = Date.now();
+            }
+            
+            if ('{{ order.status }}' === 'delivered') {
+                var deliveredNotice = document.getElementById('delivered-notice-{{ order.id }}');
+                var pickupBtn = document.getElementById('pickup-btn-{{ order.id }}');
+                var timer = document.getElementById('timer-{{ order.id }}');
+                
+                if (deliveredNotice) deliveredNotice.style.display = 'block';
+                if (pickupBtn) pickupBtn.style.display = 'block';
+                if (timer) timer.textContent = 'Заказ доставлен в пункт выдачи';
+            }
+        } catch (e) {
+            console.error('Error initializing order {{ order.id }}:', e);
+        }
+        {% endfor %}
+
+        window.toggleOrder = function(orderId) {
+            try {
+                var itemsDiv = document.getElementById(orderId);
+                var orderNum = orderId.replace('order-', '');
+                var icon = document.getElementById('icon-' + orderNum);
+                
+                if (!itemsDiv || !icon) return;
+                
+                if (itemsDiv.classList.contains('expanded')) {
+                    itemsDiv.classList.remove('expanded');
+                    icon.classList.remove('rotated');
+                } else {
+                    itemsDiv.classList.add('expanded');
+                    icon.classList.add('rotated');
+                }
+            } catch (e) {
+                console.error('Error toggling order:', e);
+            }
+        };
+
+        function updateOrderStatus(orderId) {
+            try {
+                var order = orders[orderId];
+                if (!order || order.status === 'picked-up' || order.status === 'cancelled') {
+                    return;
+                }
+                
+                var now = Date.now();
+                var statusBadge = document.getElementById('status-badge-' + orderId);
+                var statusText = document.getElementById('status-text-' + orderId);
+                var timerInfo = document.getElementById('timer-' + orderId);
+                var deliveredNotice = document.getElementById('delivered-notice-' + orderId);
+                var pickupBtn = document.getElementById('pickup-btn-' + orderId);
+                var updatedTime = document.getElementById('updated-time-' + orderId);
+                
+                if (!statusBadge || !timerInfo) return;
+                
+                if (order.status === 'processing' && order.processingStartTime) {
+                    var elapsed = now - order.processingStartTime;
+                    var remaining = Math.max(0, order.processingDuration - elapsed);
+                    var remainingSeconds = Math.ceil(remaining / 1000);
+                    var remainingMinutes = Math.floor(remainingSeconds / 60);
+                    var remainingSecondsOnly = remainingSeconds % 60;
+                    
+                    if (remaining > 0) {
+                        timerInfo.textContent = '📦 Собирается... (осталось ' + remainingMinutes + ':' + 
+                            (remainingSecondsOnly < 10 ? '0' : '') + remainingSecondsOnly + ')';
+                    } else {
+                        order.status = 'shipping';
+                        order.shippingStartTime = now;
+                        statusBadge.className = 'order-status-badge status-shipping';
+                        statusBadge.textContent = 'Доставляется';
+                        if (statusText) statusText.textContent = 'Доставляется';
+                        if (updatedTime) {
+                            var date = new Date();
+                            updatedTime.textContent = date.getFullYear() + '-' + 
+                                ('0' + (date.getMonth() + 1)).slice(-2) + '-' + 
+                                ('0' + date.getDate()).slice(-2) + ' ' +
+                                ('0' + date.getHours()).slice(-2) + ':' + 
+                                ('0' + date.getMinutes()).slice(-2);
+                        }
+                    }
+                } else if (order.status === 'shipping' && order.shippingStartTime) {
+                    var elapsed = now - order.shippingStartTime;
+                    var remaining = Math.max(0, order.shippingDuration - elapsed);
+                    var remainingSeconds = Math.ceil(remaining / 1000);
+                    var remainingMinutes = Math.floor(remainingSeconds / 60);
+                    var remainingSecondsOnly = remainingSeconds % 60;
+                    
+                    if (remaining > 0) {
+                        var distanceText = order.deliveryDistance > 0 ? ' (' + order.deliveryDistance + ' км)' : '';
+                        timerInfo.textContent = '🚚 Доставляется' + distanceText + '... (осталось ' + remainingMinutes + ':' + 
+                            (remainingSecondsOnly < 10 ? '0' : '') + remainingSecondsOnly + ')';
+                    } else {
+                        order.status = 'delivered';
+                        statusBadge.className = 'order-status-badge status-delivered';
+                        statusBadge.textContent = 'Доставлено';
+                        if (statusText) statusText.textContent = 'Доставлено';
+                        timerInfo.textContent = 'Заказ доставлен в пункт выдачи';
+                        if (deliveredNotice) deliveredNotice.style.display = 'block';
+                        if (pickupBtn) pickupBtn.style.display = 'block';
+                        if (updatedTime) {
+                            var date = new Date();
+                            updatedTime.textContent = date.getFullYear() + '-' + 
+                                ('0' + (date.getMonth() + 1)).slice(-2) + '-' + 
+                                ('0' + date.getDate()).slice(-2) + ' ' +
+                                ('0' + date.getHours()).slice(-2) + ':' + 
+                                ('0' + date.getMinutes()).slice(-2);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('Error updating order status:', e);
+            }
+        }
+
+        window.confirmPickup = function(orderId, event) {
+            try {
+                event.stopPropagation();
+                
+                var order = orders[orderId];
+                if (!order) return;
+                
+                var statusBadge = document.getElementById('status-badge-' + orderId);
+                var statusText = document.getElementById('status-text-' + orderId);
+                var timerInfo = document.getElementById('timer-' + orderId);
+                var deliveredNotice = document.getElementById('delivered-notice-' + orderId);
+                var pickupBtn = document.getElementById('pickup-btn-' + orderId);
+                var updatedTime = document.getElementById('updated-time-' + orderId);
+                
+                if (confirm('Вы подтверждаете получение заказа?')) {
+                    fetch('/orders/' + orderId + '/pickup/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if (data.success) {
+                            order.status = 'picked-up';
+                            if (statusBadge) {
+                                statusBadge.className = 'order-status-badge status-picked-up';
+                                statusBadge.textContent = 'Выдан покупателю';
+                            }
+                            if (statusText) statusText.textContent = 'Выдан покупателю';
+                            if (timerInfo) timerInfo.textContent = 'Заказ получен покупателем';
+                            if (deliveredNotice) deliveredNotice.style.display = 'none';
+                            if (pickupBtn) pickupBtn.style.display = 'none';
+                            if (updatedTime) {
+                                var date = new Date();
+                                updatedTime.textContent = date.getFullYear() + '-' + 
+                                    ('0' + (date.getMonth() + 1)).slice(-2) + '-' + 
+                                    ('0' + date.getDate()).slice(-2) + ' ' +
+                                    ('0' + date.getHours()).slice(-2) + ':' + 
+                                    ('0' + date.getMinutes()).slice(-2);
+                            }
+                            alert('Спасибо! Приятного использования покупки! 😊');
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error('Error:', error);
+                        alert('Произошла ошибка. Попробуйте еще раз.');
+                    });
+                }
+            } catch (e) {
+                console.error('Error confirming pickup:', e);
+            }
+        };
+
+        setInterval(function() {
+            try {
+                for (var orderId in orders) {
+                    if (orders.hasOwnProperty(orderId)) {
+                        updateOrderStatus(parseInt(orderId));
+                    }
+                }
+            } catch (e) {
+                console.error('Error in interval:', e);
+            }
+        }, 1000);
+
+        for (var orderId in orders) {
+            if (orders.hasOwnProperty(orderId)) {
+                updateOrderStatus(parseInt(orderId));
+            }
+        }
+    })();
+</script>
+
+</body>
+</html>

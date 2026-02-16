@@ -1,0 +1,286 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказ</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f6ff;
+            color: #0f172a;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #2563eb;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            margin-bottom: 16px;
+            font-size: 18px;
+            color: #1e40af;
+        }
+
+        .delivery-types {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .delivery-type {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid #e0e7ff;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .delivery-type.active {
+            border-color: #2563eb;
+            background: #eff6ff;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .select-btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: #2563eb;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .select-btn:hover {
+            background: #1e40af;
+        }
+
+        .receiver {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            background: #f8fbff;
+            border-radius: 12px;
+        }
+
+        .order-summary div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .order-summary .total {
+            font-size: 18px;
+            font-weight: 700;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 12px;
+        }
+
+        .order-btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(90deg, #2563eb, #38bdf8);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .order-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* СТИЛИ ДЛЯ ТОВАРОВ */
+        .order-items {
+            margin-top: 16px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: #f8fbff;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .order-item img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .order-item-info {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        .order-item-meta {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .order-item-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .order-item-qty {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .payment-option {
+            border: 2px solid #e0e7ff;
+            padding: 14px;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .payment-option.active {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>Оформление заказа</h1>
+
+<div class="container">
+
+    <!-- Левая часть -->
+    <div>
+
+        <div class="card">
+            <h2>Способ получения</h2>
+
+            <div class="delivery-types">
+                <div class="delivery-type active">Пункт выдачи<br><small>Бесплатно</small></div>
+                <div class="delivery-type">Курьером<br><small>от 30 000 сум</small></div>
+            </div>
+
+            <button class="select-btn">Выбрать пункт выдачи</button>
+
+            <div style="margin-top:16px" class="receiver">
+                <div>
+                    <strong>Получатель</strong><br>
+                    {{ user.username }}
+                </div>
+                <span>›</span>
+            </div>
+        </div>
+
+        <!-- ТОВАРЫ В ЗАКАЗЕ -->
+        <div class="card">
+            <h2>Ваши товары ({{ cart_items|length }})</h2>
+            
+            <div class="order-items">
+                {% for item in cart_items %}
+                <div class="order-item">
+                    <div>
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                        {% else %}
+                            <img src="{% static 'img/no-image.png' %}" alt="No image">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="order-item-info">
+                        <div class="order-item-name">{{ item.product.name }}</div>
+                        <div class="order-item-meta">
+                            {% if item.product.category %}
+                                Категория: {{ item.product.category.name }}
+                            {% endif %}
+                            {% if item.product.brand %}
+                                | Бренд: {{ item.product.brand.name }}
+                            {% endif %}
+                        </div>
+                        <div class="order-item-price">
+                            <span>{{ item.product.price }} UZS</span>
+                            <span class="order-item-qty">Количество: {{ item.quantity }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Способ оплаты</h2>
+
+            <div class="payment-option active">Картой Uzum</div>
+            <div class="payment-option">В рассрочку</div>
+            <div class="payment-option">Картой онлайн</div>
+            <div class="payment-option">При получении</div>
+        </div>
+
+    </div>
+
+    <!-- Правая часть -->
+    <div class="card">
+        <h2>Ваш заказ</h2>
+
+        <div class="order-summary">
+            <div><span>Товары ({{ cart_items|length }} шт.)</span><span>{{ subtotal }} UZS</span></div>
+            <div><span>Доставка</span><span>{{ shipping }} UZS</span></div>
+
+            <div class="total">
+                <span>Итого</span>
+                <span>{{ total }} UZS</span>
+            </div>
+        </div>
+
+        <form method="post" action="{% url 'shop:zakaz' %}">
+            {% csrf_token %}
+            <button class="order-btn">Оформить заказ</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

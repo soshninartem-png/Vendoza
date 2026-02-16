@@ -1,0 +1,244 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wallet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-text: #20293A;
+  --secondary-text: #697486;
+  --primary-bg: #ffffff;
+  --body-bg: #e5e7eb;
+  --accent: #FF4A4F;
+  --secondary-accent:#FAE5E2;
+}
+
+* { box-sizing:border-box; font-family:Poppins,sans-serif }
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:var(--body-bg);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* PAGE */
+.page{
+  width:100%;
+  max-width:430px;
+  padding:20px;
+}
+
+/* CARD */
+.card{
+  background:var(--primary-bg);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 20px 40px rgba(0,0,0,.1);
+}
+
+/* HEADER */
+.header{
+  display:flex;
+  align-items:center;
+  padding:16px;
+}
+
+.avatar{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  overflow:hidden;
+  background:#f3f4f6;
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.info{
+  margin-left:12px;
+}
+
+.info span{
+  display:block;
+  font-size:14px;
+  color:var(--secondary-text);
+}
+
+.info strong{
+  font-size:22px;
+  color:var(--primary-text);
+}
+
+/* METHODS */
+.methods-select{
+  display:flex;
+  gap:8px;
+  padding:0 16px;
+}
+
+.methods-select button{
+  flex:1;
+  border:none;
+  border-radius:10px;
+  padding:10px;
+  font-weight:500;
+  cursor:pointer;
+  background:#f3f4f6;
+}
+
+.methods-select button.active{
+  background:var(--secondary-accent);
+  color:var(--accent);
+}
+
+/* LINK */
+.link-box{
+  padding:16px;
+}
+
+.link-box input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+}
+
+/* WALLET CARD */
+.wallet{
+  margin:16px;
+  padding:16px;
+  border-radius:14px;
+  background:linear-gradient(135deg,#111827,#1f2937);
+  color:white;
+}
+
+.wallet small{opacity:.6}
+
+/* ACTIONS */
+.actions{
+  padding:16px;
+}
+
+.actions input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #e5e7eb;
+}
+
+.actions button{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  background:var(--accent);
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+  <div class="card">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="avatar">
+        {% if user.profile.image %}
+          <img src="{{ user.profile.image.url }}">
+        {% else %}
+          <img src="{% static 'images/default-avatar.png' %}">
+        {% endif %}
+      </div>
+      <div class="info">
+        <span>Balance</span>
+        <strong id="balance">0</strong>
+      </div>
+    </div>
+
+    <!-- METHOD SELECT -->
+    <div class="methods-select">
+      <button onclick="selectType('card')" id="cardBtn">Card</button>
+      <button onclick="selectType('bank')" id="bankBtn">Bank</button>
+      <button onclick="selectType('crypto')" id="cryptoBtn">Crypto</button>
+    </div>
+
+    <!-- LINK -->
+    <div class="link-box">
+      <input id="linkInput" placeholder="Enter card / bank / wallet name">
+    </div>
+
+    <!-- WALLET -->
+    <div class="wallet" id="walletBox" style="display:none">
+      <small id="walletType"></small>
+      <h3 id="walletName"></h3>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <input id="amount" type="number" placeholder="Amount">
+      <button onclick="add()">Add / Spend</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let balance = Number(localStorage.getItem('balance')) || 650;
+let wallet = JSON.parse(localStorage.getItem('wallet')) || null;
+let type = 'card';
+
+function render(){
+  document.getElementById('balance').innerText = balance;
+  if(wallet){
+    walletBox.style.display = 'block';
+    walletName.innerText = wallet.name;
+    walletType.innerText = wallet.type.toUpperCase();
+  }
+}
+render();
+
+function selectType(t){
+  type = t;
+  document.querySelectorAll('.methods-select button').forEach(b=>b.classList.remove('active'));
+  document.getElementById(t+'Btn').classList.add('active');
+}
+
+function add(){
+  const val = Number(amount.value);
+  const name = linkInput.value.trim();
+
+  if(name){
+    wallet = { type, name };
+    localStorage.setItem('wallet', JSON.stringify(wallet));
+  }
+
+  if(!wallet) return alert('Link payment method');
+  if(!val) return alert('Enter amount');
+
+  balance += val;
+  localStorage.setItem('balance', balance);
+  amount.value = '';
+  linkInput.value = '';
+  render();
+}
+</script>
+
+</body>
+</html>

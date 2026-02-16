@@ -1,0 +1,962 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baby Foods - Premium Selection</title>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    text-align: center;
+    color: #667eea;
+    margin-bottom: 50px;
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    animation: fadeInDown 0.8s ease;
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .product-item {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid #f0f0f0;
+  }
+
+  .product-item:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+
+  .product-item figure {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+    background: #f8f9fa;
+  }
+
+  .product-item figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .product-item:hover figure img {
+    transform: scale(1.1);
+  }
+
+  .discount-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .text-center {
+    padding: 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .text-center h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    color: #2d3748;
+    font-weight: 600;
+    min-height: 45px;
+  }
+
+  .rating {
+    margin: 10px 0;
+    font-size: 0.95rem;
+    color: #718096;
+  }
+
+  .stars {
+    color: #fbbf24;
+    margin-right: 5px;
+  }
+
+  .price {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+  }
+
+  .price del {
+    color: #cbd5e0;
+    font-size: 1rem;
+  }
+
+  .price .current-price {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #667eea;
+  }
+
+  .badge {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    color: #d63031;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .button-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .button-area input {
+    width: 60px;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: border-color 0.3s;
+  }
+
+  .button-area input:focus {
+    outline: none;
+    border-color: #667eea;
+  }
+
+  .button-area button {
+    flex-grow: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .button-area button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+
+  .button-area .wishlist {
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    color: #e53e3e;
+    width: 50px;
+    padding: 0;
+    font-size: 1.2rem;
+  }
+
+  .button-area .wishlist:hover {
+    background: #fff5f5;
+    border-color: #e53e3e;
+    box-shadow: 0 6px 20px rgba(229, 62, 62, 0.2);
+  }
+
+  @media (max-width: 1400px) {
+    .row {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .row {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+    .row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🍼 Premium Baby Foods Collection 🍼</h1>
+
+  <div class="row">
+
+    <!-- 1 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">13% OFF</div>
+        <img src="https://images.unsplash.com/photo-1505576633371-688d2389acb4?w=500&h=400&fit=crop&q=80" alt="Organic Baby Cereal">
+      </figure>
+      <div class="text-center">
+        <h3>Organic Baby Cereal</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(150)</div>
+        <div class="price"><del>$4.00</del><span class="current-price">$3.50</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">10% OFF</div>
+        <img src="https://images.unsplash.com/photo-1632676147874-8129e27fb894?w=500&h=400&fit=crop&q=80" alt="Premium Baby Formula">
+      </figure>
+      <div class="text-center">
+        <h3>Premium Baby Formula</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(200)</div>
+        <div class="price"><del>$20.00</del><span class="current-price">$18.00</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">10% OFF</div>
+        <img src="https://images.unsplash.com/photo-1599946347371-68eb71b16afc?w=500&h=400&fit=crop&q=80" alt="Organic Baby Snacks">
+      </figure>
+      <div class="text-center">
+        <h3>Organic Baby Snacks</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(120)</div>
+        <div class="price"><del>$5.00</del><span class="current-price">$4.50</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">14% OFF</div>
+        <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=500&h=400&fit=crop&q=80" alt="Apple Baby Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Apple Baby Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(180)</div>
+        <div class="price"><del>$3.50</del><span class="current-price">$3.00</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">12% OFF</div>
+        <img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500&h=400&fit=crop&q=80" alt="Organic Baby Juice">
+      </figure>
+      <div class="text-center">
+        <h3>Organic Baby Juice</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(100)</div>
+        <div class="price"><del>$2.50</del><span class="current-price">$2.20</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">15% OFF</div>
+        <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&h=400&fit=crop&q=80" alt="Banana Oatmeal">
+      </figure>
+      <div class="text-center">
+        <h3>Banana Oatmeal</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(165)</div>
+        <div class="price"><del>$4.50</del><span class="current-price">$3.80</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">8% OFF</div>
+        <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?w=500&h=400&fit=crop&q=80" alt="Sweet Potato Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Sweet Potato Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(145)</div>
+        <div class="price"><del>$3.80</del><span class="current-price">$3.50</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">20% OFF</div>
+        <img src="https://images.unsplash.com/photo-1552332386-f8dd00dc2f85?w=500&h=400&fit=crop&q=80" alt="Mixed Vegetable Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Mixed Vegetable Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(130)</div>
+        <div class="price"><del>$4.00</del><span class="current-price">$3.20</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">11% OFF</div>
+        <img src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=500&h=400&fit=crop&q=80" alt="Carrot Baby Food">
+      </figure>
+      <div class="text-center">
+        <h3>Carrot Baby Food</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(175)</div>
+        <div class="price"><del>$3.60</del><span class="current-price">$3.20</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">16% OFF</div>
+        <img src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=500&h=400&fit=crop&q=80" alt="Mango Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Mango Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(190)</div>
+        <div class="price"><del>$4.20</del><span class="current-price">$3.50</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">9% OFF</div>
+        <img src="https://images.unsplash.com/photo-1536304929831-aab3ed0f4ec7?w=500&h=400&fit=crop&q=80" alt="Rice Cereal">
+      </figure>
+      <div class="text-center">
+        <h3>Rice Cereal</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(110)</div>
+        <div class="price"><del>$3.30</del><span class="current-price">$3.00</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">18% OFF</div>
+        <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&h=400&fit=crop&q=80" alt="Blueberry Yogurt">
+      </figure>
+      <div class="text-center">
+        <h3>Blueberry Yogurt</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(210)</div>
+        <div class="price"><del>$5.50</del><span class="current-price">$4.50</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 13 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">12% OFF</div>
+        <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=500&h=400&fit=crop&q=80" alt="Strawberry Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Strawberry Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(195)</div>
+        <div class="price"><del>$4.00</del><span class="current-price">$3.50</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 14 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">7% OFF</div>
+        <img src="https://images.unsplash.com/photo-1570586437263-ab629fccc818?w=500&h=400&fit=crop&q=80" alt="Pumpkin Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Pumpkin Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(125)</div>
+        <div class="price"><del>$3.50</del><span class="current-price">$3.25</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 15 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">14% OFF</div>
+        <img src="https://images.unsplash.com/photo-1568641280656-3e4751b6f2f7?w=500&h=400&fit=crop&q=80" alt="Pear Baby Food">
+      </figure>
+      <div class="text-center">
+        <h3>Pear Baby Food</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(160)</div>
+        <div class="price"><del>$3.70</del><span class="current-price">$3.18</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 16 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">10% OFF</div>
+        <img src="https://images.unsplash.com/photo-1629828874514-944b2db4740d?w=500&h=400&fit=crop&q=80" alt="Peach Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Peach Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(185)</div>
+        <div class="price"><del>$4.00</del><span class="current-price">$3.60</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 17 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">13% OFF</div>
+        <img src="https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=500&h=400&fit=crop&q=80" alt="Greek Yogurt">
+      </figure>
+      <div class="text-center">
+        <h3>Greek Yogurt</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(170)</div>
+        <div class="price"><del>$5.80</del><span class="current-price">$5.05</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 18 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">15% OFF</div>
+        <img src="https://images.unsplash.com/photo-1623065422902-30a2d299bbe4?w=500&h=400&fit=crop&q=80" alt="Apricot Blend">
+      </figure>
+      <div class="text-center">
+        <h3>Apricot Blend</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(140)</div>
+        <div class="price"><del>$3.90</del><span class="current-price">$3.30</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 19 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">11% OFF</div>
+        <img src="https://images.unsplash.com/photo-1588347818036-8fc8be8f79ae?w=500&h=400&fit=crop&q=80" alt="Chicken & Rice">
+      </figure>
+      <div class="text-center">
+        <h3>Chicken & Rice</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(155)</div>
+        <div class="price"><del>$4.50</del><span class="current-price">$4.00</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 20 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">17% OFF</div>
+        <img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=500&h=400&fit=crop&q=80" alt="Broccoli & Cheese">
+      </figure>
+      <div class="text-center">
+        <h3>Broccoli & Cheese</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(115)</div>
+        <div class="price"><del>$4.20</del><span class="current-price">$3.48</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 21 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">9% OFF</div>
+        <img src="https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=500&h=400&fit=crop&q=80" alt="Spinach & Pear">
+      </figure>
+      <div class="text-center">
+        <h3>Spinach & Pear</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(135)</div>
+        <div class="price"><del>$3.80</del><span class="current-price">$3.45</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 22 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">12% OFF</div>
+        <img src="https://images.unsplash.com/photo-1589217157232-464b505b197f?w=500&h=400&fit=crop&q=80" alt="Apple & Cinnamon">
+      </figure>
+      <div class="text-center">
+        <h3>Apple & Cinnamon</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(200)</div>
+        <div class="price"><del>$3.50</del><span class="current-price">$3.08</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 23 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">14% OFF</div>
+        <img src="https://images.unsplash.com/photo-1609501676725-7186f017a4b0?w=500&h=400&fit=crop&q=80" alt="Veggie Puffs">
+      </figure>
+      <div class="text-center">
+        <h3>Veggie Puffs</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(165)</div>
+        <div class="price"><del>$4.80</del><span class="current-price">$4.13</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 24 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">10% OFF</div>
+        <img src="https://images.unsplash.com/photo-1563620156-4f912e985866?w=500&h=400&fit=crop&q=80" alt="Protein Formula">
+      </figure>
+      <div class="text-center">
+        <h3>Protein Formula</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(220)</div>
+        <div class="price"><del>$22.00</del><span class="current-price">$19.80</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 25 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">8% OFF</div>
+        <img src="https://images.unsplash.com/photo-1574085733277-851d9d856a3a?w=500&h=400&fit=crop&q=80" alt="Multi-Grain Cereal">
+      </figure>
+      <div class="text-center">
+        <h3>Multi-Grain Cereal</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(178)</div>
+        <div class="price"><del>$4.30</del><span class="current-price">$3.96</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 26 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">16% OFF</div>
+        <img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500&h=400&fit=crop&q=80" alt="Orange Juice">
+      </figure>
+      <div class="text-center">
+        <h3>Orange Juice</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(105)</div>
+        <div class="price"><del>$2.80</del><span class="current-price">$2.35</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 27 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">19% OFF</div>
+        <img src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?w=500&h=400&fit=crop&q=80" alt="Green Bean Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Green Bean Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(142)</div>
+        <div class="price"><del>$3.40</del><span class="current-price">$2.75</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 28 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">11% OFF</div>
+        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&h=400&fit=crop&q=80" alt="Quinoa & Apple">
+      </figure>
+      <div class="text-center">
+        <h3>Quinoa & Apple</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(158)</div>
+        <div class="price"><del>$4.60</del><span class="current-price">$4.09</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 29 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">13% OFF</div>
+        <img src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=500&h=400&fit=crop&q=80" alt="Berry Mix Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Berry Mix Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(192)</div>
+        <div class="price"><del>$4.20</del><span class="current-price">$3.65</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 30 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">15% OFF</div>
+        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500&h=400&fit=crop&q=80" alt="Brown Rice Cereal">
+      </figure>
+      <div class="text-center">
+        <h3>Brown Rice Cereal</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(128)</div>
+        <div class="price"><del>$3.80</del><span class="current-price">$3.23</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 31 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">12% OFF</div>
+        <img src="https://images.unsplash.com/photo-1600456899121-68eda5705257?w=500&h=400&fit=crop&q=80" alt="Butternut Squash">
+      </figure>
+      <div class="text-center">
+        <h3>Butternut Squash</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(148)</div>
+        <div class="price"><del>$3.60</del><span class="current-price">$3.17</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 32 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">10% OFF</div>
+        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&h=400&fit=crop&q=80" alt="Vanilla Yogurt">
+      </figure>
+      <div class="text-center">
+        <h3>Vanilla Yogurt</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(205)</div>
+        <div class="price"><del>$5.20</del><span class="current-price">$4.68</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 33 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">14% OFF</div>
+        <img src="https://images.unsplash.com/photo-1518492104633-130d0cc84637?w=500&h=400&fit=crop&q=80" alt="Turkey & Vegetables">
+      </figure>
+      <div class="text-center">
+        <h3>Turkey & Vegetables</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(133)</div>
+        <div class="price"><del>$4.70</del><span class="current-price">$4.04</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 34 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">18% OFF</div>
+        <img src="https://images.unsplash.com/photo-1577234286642-fc512a5f8f11?w=500&h=400&fit=crop&q=80" alt="Pear & Raspberry">
+      </figure>
+      <div class="text-center">
+        <h3>Pear & Raspberry</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(172)</div>
+        <div class="price"><del>$3.90</del><span class="current-price">$3.20</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 35 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">7% OFF</div>
+        <img src="https://images.unsplash.com/photo-1587393855524-087f8e04369e?w=500&h=400&fit=crop&q=80" alt="Peach & Banana">
+      </figure>
+      <div class="text-center">
+        <h3>Peach & Banana</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(188)</div>
+        <div class="price"><del>$4.10</del><span class="current-price">$3.81</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 36 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">9% OFF</div>
+        <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=500&h=400&fit=crop&q=80" alt="Fruit & Veggie Melts">
+      </figure>
+      <div class="text-center">
+        <h3>Fruit & Veggie Melts</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(145)</div>
+        <div class="price"><del>$5.00</del><span class="current-price">$4.55</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 37 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">11% OFF</div>
+        <img src="https://images.unsplash.com/photo-1584308972272-9e4e7685e80f?w=500&h=400&fit=crop&q=80" alt="Sensitive Formula">
+      </figure>
+      <div class="text-center">
+        <h3>Sensitive Formula</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(215)</div>
+        <div class="price"><del>$21.00</del><span class="current-price">$18.69</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 38 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">13% OFF</div>
+        <img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=500&h=400&fit=crop&q=80" alt="Tropical Fruit Mix">
+      </figure>
+      <div class="text-center">
+        <h3>Tropical Fruit Mix</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(168)</div>
+        <div class="price"><del>$4.40</del><span class="current-price">$3.83</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 39 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">16% OFF</div>
+        <img src="https://images.unsplash.com/photo-1505253304499-671c55fb57fe?w=500&h=400&fit=crop&q=80" alt="Oatmeal & Blueberry">
+      </figure>
+      <div class="text-center">
+        <h3>Oatmeal & Blueberry</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(183)</div>
+        <div class="price"><del>$4.50</del><span class="current-price">$3.78</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 40 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">10% OFF</div>
+        <img src="https://images.unsplash.com/photo-1568584711271-f7d2e8adb706?w=500&h=400&fit=crop&q=80" alt="Cauliflower Puree">
+      </figure>
+      <div class="text-center">
+        <h3>Cauliflower Puree</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(118)</div>
+        <div class="price"><del>$3.70</del><span class="current-price">$3.33</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 41 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">12% OFF</div>
+        <img src="https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500&h=400&fit=crop&q=80" alt="Apple Juice">
+      </figure>
+      <div class="text-center">
+        <h3>Apple Juice</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(195)</div>
+        <div class="price"><del>$2.60</del><span class="current-price">$2.29</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 42 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">15% OFF</div>
+        <img src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=500&h=400&fit=crop&q=80" alt="Carrot & Mango">
+      </figure>
+      <div class="text-center">
+        <h3>Carrot & Mango</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(152)</div>
+        <div class="price"><del>$3.80</del><span class="current-price">$3.23</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 43 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">8% OFF</div>
+        <img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=500&h=400&fit=crop&q=80" alt="Peas & Potato">
+      </figure>
+      <div class="text-center">
+        <h3>Peas & Potato</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(126)</div>
+        <div class="price"><del>$3.50</del><span class="current-price">$3.22</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 44 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">14% OFF</div>
+        <img src="https://images.unsplash.com/photo-1587049352846-4a222e784e38?w=500&h=400&fit=crop&q=80" alt="Banana & Avocado">
+      </figure>
+      <div class="text-center">
+        <h3>Banana & Avocado</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(177)</div>
+        <div class="price"><del>$4.30</del><span class="current-price">$3.70</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 45 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">17% OFF</div>
+        <img src="https://images.unsplash.com/photo-1577234286642-fc512a5f8f11?w=500&h=400&fit=crop&q=80" alt="Apple & Plum">
+      </figure>
+      <div class="text-center">
+        <h3>Apple & Plum</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(163)</div>
+        <div class="price"><del>$3.60</del><span class="current-price">$2.99</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 46 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">11% OFF</div>
+        <img src="https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=500&h=400&fit=crop&q=80" alt="Cheese Crackers">
+      </figure>
+      <div class="text-center">
+        <h3>Cheese Crackers</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(139)</div>
+        <div class="price"><del>$4.90</del><span class="current-price">$4.36</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 47 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">13% OFF</div>
+        <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&h=400&fit=crop&q=80" alt="Strawberry Yogurt">
+      </figure>
+      <div class="text-center">
+        <h3>Strawberry Yogurt</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(198)</div>
+        <div class="price"><del>$5.40</del><span class="current-price">$4.70</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 48 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">9% OFF</div>
+        <img src="https://images.unsplash.com/photo-1632676147874-8129e27fb894?w=500&h=400&fit=crop&q=80" alt="Organic Formula">
+      </figure>
+      <div class="text-center">
+        <h3>Organic Formula</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(230)</div>
+        <div class="price"><del>$24.00</del><span class="current-price">$21.84</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 49 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">16% OFF</div>
+        <img src="https://images.unsplash.com/photo-1607623488235-f1bc75eeff7f?w=500&h=400&fit=crop&q=80" alt="Beef & Vegetables">
+      </figure>
+      <div class="text-center">
+        <h3>Beef & Vegetables</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐☆</span>(147)</div>
+        <div class="price"><del>$4.80</del><span class="current-price">$4.03</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+    <!-- 50 -->
+    <div class="product-item">
+      <figure>
+        <div class="discount-badge">12% OFF</div>
+        <img src="https://images.unsplash.com/photo-1588195538326-c5b1e5b80c47?w=500&h=400&fit=crop&q=80" alt="Mixed Berry Blend">
+      </figure>
+      <div class="text-center">
+        <h3>Mixed Berry Blend</h3>
+        <div class="rating"><span class="stars">⭐⭐⭐⭐⭐</span>(186)</div>
+        <div class="price"><del>$4.25</del><span class="current-price">$3.74</span></div>
+        <div class="button-area"><input type="number" value="1" min="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

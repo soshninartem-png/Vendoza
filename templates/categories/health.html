@@ -1,0 +1,205 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health & Wellness</title>
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #059669;
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .product-item {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 260px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  }
+
+  .product-item figure img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .text-center {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .text-center h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #111827;
+  }
+
+  .rating {
+    margin: 8px 0;
+    color: gold;
+    font-size: 1rem;
+  }
+
+  .price {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .price del {
+    color: #9ca3af;
+  }
+
+  .price span {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+
+  .badge {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 2px 6px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  .button-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+
+  .button-area input {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .button-area button {
+    flex-grow: 1;
+    background-color: #059669;
+    color: #fff;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .button-area button:hover {
+    background-color: #047857;
+  }
+
+  .button-area .wishlist {
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    color: #111827;
+  }
+
+  .button-area .wishlist:hover {
+    background-color: #f3f4f6;
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Health & Wellness</h1>
+
+<div class="row">
+
+<!-- 1 -->
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Vitamin C"></figure>
+  <div class="text-center">
+    <h3>Vitamin C</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ (300)</div>
+    <div class="price"><del>$12.00</del><span>$10.50</span><span class="badge">13% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Omega 3"></figure>
+  <div class="text-center">
+    <h3>Omega 3</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (250)</div>
+    <div class="price"><del>$18.00</del><span>$16.00</span><span class="badge">11% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Protein Powder"></figure>
+  <div class="text-center">
+    <h3>Protein Powder</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ (200)</div>
+    <div class="price"><del>$25.00</del><span>$22.00</span><span class="badge">12% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Herbal Tea"></figure>
+  <div class="text-center">
+    <h3>Herbal Tea</h3>
+    <div class="rating">⭐⭐⭐⭐☆ (150)</div>
+    <div class="price"><del>$8.00</del><span>$7.00</span><span class="badge">13% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="product-item">
+  <figure><img src="https://via.placeholder.com/260x180" alt="Multivitamins"></figure>
+  <div class="text-center">
+    <h3>Multivitamins</h3>
+    <div class="rating">⭐⭐⭐⭐⭐ (220)</div>
+    <div class="price"><del>$20.00</del><span>$18.00</span><span class="badge">10% OFF</span></div>
+    <div class="button-area"><input type="number" value="1"><button>Add to Cart</button><button class="wishlist">❤️</button></div>
+  </div>
+</div>
+
+</div>
+
+</body>
+</html>

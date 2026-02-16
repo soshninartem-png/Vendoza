@@ -8,49 +8,415 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 <style>
-/* Все твои стили оставляем */
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
-*{box-sizing:border-box;}
-body{background:#f6f5f7;display:flex;justify-content:center;align-items:center;flex-direction:column;font-family:'Montserrat',sans-serif;min-height:100vh;margin:0;}
-h1{font-weight:bold;margin:0;}
-button{border-radius:20px;border:1px solid #FF4B2B;background-color:#FF4B2B;color:#FFF;font-size:12px;font-weight:bold;padding:12px 45px;letter-spacing:1px;text-transform:uppercase;transition:transform 80ms ease-in;cursor:pointer;}
-button.ghost{background-color:transparent;border-color:#FFF;}
-form{background-color:#FFF;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:0 50px;height:100%;text-align:center;}
-input{background-color:#eee;border:none;padding:12px 15px;margin:8px 0;width:100%;}
-.container{background-color:#fff;border-radius:10px;box-shadow:0 14px 28px rgba(0,0,0,0.25),0 10px 10px rgba(0,0,0,0.22);position:relative;overflow:hidden;width:768px;max-width:100%;min-height:480px;}
-.form-container{position:absolute;top:0;height:100%;transition:all 0.6s ease-in-out;}
-.sign-in-container{left:0;width:50%;z-index:2;}
-.container.right-panel-active .sign-in-container{transform:translateX(100%);}
-.sign-up-container{left:0;width:50%;opacity:0;z-index:1;}
-.container.right-panel-active .sign-up-container{transform:translateX(100%);opacity:1;z-index:5;animation:show 0.6s;}
-@keyframes show{0%,49.99%{opacity:0;z-index:1;}50%,100%{opacity:1;z-index:5;}}
-.overlay-container{position:absolute;top:0;left:50%;width:50%;height:100%;overflow:hidden;transition:transform 0.6s ease-in-out;z-index:100;}
-.container.right-panel-active .overlay-container{transform:translateX(-100%);}
-.overlay{background:linear-gradient(to right,#FF4B2B,#FF416C);color:#FFF;position:relative;left:-100%;height:100%;width:200%;transform:translateX(0);transition:transform 0.6s ease-in-out;}
-.container.right-panel-active .overlay{transform:translateX(50%);}
-.overlay-panel{position:absolute;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:0 40px;text-align:center;top:0;height:100%;width:50%;transform:translateX(0);transition:transform 0.6s ease-in-out;}
-.overlay-left{transform:translateX(-20%);}
-.container.right-panel-active .overlay-left{transform:translateX(0);}
-.overlay-right{right:0;transform:translateX(0);}
-.container.right-panel-active .overlay-right{transform:translateX(20%);}
-.social-container{margin:20px 0;}
-.social-container a{border:1px solid #DDD;border-radius:50%;display:inline-flex;justify-content:center;align-items:center;margin:0 5px;height:40px;width:40px;}
-footer{background-color:#222;color:#fff;font-size:14px;bottom:0;position:fixed;left:0;right:0;text-align:center;z-index:999;}
-footer p{margin:10px 0;}
-footer i{color:red;}
-footer a{color:#3c97bf;text-decoration:none;}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+h1 {
+    font-weight: 700;
+    margin: 0;
+    font-size: 32px;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+    color: #555;
+}
+
+span {
+    font-size: 13px;
+    color: #666;
+}
+
+a {
+    color: #10b981;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #059669;
+}
+
+button {
+    border-radius: 30px;
+    border: 1px solid #10b981;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 50px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button.ghost {
+    background: transparent;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    box-shadow: none;
+}
+
+button.ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+form {
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    text-align: center;
+}
+
+input {
+    background-color: #f3f4f6;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 8px 0;
+    width: 100%;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #10b981;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    width: 90%;
+    max-width: 900px;
+    min-height: 600px;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+}
+
+.sign-up-container {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.container.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+@keyframes show {
+    0%, 49.99% {
+        opacity: 0;
+        z-index: 1;
+    }
+    50%, 100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+.container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+}
+
+.overlay {
+    background: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.container.right-panel-active .overlay {
+    transform: translateX(50%);
+}
+
+.overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlay-panel h1 {
+    color: #fff;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.overlay-panel p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 24px;
+}
+
+.overlay-left {
+    transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left {
+    transform: translateX(0);
+}
+
+.overlay-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right {
+    transform: translateX(20%);
+}
+
+.social-container {
+    margin: 20px 0;
+}
+
+.social-container a {
+    border: 1px solid #DDD;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 8px;
+    height: 45px;
+    width: 45px;
+    transition: all 0.3s;
+    color: #666;
+}
+
+.social-container a:hover {
+    border-color: #10b981;
+    color: #10b981;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+    width: 100%;
+    padding: 5px;
+    background: #fee2e2;
+    border-radius: 5px;
+}
+
+.success-message {
+    background: #d1fae5;
+    border-left: 4px solid #10b981;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #065f46;
+    font-size: 14px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+.info-message {
+    background: #dbeafe;
+    border-left: 4px solid #3b82f6;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    color: #1e40af;
+    font-size: 14px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Decorative elements */
+.container::before {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+    top: -100px;
+    left: -100px;
+    z-index: 0;
+}
+
+.container::after {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    bottom: -75px;
+    right: -75px;
+    z-index: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        min-height: 500px;
+    }
+    
+    form {
+        padding: 0 30px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    .overlay-panel h1 {
+        font-size: 28px;
+    }
+    
+    .overlay-panel p {
+        font-size: 14px;
+    }
+    
+    button {
+        padding: 12px 40px;
+        font-size: 12px;
+    }
+}
 </style>
 </head>
 <body>
 
-<h1>Sign in/up Form</h1>
-<br>
+<!-- Django Messages -->
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="success-message">{{ message }}</div>
+        {% elif message.tags == 'info' %}
+            <div class="info-message">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 
 <div class="container" id="container">
 
     <!-- Sign Up Form -->
     <div class="form-container sign-up-container">
-        <form method="POST" action="{% url 'signup' %}">
+        <form method="POST" action="{% url 'shop:signup' %}">
             {% csrf_token %}
             <h1>Create Account</h1>
             <div class="social-container">
@@ -62,11 +428,25 @@ footer a{color:#3c97bf;text-decoration:none;}
 
             {% if signup_form %}
                 {% for field in signup_form %}
-                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" placeholder="{{ field.label }}" value="{{ field.value|default_if_none:'' }}">
+                    {% if field.field.widget.input_type == 'password' %}
+                        <input type="password" 
+                               name="{{ field.name }}" 
+                               placeholder="{{ field.label }}" 
+                               required>
+                    {% else %}
+                        <input type="{{ field.field.widget.input_type }}" 
+                               name="{{ field.name }}" 
+                               placeholder="{{ field.label }}" 
+                               value="{{ field.value|default_if_none:'' }}">
+                    {% endif %}
                     {% for error in field.errors %}
-                        <p style="color:red">{{ error }}</p>
+                        <p class="error-message">{{ error }}</p>
                     {% endfor %}
                 {% endfor %}
+            {% else %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password1" placeholder="Password" required>
+                <input type="password" name="password2" placeholder="Confirm Password" required>
             {% endif %}
 
             <button type="submit">Sign Up</button>
@@ -75,9 +455,9 @@ footer a{color:#3c97bf;text-decoration:none;}
 
     <!-- Sign In Form -->
     <div class="form-container sign-in-container">
-        <form method="POST" action="{% url 'login' %}">
+        <form method="POST" action="{% url 'shop:login' %}">
             {% csrf_token %}
-            <h1>Sign in</h1>
+            <h1>Welcome Back</h1>
             <div class="social-container">
                 <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
@@ -87,11 +467,24 @@ footer a{color:#3c97bf;text-decoration:none;}
 
             {% if signin_form %}
                 {% for field in signin_form %}
-                    <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" placeholder="{{ field.label }}" value="{{ field.value|default_if_none:'' }}">
+                    {% if field.field.widget.input_type == 'password' %}
+                        <input type="password" 
+                               name="{{ field.name }}" 
+                               placeholder="{{ field.label }}" 
+                               required>
+                    {% else %}
+                        <input type="{{ field.field.widget.input_type }}" 
+                               name="{{ field.name }}" 
+                               placeholder="{{ field.label }}" 
+                               value="{{ field.value|default_if_none:'' }}">
+                    {% endif %}
                     {% for error in field.errors %}
-                        <p style="color:red">{{ error }}</p>
+                        <p class="error-message">{{ error }}</p>
                     {% endfor %}
                 {% endfor %}
+            {% else %}
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
             {% endif %}
 
             <button type="submit">Sign In</button>
@@ -104,25 +497,38 @@ footer a{color:#3c97bf;text-decoration:none;}
             <div class="overlay-panel overlay-left">
                 <h1>Welcome Back!</h1>
                 <p>To keep connected with us please login with your personal info</p>
-                <button class="ghost" id="signIn">Sign In</button>
+                <button class="ghost" id="signIn" type="button">Sign In</button>
             </div>
             <div class="overlay-panel overlay-right">
                 <h1>Hello, Friend!</h1>
                 <p>Enter your personal details and start journey with us</p>
-                <button class="ghost" id="signUp">Sign Up</button>
+                <button class="ghost" id="signUp" type="button">Sign Up</button>
             </div>
         </div>
     </div>
 </div>
 
-<footer></footer>
-
 <script>
 const signUpButton = document.getElementById('signUp');
 const signInButton = document.getElementById('signIn');
 const container = document.getElementById('container');
-signUpButton.addEventListener('click', () => { container.classList.add("right-panel-active"); });
-signInButton.addEventListener('click', () => { container.classList.remove("right-panel-active"); });
+
+signUpButton.addEventListener('click', () => {
+    container.classList.add("right-panel-active");
+});
+
+signInButton.addEventListener('click', () => {
+    container.classList.remove("right-panel-active");
+});
+
+// Auto-hide messages after 5 seconds
+setTimeout(() => {
+    const messages = document.querySelectorAll('.success-message, .info-message');
+    messages.forEach(msg => {
+        msg.style.animation = 'slideIn 0.3s ease-out reverse';
+        setTimeout(() => msg.remove(), 300);
+    });
+}, 5000);
 </script>
 
 </body>

@@ -1,106 +1,512 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Checkout</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Inter, sans-serif;
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        /* ===== LAYOUT ===== */
+        .cart-wrapper {
+            max-width: 1400px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 30px;
+        }
+
+        /* ===== LEFT ===== */
+        .cart-left {
+            background: #fff;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .cart-title {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        /* ===== CART ITEM (BIG) ===== */
+        .cart-item {
+            display: grid;
+            grid-template-columns: 140px 1fr 200px;
+            gap: 25px;
+            padding: 30px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .item-name {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .item-meta {
+            font-size: 15px;
+            color: #777;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+
+        .item-price {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* ===== CONTROLS ===== */
+        .item-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 18px;
+        }
+
+        .qty {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .qty button {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: none;
+            background: #f1f1f1;
+            font-size: 22px;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .qty button:hover {
+            background: #e2e2e2;
+        }
+
+        .qty strong {
+            font-size: 18px;
+        }
+
+        .remove-btn {
+            border: none;
+            background: none;
+            color: #dc3545;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* ===== RIGHT (STICKY) ===== */
+        .cart-right {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+        }
+
+        .summary-box {
+            background: #fff;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 12px 30px rgba(0,0,0,.08);
+        }
+
+        .summary-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 22px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            margin-bottom: 14px;
+        }
+
+        .summary-total {
+            font-size: 21px;
+            font-weight: 700;
+            margin-top: 18px;
+        }
+
+        .checkout-btn {
+            margin-top: 24px;
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            background: #18c14b;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .checkout-btn:hover {
+            background: #14a83f;
+        }
+
+        .empty-cart {
+            text-align: center;
+            font-size: 20px;
+            padding: 60px 0;
+            color: #666;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width: 900px) {
+            .cart-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-right {
+                position: static;
+            }
+        }
+
+        @media(max-width: 700px) {
+            .cart-item {
+                grid-template-columns: 1fr;
+            }
+
+            .item-controls {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cart-wrapper">
+
+    <!-- ===== LEFT ===== -->
+    <div class="cart-left">
+        <div class="cart-title">Корзина</div>
+
+        {% if cart_items %}
+            {% for item in cart_items %}
+            <div class="cart-item">
+
+                <!-- IMAGE -->
+                <div class="item-image">
+                    {% with item.variant.images.first as image %}
+                        {% if image %}
+                            <img src="{{ image.image.url }}">
+                        {% else %}
+                            <img src="{% static 'img/no-image.png' %}">
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+                <!-- INFO -->
+                <div>
+                    <div class="item-name">{{ item.variant.product.name }}</div>
+                    <div class="item-meta">
+                        Бренд: {{ item.variant.product.group.brand.name }}<br>
+                        Категория: {{ item.variant.product.group.category.name }}<br>
+                        Размер: {{ item.variant.size.name }}
+                    </div>
+                    <div class="item-price">{{ item.variant.price }} UZS</div>
+                </div>
+
+                <!-- CONTROLS -->
+                <div class="item-controls">
+
+                    <div class="qty">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="decrease">
+                            <input type="hidden" name="item_id" value="{{ item.id }}">
+                            <button>-</button>
+                        </form>
+
+                        <strong>{{ item.quantity }}</strong>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="increase">
+                            <input type="hidden" name="item_id" value="{{ item.id }}">
+                            <button>+</button>
+                        </form>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="item_id" value="{{ item.id }}">
+                        <button class="remove-btn">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-cart">Корзина пуста</div>
+        {% endif %}
+    </div>
+
+    <!-- ===== RIGHT ===== -->
+    <div class="cart-right">
+        <div class="summary-box">
+            <div class="summary-title">Ваш заказ</div>
+
+            <div class="summary-row">
+                <span>Товары</span>
+                <span>{{ subtotal }} сум</span>
+            </div>
+
+            <div class="summary-row">
+                <span>Доставка</span>
+                <span>{{ shipping }} сум</span>
+            </div>
+
+            <div class="summary-row summary-total">
+                <span>Итого</span>
+                <span>{{ total }} сум</span>
+            </div>
+
+            <form method="post" action="{% url 'shop:zakaz' %}">
+                {% csrf_token %}
+                <button class="checkout-btn">
+                    Перейти к оформлению
+                </button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+<br><br><br><br>
 
 <style>
-body {
-    background: #f4f5f7;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+/* ================= FOOTER ================= */
+.site-footer {
+    background: linear-gradient(135deg, #0f172a, #020617);
+    color: #cbd5e1;
+    margin-top: 80px;
+    padding: 70px 0 30px;
 }
 
-.container {
-    max-width: 600px;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,.08);
+.site-footer h1,
+.site-footer h5 {
+    color: #ffffff;
 }
 
-h1 {
+.footer-container {
+    max-width: 1400px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
+    gap: 40px;
+}
+
+.footer-logo {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.footer-desc {
+    font-size: 14px;
+    line-height: 1.6;
     margin-bottom: 20px;
-    font-size: 26px;
 }
 
-input, textarea {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    border: 1px solid #ddd;
-    font-size: 15px;
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-textarea {
-    resize: none;
-    height: 100px;
-}
-
-.summary {
-    margin-top: 20px;
-    border-top: 1px dashed #ddd;
-    padding-top: 15px;
-}
-
-.row {
-    display: flex;
-    justify-content: space-between;
+.footer-col ul li {
     margin-bottom: 10px;
 }
 
-.total {
-    font-size: 20px;
-    font-weight: 800;
+.footer-col ul li a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color .2s;
 }
 
-button {
-    width: 100%;
-    padding: 16px;
-    margin-top: 25px;
+.footer-col ul li a:hover {
+    color: #22c55e;
+}
+
+/* SOCIAL */
+.social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.social-links a {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: .2s;
+}
+
+.social-links a:hover {
+    background: #22c55e;
+    transform: translateY(-3px);
+}
+
+/* SUBSCRIBE */
+.subscribe-form {
+    display: flex;
+    margin-top: 14px;
+}
+
+.subscribe-form input {
+    flex: 1;
+    padding: 12px;
     border: none;
-    border-radius: 16px;
-    background: #2563eb;
-    color: white;
-    font-size: 17px;
-    font-weight: 800;
+    outline: none;
+    border-radius: 10px 0 0 10px;
+}
+
+.subscribe-form button {
+    padding: 12px 18px;
+    border: none;
+    background: #22c55e;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 0 10px 10px 0;
     cursor: pointer;
 }
+
+/* BOTTOM */
+.footer-bottom {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.12);
+    text-align: center;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
-</head>
 
-<body>
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
 
-<div class="container">
-    <h1>Checkout</h1>
+      <!-- BRAND -->
+      <div class="footer-col">
+        <h1 class="footer-logo">Vendoza</h1>
+        <p class="footer-desc">
+          Modern marketplace with quality products and fast delivery.
+        </p>
 
-    <form method="post">
-        {% csrf_token %}
-
-        <input type="text" name="full_name" placeholder="Full name" required>
-        <input type="text" name="phone" placeholder="Phone number" required>
-        <textarea name="address" placeholder="Shipping address" required></textarea>
-
-        <div class="summary">
-            <div class="row">
-                <span>Subtotal</span>
-                <span>${{ subtotal }}</span>
-            </div>
-            <div class="row">
-                <span>Shipping</span>
-                <span>${{ shipping }}</span>
-            </div>
-            <div class="row total">
-                <span>Total</span>
-                <span>${{ total }}</span>
-            </div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
         </div>
+      </div>
 
-        <button type="submit">Place Order</button>
-    </form>
-</div>
+      <!-- COMPANY -->
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Conditions</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#">Offers</a></li>
+          <li><a href="#">Coupons</a></li>
+          <li><a href="#">Stores</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+
+      <!-- SUPPORT -->
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Returns</a></li>
+        </ul>
+      </div>
+
+      <!-- SUBSCRIBE -->
+      <div class="footer-col">
+        <h5>Subscribe</h5>
+        <p class="footer-desc">Get updates and special offers</p>
+        <form class="subscribe-form">
+          <input type="email" placeholder="Email address">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © {{ year|default:"2026" }} Vendoza — All rights reserved
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
