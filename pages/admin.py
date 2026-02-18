@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.db.models import Sum, Count
 from .models import (
@@ -23,7 +24,7 @@ class CategoryAdmin(admin.ModelAdmin):
                 '<img src="{}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />',
                 obj.image.url
             )
-        return format_html('<div style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📁</div>')
+        return mark_safe('<div style="width: 60px; height: 60px; background: #f0f0f0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">📁</div>')
     image_preview.short_description = '🖼️ Фото'
     
     def product_count(self, obj):
@@ -64,7 +65,7 @@ class ProductAdmin(admin.ModelAdmin):
                 '<img src="{}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);" />',
                 obj.image.url
             )
-        return format_html('<div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px;">📦</div>')
+        return mark_safe('<div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 32px;">📦</div>')
     image_preview.short_description = '🖼️'
     
     def price_display(self, obj):
@@ -80,7 +81,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 # ============================================
-# ПРОМОКОДЫ - ПРОФЕССИОНАЛЬНАЯ АДМИНКА
+# ПРОМОКОДЫ
 # ============================================
 @admin.register(PromoCode)
 class PromoCodeAdmin(admin.ModelAdmin):
@@ -113,136 +114,18 @@ class PromoCodeAdmin(admin.ModelAdmin):
                 </div>
             '''
         }),
-        
         ('🎯 ТИП СКИДКИ', {
             'fields': ('discount_type',),
-            'description': '''
-                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 20px; margin: 20px 0; border-radius: 8px;">
-                    <h3 style="margin-top: 0; color: #856404;">💡 Выберите тип скидки:</h3>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px;">
-                        <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #28a745;">
-                            <div style="font-size: 32px; text-align: center;">📊</div>
-                            <h4 style="color: #28a745; text-align: center; margin: 10px 0;">Процент</h4>
-                            <p style="font-size: 13px; color: #666; margin: 0;">Скидка в процентах от суммы заказа (10%, 25%, 50% и т.д.)</p>
-                        </div>
-                        
-                        <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #007bff;">
-                            <div style="font-size: 32px; text-align: center;">💵</div>
-                            <h4 style="color: #007bff; text-align: center; margin: 10px 0;">Фикс. сумма</h4>
-                            <p style="font-size: 13px; color: #666; margin: 0;">Скидка конкретной суммой ($10, $20, $50 и т.д.)</p>
-                        </div>
-                        
-                        <div style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #ffc107;">
-                            <div style="font-size: 32px; text-align: center;">🚚</div>
-                            <h4 style="color: #ffc107; text-align: center; margin: 10px 0;">Доставка</h4>
-                            <p style="font-size: 13px; color: #666; margin: 0;">Бесплатная доставка по всему городу/миру</p>
-                        </div>
-                    </div>
-                </div>
-            '''
         }),
-        
         ('💰 ПАРАМЕТРЫ СКИДКИ', {
             'fields': ('discount_percentage', 'max_discount_amount', 'discount_amount'),
-            'description': '''
-                <div style="background: #d4edda; border-left: 4px solid #28a745; padding: 20px; margin: 20px 0; border-radius: 8px;">
-                    <h3 style="margin-top: 0; color: #155724;">⚙️ Настройка скидки:</h3>
-                    
-                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                        <h4 style="color: #28a745; margin-top: 0;">📊 Для процентной скидки:</h4>
-                        <ul style="color: #666; line-height: 1.8;">
-                            <li><strong>Процент скидки:</strong> Введите от 0 до 100 (например: 50 для 50%)</li>
-                            <li><strong>Макс. сумма:</strong> Необязательно. Ограничение в долларах (например: 100)</li>
-                        </ul>
-                        <div style="background: #e8f5e9; padding: 10px; border-radius: 6px; margin-top: 10px;">
-                            <strong>Пример:</strong> Скидка 50%, но не более $100<br>
-                            При заказе на $300 скидка = $100 (не $150)
-                        </div>
-                    </div>
-                    
-                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                        <h4 style="color: #007bff; margin-top: 0;">💵 Для фиксированной скидки:</h4>
-                        <ul style="color: #666; line-height: 1.8;">
-                            <li><strong>Сумма скидки:</strong> Введите сумму в долларах (например: 20)</li>
-                        </ul>
-                        <div style="background: #e3f2fd; padding: 10px; border-radius: 6px; margin-top: 10px;">
-                            <strong>Пример:</strong> Скидка $20<br>
-                            При любом заказе клиент получит скидку $20
-                        </div>
-                    </div>
-                    
-                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                        <h4 style="color: #ffc107; margin-top: 0;">🚚 Для бесплатной доставки:</h4>
-                        <div style="background: #fff3cd; padding: 10px; border-radius: 6px;">
-                            <strong>✅ Ничего заполнять не нужно!</strong><br>
-                            Доставка автоматически станет бесплатной
-                        </div>
-                    </div>
-                </div>
-            '''
         }),
-        
         ('⚙️ УСЛОВИЯ', {
             'fields': ('minimum_order_amount',),
-            'description': '''
-                <div style="background: #f8d7da; border-left: 4px solid #dc3545; padding: 20px; margin: 20px 0; border-radius: 8px;">
-                    <h3 style="margin-top: 0; color: #721c24;">🎯 Минимальная сумма заказа:</h3>
-                    <p style="color: #721c24; line-height: 1.6;">Укажите минимальную сумму товаров, при которой промокод сработает</p>
-                    
-                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
-                        <table style="width: 100%; border-collapse: collapse;">
-                            <tr style="background: #f8f9fa;">
-                                <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Значение</th>
-                                <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Что означает</th>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #dee2e6;"><strong>0</strong></td>
-                                <td style="padding: 10px; border: 1px solid #dee2e6;">Работает для любой суммы</td>
-                            </tr>
-                            <tr style="background: #f8f9fa;">
-                                <td style="padding: 10px; border: 1px solid #dee2e6;"><strong>50</strong></td>
-                                <td style="padding: 10px; border: 1px solid #dee2e6;">Только если товары ≥ $50</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px; border: 1px solid #dee2e6;"><strong>100</strong></td>
-                                <td style="padding: 10px; border: 1px solid #dee2e6;">Только если товары ≥ $100</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            '''
         }),
-        
         ('🔢 ОГРАНИЧЕНИЯ', {
             'fields': ('usage_limit', 'valid_from', 'valid_until'),
-            'description': '''
-                <div style="background: #e2e3e5; border-left: 4px solid #6c757d; padding: 20px; margin: 20px 0; border-radius: 8px;">
-                    <h3 style="margin-top: 0; color: #383d41;">⏰ Лимиты и сроки:</h3>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">
-                        <div style="background: white; padding: 15px; border-radius: 8px;">
-                            <h4 style="color: #6c757d; margin-top: 0;">🔢 Лимит использований</h4>
-                            <p style="color: #666; margin: 0; font-size: 14px;">
-                                • Пусто = ∞ (безлимит)<br>
-                                • 100 = можно использовать 100 раз<br>
-                                • 1 = одноразовый промокод
-                            </p>
-                        </div>
-                        
-                        <div style="background: white; padding: 15px; border-radius: 8px;">
-                            <h4 style="color: #6c757d; margin-top: 0;">📅 Срок действия</h4>
-                            <p style="color: #666; margin: 0; font-size: 14px;">
-                                • Действителен с: Дата начала<br>
-                                • Действителен до: Дата окончания<br>
-                                • Пусто = бессрочный
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            '''
         }),
-        
         ('📊 СТАТИСТИКА', {
             'fields': ('times_used', 'promo_preview', 'created_at', 'updated_at'),
             'classes': ('collapse',),
@@ -253,7 +136,7 @@ class PromoCodeAdmin(admin.ModelAdmin):
     
     def code_badge(self, obj):
         return format_html(
-            '<div style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 700; font-size: 16px; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">{}</div>',
+            '<div style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 20px; border-radius: 25px; font-weight: 700; font-size: 16px; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(102,126,234,0.4);">{}</div>',
             obj.code
         )
     code_badge.short_description = '🎫 КОД'
@@ -279,10 +162,12 @@ class PromoCodeAdmin(admin.ModelAdmin):
     discount_preview.short_description = '💰 СКИДКА'
     
     def status_indicator(self, obj):
+        # ✅ ИСПРАВЛЕНО: был format_html без аргументов — Django 6.0 не принимает
         is_valid, message = obj.is_valid()
         if is_valid:
             return format_html(
-                '<div style="display: inline-flex; align-items: center; gap: 6px; background: #d4edda; color: #155724; padding: 6px 14px; border-radius: 20px; font-weight: 600; border: 2px solid #28a745;"><span style="font-size: 16px;">✅</span>Активен</div>'
+                '<div style="display: inline-flex; align-items: center; gap: 6px; background: #d4edda; color: #155724; padding: 6px 14px; border-radius: 20px; font-weight: 600; border: 2px solid #28a745;"><span style="font-size: 16px;">✅</span>{}</div>',
+                'Активен'
             )
         else:
             return format_html(
@@ -298,31 +183,26 @@ class PromoCodeAdmin(admin.ModelAdmin):
             if percentage >= 100:
                 bar_color = '#dc3545'
                 text_color = '#721c24'
-                bg_color = '#f8d7da'
             elif percentage >= 75:
                 bar_color = '#ffc107'
                 text_color = '#856404'
-                bg_color = '#fff3cd'
             else:
                 bar_color = '#28a745'
                 text_color = '#155724'
-                bg_color = '#d4edda'
             
             return format_html(
-                '''
-                <div style="width: 150px;">
+                '''<div style="width: 150px;">
                     <div style="background: #e9ecef; border-radius: 10px; height: 24px; overflow: hidden; position: relative;">
-                        <div style="background: {}; width: {}%; height: 100%; transition: width 0.3s;"></div>
+                        <div style="background: {}; width: {}%; height: 100%;"></div>
                         <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; color: {}; font-weight: 700; font-size: 12px;">
                             {} / {}
                         </div>
                     </div>
-                </div>
-                ''',
+                </div>''',
                 bar_color, min(percentage, 100), text_color, obj.times_used, obj.usage_limit
             )
         else:
-            return format_html(
+            return mark_safe(
                 '<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 700; text-align: center;">∞ Безлимит</div>'
             )
     usage_progress.short_description = '📈 ИСПОЛЬЗОВАНО'
@@ -335,13 +215,9 @@ class PromoCodeAdmin(admin.ModelAdmin):
             days_left = (obj.valid_until - now).days
             
             if days_left < 0:
-                return format_html(
-                    '<div style="background: #f8d7da; color: #721c24; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 12px;">⏰ Истек</div>'
-                )
+                return mark_safe('<div style="background: #f8d7da; color: #721c24; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 12px;">⏰ Истек</div>')
             elif days_left == 0:
-                return format_html(
-                    '<div style="background: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 12px;">⚠️ Сегодня</div>'
-                )
+                return mark_safe('<div style="background: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 12px;">⚠️ Сегодня</div>')
             elif days_left <= 7:
                 return format_html(
                     '<div style="background: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 12px;">⏰ {} дн.</div>',
@@ -353,7 +229,7 @@ class PromoCodeAdmin(admin.ModelAdmin):
                     days_left
                 )
         else:
-            return format_html(
+            return mark_safe(
                 '<div style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 12px;">♾️ Бессрочно</div>'
             )
     validity_badge.short_description = '⏰ СРОК'
@@ -363,43 +239,45 @@ class PromoCodeAdmin(admin.ModelAdmin):
     created_display.short_description = '📅 Создан'
     
     def promo_preview(self, obj):
-        html = '''
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div style="font-size: 48px; margin-bottom: 10px;">🎫</div>
-                <div style="font-size: 32px; font-weight: 800; letter-spacing: 2px;">{}</div>
-                <div style="font-size: 14px; opacity: 0.9; margin-top: 10px;">{}</div>
-            </div>
-            
-            <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 12px; margin-top: 20px;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div>
-                        <div style="opacity: 0.8; font-size: 12px; margin-bottom: 5px;">ТИП СКИДКИ</div>
-                        <div style="font-weight: 700; font-size: 16px;">{}</div>
-                    </div>
-                    <div>
-                        <div style="opacity: 0.8; font-size: 12px; margin-bottom: 5px;">СКИДКА</div>
-                        <div style="font-weight: 700; font-size: 16px;">{}</div>
-                    </div>
+        # ✅ ИСПРАВЛЕНО: строим HTML через format_html с аргументами, не через .format() + format_html()
+        if obj.discount_type == 'percentage':
+            discount_text = f"{obj.discount_percentage}%"
+        elif obj.discount_type == 'fixed':
+            discount_text = f"${obj.discount_amount}"
+        else:
+            discount_text = "Бесплатная доставка"
+
+        extra = ''
+        if obj.minimum_order_amount and obj.minimum_order_amount > 0:
+            extra = f'<div style="margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.3);"><div style="opacity:0.8;font-size:12px;margin-bottom:5px;">МИНИМУМ</div><div style="font-weight:700;font-size:16px;">${obj.minimum_order_amount}</div></div>'
+
+        return format_html(
+            '''<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 40px rgba(102,126,234,0.3); max-width: 400px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 48px; margin-bottom: 10px;">🎫</div>
+                    <div style="font-size: 32px; font-weight: 800; letter-spacing: 2px;">{}</div>
+                    <div style="font-size: 14px; opacity: 0.9; margin-top: 10px;">{}</div>
                 </div>
-        '''.format(
+                <div style="background: rgba(255,255,255,0.2); padding: 20px; border-radius: 12px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <div style="opacity: 0.8; font-size: 12px; margin-bottom: 5px;">ТИП СКИДКИ</div>
+                            <div style="font-weight: 700; font-size: 16px;">{}</div>
+                        </div>
+                        <div>
+                            <div style="opacity: 0.8; font-size: 12px; margin-bottom: 5px;">СКИДКА</div>
+                            <div style="font-weight: 700; font-size: 16px;">{}</div>
+                        </div>
+                    </div>
+                    {}
+                </div>
+            </div>''',
             obj.code,
             obj.description or 'Промокод',
             obj.get_discount_type_display(),
-            obj.get_discount_display()
+            discount_text,
+            mark_safe(extra)
         )
-        
-        if obj.minimum_order_amount > 0:
-            html += '''
-                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3);">
-                    <div style="opacity: 0.8; font-size: 12px; margin-bottom: 5px;">МИНИМУМ</div>
-                    <div style="font-weight: 700; font-size: 16px;">${}</div>
-                </div>
-            '''.format(obj.minimum_order_amount)
-        
-        html += '</div></div>'
-        
-        return format_html(html)
     promo_preview.short_description = '👁️ Предпросмотр'
     
     def activate_codes(self, request, queryset):
@@ -413,12 +291,13 @@ class PromoCodeAdmin(admin.ModelAdmin):
     deactivate_codes.short_description = '❌ Деактивировать'
     
     def duplicate_codes(self, request, queryset):
+        count = queryset.count()
         for promo in queryset:
             promo.pk = None
             promo.code = f"{promo.code}_COPY"
             promo.times_used = 0
             promo.save()
-        self.message_user(request, f'📋 Создано {queryset.count()} копий', level='success')
+        self.message_user(request, f'📋 Создано {count} копий', level='success')
     duplicate_codes.short_description = '📋 Дублировать'
 
 
@@ -468,8 +347,7 @@ class PromoCodeUsageAdmin(admin.ModelAdmin):
     
     def amounts_display(self, obj):
         return format_html(
-            '''
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+            '''<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
                 <div style="background: #e3f2fd; padding: 8px; border-radius: 8px; text-align: center;">
                     <div style="font-size: 11px; color: #1976d2; margin-bottom: 4px;">ЗАКАЗ</div>
                     <div style="font-weight: 700; color: #1976d2;">${}</div>
@@ -478,8 +356,7 @@ class PromoCodeUsageAdmin(admin.ModelAdmin):
                     <div style="font-size: 11px; color: #28a745; margin-bottom: 4px;">СКИДКА</div>
                     <div style="font-weight: 700; color: #28a745;">-${}</div>
                 </div>
-            </div>
-            ''',
+            </div>''',
             obj.order_amount, obj.discount_amount
         )
     amounts_display.short_description = '💰 Суммы'
@@ -516,20 +393,10 @@ class OrderAdmin(admin.ModelAdmin):
             'fields': ('order_number', 'user', 'status')
         }),
         ('💰 Финансы', {
-            'fields': (
-                'total_amount',
-                'delivery_cost',
-                'discount_amount',
-                'promo_code'
-            )
+            'fields': ('total_amount', 'delivery_cost', 'discount_amount', 'promo_code')
         }),
         ('🚚 Доставка', {
-            'fields': (
-                'delivery_city',
-                'delivery_distance',
-                'pickup_point',
-                'storage_deadline'
-            )
+            'fields': ('delivery_city', 'delivery_distance', 'pickup_point', 'storage_deadline')
         }),
         ('📝 Дополнительно', {
             'fields': ('notes', 'created_at', 'updated_at')
@@ -555,15 +422,14 @@ class OrderAdmin(admin.ModelAdmin):
     
     def status_badge(self, obj):
         colors = {
-            'pending': ('#fff3cd', '#856404', '⏳'),
+            'pending':    ('#fff3cd', '#856404', '⏳'),
             'processing': ('#cfe2ff', '#084298', '📦'),
-            'shipping': ('#cfe2ff', '#084298', '🚚'),
-            'delivered': ('#d4edda', '#155724', '✅'),
-            'picked-up': ('#e7d4f5', '#6f42c1', '🎉'),
-            'cancelled': ('#f8d7da', '#721c24', '❌'),
+            'shipping':   ('#cfe2ff', '#084298', '🚚'),
+            'delivered':  ('#d4edda', '#155724', '✅'),
+            'picked-up':  ('#e7d4f5', '#6f42c1', '🎉'),
+            'cancelled':  ('#f8d7da', '#721c24', '❌'),
         }
         bg, text, icon = colors.get(obj.status, ('#e2e3e5', '#383d41', '❓'))
-        
         return format_html(
             '<div style="background: {}; color: {}; padding: 6px 14px; border-radius: 20px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;"><span style="font-size: 16px;">{}</span>{}</div>',
             bg, text, icon, obj.get_status_display()
@@ -573,17 +439,14 @@ class OrderAdmin(admin.ModelAdmin):
     def financial_summary(self, obj):
         final = obj.get_final_total()
         return format_html(
-            '''
-            <div style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
+            '''<div style="background: #f8f9fa; padding: 12px; border-radius: 8px;">
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 12px;">
                     <div>Товары: <strong>${}</strong></div>
                     <div>Доставка: <strong>${}</strong></div>
                     <div style="color: #28a745;">Скидка: <strong>-${}</strong></div>
-                    <div style="grid-column: span 2; margin-top: 8px; padding-top: 8px; border-top: 2px solid #dee2e6; font-size: 14px; color: #667eea; font-weight: 700;">
-                        ИТОГО: ${}</div>
+                    <div style="grid-column: span 2; margin-top: 8px; padding-top: 8px; border-top: 2px solid #dee2e6; font-size: 14px; color: #667eea; font-weight: 700;">ИТОГО: ${}</div>
                 </div>
-            </div>
-            ''',
+            </div>''',
             obj.total_amount, obj.delivery_cost, obj.discount_amount, final
         )
     financial_summary.short_description = '💵 Финансы'

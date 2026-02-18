@@ -1,534 +1,572 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sign In / Sign Up</title>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-}
-
-h1 {
-    font-weight: 700;
-    margin: 0;
-    font-size: 32px;
-    color: #333;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-    font-weight: 600;
-    font-size: 20px;
-}
-
-p {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: 0.5px;
-    margin: 20px 0 30px;
-    color: #555;
-}
-
-span {
-    font-size: 13px;
-    color: #666;
-}
-
-a {
-    color: #10b981;
-    font-size: 14px;
-    text-decoration: none;
-    margin: 15px 0;
-    transition: color 0.3s;
-}
-
-a:hover {
-    color: #059669;
-}
-
-button {
-    border-radius: 30px;
-    border: 1px solid #10b981;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: #FFFFFF;
-    font-size: 13px;
-    font-weight: 700;
-    padding: 14px 50px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-button.ghost {
-    background: transparent;
-    border: 2px solid #FFFFFF;
-    color: #FFFFFF;
-    box-shadow: none;
-}
-
-button.ghost:hover {
-    background: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
-}
-
-form {
-    background-color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 50px;
-    height: 100%;
-    text-align: center;
-}
-
-input {
-    background-color: #f3f4f6;
-    border: 2px solid transparent;
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin: 8px 0;
-    width: 100%;
-    font-size: 14px;
-    transition: all 0.3s;
-}
-
-input:focus {
-    outline: none;
-    border-color: #10b981;
-    background-color: #fff;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
-
-.container {
-    background-color: #fff;
-    border-radius: 30px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-    width: 90%;
-    max-width: 900px;
-    min-height: 600px;
-}
-
-.form-container {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    transition: all 0.6s ease-in-out;
-}
-
-.sign-in-container {
-    left: 0;
-    width: 50%;
-    z-index: 2;
-}
-
-.container.right-panel-active .sign-in-container {
-    transform: translateX(100%);
-}
-
-.sign-up-container {
-    left: 0;
-    width: 50%;
-    opacity: 0;
-    z-index: 1;
-}
-
-.container.right-panel-active .sign-up-container {
-    transform: translateX(100%);
-    opacity: 1;
-    z-index: 5;
-    animation: show 0.6s;
-}
-
-@keyframes show {
-    0%, 49.99% {
-        opacity: 0;
-        z-index: 1;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Vendoza — Sign In / Sign Up</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Satoshi:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --green:      #1a6b3a;
+      --green-mid:  #228b4a;
+      --green-glow: rgba(26,107,58,.35);
+      --accent:     #f97316;
+      --bg-dark:    #0b1a10;
+      --bg-card:    #111e15;
+      --border:     rgba(255,255,255,.08);
+      --text:       #ffffff;
+      --text-soft:  rgba(255,255,255,.5);
+      --text-dim:   rgba(255,255,255,.28);
+      --input-bg:   rgba(255,255,255,.06);
+      --input-focus:rgba(255,255,255,.11);
     }
-    50%, 100% {
-        opacity: 1;
-        z-index: 5;
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%; width: 100%;
+      font-family: 'Satoshi', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      overflow: hidden;
     }
-}
 
-.overlay-container {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
-    transition: transform 0.6s ease-in-out;
-    z-index: 100;
-}
-
-.container.right-panel-active .overlay-container {
-    transform: translateX(-100%);
-}
-
-.overlay {
-    background: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
-    background-size: 200% 200%;
-    animation: gradientShift 8s ease infinite;
-    color: #FFFFFF;
-    position: relative;
-    left: -100%;
-    height: 100%;
-    width: 200%;
-    transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-.container.right-panel-active .overlay {
-    transform: translateX(50%);
-}
-
-.overlay-panel {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 40px;
-    text-align: center;
-    top: 0;
-    height: 100%;
-    width: 50%;
-    transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
-}
-
-.overlay-panel h1 {
-    color: #fff;
-    font-size: 36px;
-    margin-bottom: 10px;
-}
-
-.overlay-panel p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 24px;
-}
-
-.overlay-left {
-    transform: translateX(-20%);
-}
-
-.container.right-panel-active .overlay-left {
-    transform: translateX(0);
-}
-
-.overlay-right {
-    right: 0;
-    transform: translateX(0);
-}
-
-.container.right-panel-active .overlay-right {
-    transform: translateX(20%);
-}
-
-.social-container {
-    margin: 20px 0;
-}
-
-.social-container a {
-    border: 1px solid #DDD;
-    border-radius: 50%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 8px;
-    height: 45px;
-    width: 45px;
-    transition: all 0.3s;
-    color: #666;
-}
-
-.social-container a:hover {
-    border-color: #10b981;
-    color: #10b981;
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-}
-
-.error-message {
-    color: #ef4444;
-    font-size: 12px;
-    margin-top: 5px;
-    text-align: left;
-    width: 100%;
-    padding: 5px;
-    background: #fee2e2;
-    border-radius: 5px;
-}
-
-.success-message {
-    background: #d1fae5;
-    border-left: 4px solid #10b981;
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    color: #065f46;
-    font-size: 14px;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    animation: slideIn 0.3s ease-out;
-}
-
-.info-message {
-    background: #dbeafe;
-    border-left: 4px solid #3b82f6;
-    padding: 12px 16px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    color: #1e40af;
-    font-size: 14px;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-    animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(400px);
-        opacity: 0;
+    /* ─── BACKGROUND ─── */
+    .bg {
+      position: fixed; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 80% 70% at 20% 50%, rgba(26,107,58,.22) 0%, transparent 65%),
+                  radial-gradient(ellipse 60% 80% at 80% 30%, rgba(249,115,22,.1) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 60% at 60% 80%, rgba(26,107,58,.14) 0%, transparent 60%),
+                  #0b1a10;
     }
-    to {
-        transform: translateX(0);
-        opacity: 1;
+    .bg-grid {
+      position: fixed; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 48px 48px;
     }
-}
+    .bg-orb {
+      position: fixed; border-radius: 50%; filter: blur(80px); z-index: 0; pointer-events: none;
+    }
+    .orb1 { width: 500px; height: 500px; background: rgba(26,107,58,.18); top: -100px; left: -150px; animation: float1 9s ease-in-out infinite; }
+    .orb2 { width: 380px; height: 380px; background: rgba(249,115,22,.1); bottom: -80px; right: -100px; animation: float2 11s ease-in-out infinite; }
+    .orb3 { width: 260px; height: 260px; background: rgba(34,139,74,.14); top: 40%; right: 15%; animation: float1 14s ease-in-out infinite reverse; }
 
-/* Decorative elements */
-.container::before {
-    content: '';
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
-    top: -100px;
-    left: -100px;
-    z-index: 0;
-}
+    @keyframes float1 { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-30px) scale(1.06)} }
+    @keyframes float2 { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(24px) scale(.94)} }
 
-.container::after {
-    content: '';
-    position: absolute;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-    bottom: -75px;
-    right: -75px;
-    z-index: 0;
-}
+    /* ─── LAYOUT ─── */
+    .page {
+      position: relative; z-index: 1;
+      width: 100vw; height: 100vh;
+      display: flex;
+    }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .container {
-        width: 95%;
-        min-height: 500px;
+    /* ─── LEFT PANEL ─── */
+    .left-panel {
+      width: 44%;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      padding: 44px 56px;
+      border-right: 1px solid var(--border);
+      background: rgba(255,255,255,.015);
+      backdrop-filter: blur(2px);
     }
-    
-    form {
-        padding: 0 30px;
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px; font-weight: 800;
+      color: #fff; text-decoration: none;
+      display: flex; align-items: center; gap: 10px;
     }
-    
-    h1 {
-        font-size: 24px;
+    .logo-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 12px var(--accent);
     }
-    
-    .overlay-panel h1 {
-        font-size: 28px;
+
+    .left-main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 40px 0; }
+    .left-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(26,107,58,.25); border: 1px solid rgba(26,107,58,.4);
+      color: #6ee7a0; font-size: 12px; font-weight: 600;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 50px; width: fit-content;
+      margin-bottom: 28px;
     }
-    
-    .overlay-panel p {
-        font-size: 14px;
+    .left-tag i { font-size: 10px; }
+    .left-h { font-family: 'Syne', sans-serif; font-size: clamp(34px, 3.2vw, 52px); font-weight: 800; line-height: 1.08; letter-spacing: -1px; }
+    .left-h em { font-style: normal; color: #4ade80; }
+    .left-sub { color: var(--text-soft); font-size: 16px; line-height: 1.65; margin-top: 18px; max-width: 340px; }
+
+    .features { margin-top: 44px; display: flex; flex-direction: column; gap: 16px; }
+    .feat {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border); border-radius: 14px;
+      transition: background .25s;
     }
-    
-    button {
-        padding: 12px 40px;
-        font-size: 12px;
+    .feat:hover { background: rgba(255,255,255,.07); }
+    .feat-icon {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
     }
-}
-</style>
+    .feat-icon.g { background: rgba(26,107,58,.3); }
+    .feat-icon.o { background: rgba(249,115,22,.2); }
+    .feat-icon.b { background: rgba(59,130,246,.2); }
+    .feat-text strong { display: block; font-size: 14px; font-weight: 600; color: #fff; }
+    .feat-text span { font-size: 13px; color: var(--text-soft); }
+
+    .left-footer { font-size: 12px; color: var(--text-dim); }
+
+    /* ─── RIGHT PANEL ─── */
+    .right-panel {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px 48px;
+      overflow-y: auto;
+    }
+    .auth-box {
+      width: 100%; max-width: 420px;
+    }
+
+    /* ─── TABS ─── */
+    .tabs {
+      display: flex; gap: 0;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 5px;
+      margin-bottom: 36px;
+    }
+    .tab-btn {
+      flex: 1; padding: 11px;
+      background: none; border: none; cursor: pointer;
+      font-size: 14px; font-weight: 600;
+      font-family: 'Satoshi', sans-serif;
+      color: var(--text-soft); border-radius: 10px;
+      transition: all .25s;
+    }
+    .tab-btn.active {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 4px 16px var(--green-glow);
+    }
+
+    /* ─── FORMS ─── */
+    .auth-form { display: none; flex-direction: column; gap: 0; }
+    .auth-form.active { display: flex; animation: fadeIn .3s ease; }
+
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+    .form-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px; font-weight: 700; margin-bottom: 6px;
+    }
+    .form-sub { font-size: 14px; color: var(--text-soft); margin-bottom: 28px; }
+
+    /* ─── SOCIALS ─── */
+    .socials { display: flex; gap: 10px; margin-bottom: 24px; }
+    .social-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px; border-radius: 12px;
+      background: var(--input-bg); border: 1px solid var(--border);
+      color: var(--text-soft); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all .2s; text-decoration: none;
+      font-family: 'Satoshi', sans-serif;
+    }
+    .social-btn:hover { background: var(--input-focus); border-color: rgba(255,255,255,.18); color: #fff; }
+
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .divider span { font-size: 12px; color: var(--text-dim); white-space: nowrap; }
+
+    /* ─── INPUT GROUP ─── */
+    .input-group { margin-bottom: 14px; }
+    .input-label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--text-soft); letter-spacing: .6px;
+      text-transform: uppercase; margin-bottom: 7px;
+    }
+    .input-wrap { position: relative; }
+    .input-wrap i {
+      position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 14px; pointer-events: none;
+      transition: color .2s;
+    }
+    .input-field {
+      width: 100%; padding: 13px 16px 13px 42px;
+      background: var(--input-bg); border: 1.5px solid var(--border);
+      border-radius: 12px; color: #fff; font-size: 14px;
+      font-family: 'Satoshi', sans-serif; outline: none;
+      transition: border-color .2s, background .2s;
+    }
+    .input-field::placeholder { color: var(--text-dim); }
+    .input-field:focus {
+      border-color: rgba(26,107,58,.7);
+      background: var(--input-focus);
+      box-shadow: 0 0 0 3px rgba(26,107,58,.15);
+    }
+    .input-field:focus + i,
+    .input-wrap:focus-within i { color: #6ee7a0; }
+    .input-wrap .eye-btn {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--text-dim);
+      font-size: 14px; padding: 0; transition: color .2s;
+      left: auto;
+    }
+    .input-wrap .eye-btn:hover { color: var(--text-soft); }
+
+    /* ─── ERROR ─── */
+    .field-error {
+      font-size: 12px; color: #f87171;
+      background: rgba(248,113,113,.1); border: 1px solid rgba(248,113,113,.25);
+      border-radius: 8px; padding: 6px 10px; margin-top: 6px;
+    }
+
+    /* ─── SUBMIT BTN ─── */
+    .submit-btn {
+      width: 100%; padding: 14px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 14px;
+      font-size: 15px; font-weight: 700;
+      font-family: 'Satoshi', sans-serif;
+      cursor: pointer; letter-spacing: .3px;
+      transition: background .2s, transform .15s, box-shadow .2s;
+      box-shadow: 0 6px 20px var(--green-glow);
+      margin-top: 8px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .submit-btn:hover {
+      background: var(--green-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px var(--green-glow);
+    }
+    .submit-btn:active { transform: scale(.98); }
+
+    /* ─── FORGOT / SWITCH ─── */
+    .form-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 20px; font-size: 13px;
+    }
+    .form-bottom a, .form-bottom button {
+      color: #6ee7a0; text-decoration: none; cursor: pointer;
+      background: none; border: none; font-size: 13px;
+      font-family: 'Satoshi', sans-serif; font-weight: 600;
+      transition: color .2s; padding: 0;
+      box-shadow: none; letter-spacing: 0; text-transform: none;
+      width: auto; border-radius: 0;
+    }
+    .form-bottom a:hover, .form-bottom button:hover { color: #fff; }
+    .form-bottom span { color: var(--text-dim); }
+
+    /* ─── MESSAGES ─── */
+    .flash {
+      position: fixed; top: 24px; right: 24px; z-index: 999;
+      padding: 14px 20px; border-radius: 14px;
+      font-size: 14px; font-weight: 600;
+      display: flex; align-items: center; gap: 10px;
+      animation: slideRight .4s cubic-bezier(.34,1.56,.64,1) forwards;
+      max-width: 340px;
+    }
+    .flash.success { background: rgba(22,163,74,.2); border: 1px solid rgba(22,163,74,.4); color: #86efac; }
+    .flash.info    { background: rgba(59,130,246,.15); border: 1px solid rgba(59,130,246,.3); color: #93c5fd; }
+    @keyframes slideRight { from{opacity:0;transform:translateX(60px)} to{opacity:1;transform:translateX(0)} }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .left-panel { display: none; }
+      .right-panel { padding: 24px 20px; }
+      html, body { overflow: auto; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Django Messages -->
+<div class="bg"></div>
+<div class="bg-grid"></div>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+
+<!-- DJANGO MESSAGES -->
 {% if messages %}
-    {% for message in messages %}
-        {% if message.tags == 'success' %}
-            <div class="success-message">{{ message }}</div>
-        {% elif message.tags == 'info' %}
-            <div class="info-message">{{ message }}</div>
-        {% endif %}
-    {% endfor %}
+  {% for message in messages %}
+    <div class="flash {{ message.tags }}">
+      <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-info-circle{% endif %}"></i>
+      {{ message }}
+    </div>
+  {% endfor %}
 {% endif %}
 
-<div class="container" id="container">
+<div class="page">
 
-    <!-- Sign Up Form -->
-    <div class="form-container sign-up-container">
-        <form method="POST" action="{% url 'shop:signup' %}">
-            {% csrf_token %}
-            <h1>Create Account</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your email for registration</span>
+  <!-- ═══ LEFT PANEL ═══ -->
+  <div class="left-panel">
+    <a href="/" class="logo">
+      <div class="logo-dot"></div>
+      Vendoza
+    </a>
 
-            {% if signup_form %}
-                {% for field in signup_form %}
-                    {% if field.field.widget.input_type == 'password' %}
-                        <input type="password" 
-                               name="{{ field.name }}" 
-                               placeholder="{{ field.label }}" 
-                               required>
-                    {% else %}
-                        <input type="{{ field.field.widget.input_type }}" 
-                               name="{{ field.name }}" 
-                               placeholder="{{ field.label }}" 
-                               value="{{ field.value|default_if_none:'' }}">
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p class="error-message">{{ error }}</p>
-                    {% endfor %}
-                {% endfor %}
-            {% else %}
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password1" placeholder="Password" required>
-                <input type="password" name="password2" placeholder="Confirm Password" required>
-            {% endif %}
+    <div class="left-main">
+      <div class="left-tag">
+        <i class="fas fa-leaf"></i> Fresh & Organic
+      </div>
+      <h2 class="left-h">
+        Shop Fresh.<br>
+        Live <em>Better</em>.<br>
+        Every Day.
+      </h2>
+      <p class="left-sub">
+        Join thousands of happy customers who get fresh groceries delivered right to their door.
+      </p>
 
-            <button type="submit">Sign Up</button>
-        </form>
-    </div>
-
-    <!-- Sign In Form -->
-    <div class="form-container sign-in-container">
-        <form method="POST" action="{% url 'shop:login' %}">
-            {% csrf_token %}
-            <h1>Welcome Back</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your account</span>
-
-            {% if signin_form %}
-                {% for field in signin_form %}
-                    {% if field.field.widget.input_type == 'password' %}
-                        <input type="password" 
-                               name="{{ field.name }}" 
-                               placeholder="{{ field.label }}" 
-                               required>
-                    {% else %}
-                        <input type="{{ field.field.widget.input_type }}" 
-                               name="{{ field.name }}" 
-                               placeholder="{{ field.label }}" 
-                               value="{{ field.value|default_if_none:'' }}">
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p class="error-message">{{ error }}</p>
-                    {% endfor %}
-                {% endfor %}
-            {% else %}
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="password" name="password" placeholder="Password" required>
-            {% endif %}
-
-            <button type="submit">Sign In</button>
-        </form>
-    </div>
-
-    <!-- Overlay -->
-    <div class="overlay-container">
-        <div class="overlay">
-            <div class="overlay-panel overlay-left">
-                <h1>Welcome Back!</h1>
-                <p>To keep connected with us please login with your personal info</p>
-                <button class="ghost" id="signIn" type="button">Sign In</button>
-            </div>
-            <div class="overlay-panel overlay-right">
-                <h1>Hello, Friend!</h1>
-                <p>Enter your personal details and start journey with us</p>
-                <button class="ghost" id="signUp" type="button">Sign Up</button>
-            </div>
+      <div class="features">
+        <div class="feat">
+          <div class="feat-icon g"><i class="fas fa-truck-fast" style="color:#4ade80;"></i></div>
+          <div class="feat-text">
+            <strong>Free Delivery</strong>
+            <span>On orders over $30</span>
+          </div>
         </div>
+        <div class="feat">
+          <div class="feat-icon o"><i class="fas fa-shield-halved" style="color:#fdba74;"></i></div>
+          <div class="feat-text">
+            <strong>Secure Payments</strong>
+            <span>100% encrypted & safe</span>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon b"><i class="fas fa-rotate-left" style="color:#93c5fd;"></i></div>
+          <div class="feat-text">
+            <strong>Easy Returns</strong>
+            <span>No questions asked</span>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <p class="left-footer">© 2025 FreshMart. All rights reserved.</p>
+  </div>
+
+  <!-- ═══ RIGHT PANEL ═══ -->
+  <div class="right-panel">
+    <div class="auth-box">
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('signin')">Sign In</button>
+        <button class="tab-btn" onclick="switchTab('signup')">Create Account</button>
+      </div>
+
+      <!-- ── SIGN IN ── -->
+      <div class="auth-form active" id="form-signin">
+        <h2 class="form-title">Welcome back 👋</h2>
+        <p class="form-sub">Sign in to access your account and orders</p>
+
+        <div class="socials">
+          <a href="#" class="social-btn"><i class="fab fa-google"></i> Google</a>
+          <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+        </div>
+        <div class="divider"><span>or continue with email</span></div>
+
+        <form method="POST" action="{% url 'shop:login' %}">
+          {% csrf_token %}
+
+          {% if signin_form %}
+            {% for field in signin_form %}
+              <div class="input-group">
+                <label class="input-label">{{ field.label }}</label>
+                <div class="input-wrap">
+                  {% if field.field.widget.input_type == 'password' %}
+                    <i class="fas fa-lock"></i>
+                    <input class="input-field"
+                           type="password"
+                           name="{{ field.name }}"
+                           placeholder="Enter your password"
+                           id="pw-signin">
+                    <button type="button" class="eye-btn" onclick="togglePw('pw-signin', this)">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  {% else %}
+                    <i class="fas fa-user"></i>
+                    <input class="input-field"
+                           type="{{ field.field.widget.input_type }}"
+                           name="{{ field.name }}"
+                           placeholder="Enter your username"
+                           value="{{ field.value|default_if_none:'' }}">
+                  {% endif %}
+                </div>
+                {% for error in field.errors %}
+                  <div class="field-error"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="input-group">
+              <label class="input-label">Username</label>
+              <div class="input-wrap">
+                <i class="fas fa-user"></i>
+                <input class="input-field" type="text" name="username" placeholder="Enter your username">
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Password</label>
+              <div class="input-wrap">
+                <i class="fas fa-lock"></i>
+                <input class="input-field" type="password" name="password" placeholder="Enter your password" id="pw-signin">
+                <button type="button" class="eye-btn" onclick="togglePw('pw-signin', this)"><i class="fas fa-eye"></i></button>
+              </div>
+            </div>
+          {% endif %}
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-arrow-right-to-bracket"></i> Sign In
+          </button>
+
+          <div class="form-bottom">
+            <span style="color:var(--text-dim);font-size:13px;">Don't have an account?</span>
+            <button type="button" onclick="switchTab('signup')">Create one →</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ── SIGN UP ── -->
+      <div class="auth-form" id="form-signup">
+        <h2 class="form-title">Join FreshMart ✨</h2>
+        <p class="form-sub">Create your account in seconds</p>
+
+        <div class="socials">
+          <a href="#" class="social-btn"><i class="fab fa-google"></i> Google</a>
+          <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i> Facebook</a>
+        </div>
+        <div class="divider"><span>or register with email</span></div>
+
+        <form method="POST" action="{% url 'shop:signup' %}">
+          {% csrf_token %}
+
+          {% if signup_form %}
+            {% for field in signup_form %}
+              <div class="input-group">
+                <label class="input-label">{{ field.label }}</label>
+                <div class="input-wrap">
+                  {% if field.field.widget.input_type == 'password' %}
+                    <i class="fas fa-lock"></i>
+                    <input class="input-field"
+                           type="password"
+                           name="{{ field.name }}"
+                           placeholder="Enter {{ field.label|lower }}"
+                           id="pw-{{ field.name }}">
+                    <button type="button" class="eye-btn" onclick="togglePw('pw-{{ field.name }}', this)">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  {% elif field.name == 'email' %}
+                    <i class="fas fa-envelope"></i>
+                    <input class="input-field"
+                           type="email"
+                           name="{{ field.name }}"
+                           placeholder="your@email.com"
+                           value="{{ field.value|default_if_none:'' }}">
+                  {% else %}
+                    <i class="fas fa-user"></i>
+                    <input class="input-field"
+                           type="{{ field.field.widget.input_type }}"
+                           name="{{ field.name }}"
+                           placeholder="Choose a username"
+                           value="{{ field.value|default_if_none:'' }}">
+                  {% endif %}
+                </div>
+                {% for error in field.errors %}
+                  <div class="field-error"><i class="fas fa-exclamation-circle"></i> {{ error }}</div>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="input-group">
+              <label class="input-label">Username</label>
+              <div class="input-wrap">
+                <i class="fas fa-user"></i>
+                <input class="input-field" type="text" name="username" placeholder="Choose a username">
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Password</label>
+              <div class="input-wrap">
+                <i class="fas fa-lock"></i>
+                <input class="input-field" type="password" name="password1" placeholder="Create a password" id="pw-p1">
+                <button type="button" class="eye-btn" onclick="togglePw('pw-p1', this)"><i class="fas fa-eye"></i></button>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-label">Confirm Password</label>
+              <div class="input-wrap">
+                <i class="fas fa-lock"></i>
+                <input class="input-field" type="password" name="password2" placeholder="Repeat password" id="pw-p2">
+                <button type="button" class="eye-btn" onclick="togglePw('pw-p2', this)"><i class="fas fa-eye"></i></button>
+              </div>
+            </div>
+          {% endif %}
+
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-user-plus"></i> Create Account
+          </button>
+
+          <div class="form-bottom">
+            <span style="color:var(--text-dim);font-size:13px;">Already have an account?</span>
+            <button type="button" onclick="switchTab('signin')">Sign in →</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <script>
-const signUpButton = document.getElementById('signUp');
-const signInButton = document.getElementById('signIn');
-const container = document.getElementById('container');
-
-signUpButton.addEventListener('click', () => {
-    container.classList.add("right-panel-active");
-});
-
-signInButton.addEventListener('click', () => {
-    container.classList.remove("right-panel-active");
-});
-
-// Auto-hide messages after 5 seconds
-setTimeout(() => {
-    const messages = document.querySelectorAll('.success-message, .info-message');
-    messages.forEach(msg => {
-        msg.style.animation = 'slideIn 0.3s ease-out reverse';
-        setTimeout(() => msg.remove(), 300);
+  /* ── Tab switching ── */
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (tab === 'signin' && i === 0) || (tab === 'signup' && i === 1));
     });
-}, 5000);
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+    document.getElementById('form-' + tab).classList.add('active');
+  }
+
+  /* ── Toggle password visibility ── */
+  function togglePw(id, btn) {
+    const input = document.getElementById(id);
+    const icon  = btn.querySelector('i');
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.className = 'fas fa-eye-slash';
+    } else {
+      input.type = 'password';
+      icon.className = 'fas fa-eye';
+    }
+  }
+
+  /* ── Auto-hide flash messages ── */
+  setTimeout(() => {
+    document.querySelectorAll('.flash').forEach(el => {
+      el.style.transition = 'opacity .4s, transform .4s';
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(60px)';
+      setTimeout(() => el.remove(), 400);
+    });
+  }, 4000);
+
+  /* ── If signup errors exist, show signup tab ── */
+  {% if signup_form and signup_form.errors %}
+    switchTab('signup');
+  {% endif %}
 </script>
 
 </body>

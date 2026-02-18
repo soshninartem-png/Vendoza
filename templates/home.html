@@ -375,144 +375,110 @@
     </div>
     <div class="offcanvas-body">
 
-      <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
-        <li class="nav-item border-dashed active">
-          <a href="{% url 'shop:fruits' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#fruits"></use>
-            </svg>
-            <span>Fruits and vegetables</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:dairy' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#dairy"></use>
-            </svg>
-            <span>Dairy and Eggs</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:meat' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#meat"></use>
-            </svg>
-            <span>Meat and Poultry</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:seafood' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#seafood"></use>
-            </svg>
-            <span>Seafood</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:bakery' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#bakery"></use>
-            </svg>
-            <span>Bakery and Bread</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:canned' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#canned"></use>
-            </svg>
-            <span>Canned Goods</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:frozen' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#frozen"></use>
-            </svg>
-            <span>Frozen Foods</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:pasta' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#pasta"></use>
-            </svg>
-            <span>Pasta and Rice</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:breakfast' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#breakfast"></use>
-            </svg>
-            <span>Breakfast Foods</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:snacks' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#snacks"></use>
-            </svg>
-            <span>Snacks and Chips</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:snacks' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#spices"></use>
-            </svg>
-            <span>Beverages</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:spices' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#spices"></use>
-            </svg>
-            <span>Spices and Seasonings</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:baby' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#baby"></use>
-            </svg>
-            <span>Baby Food and Formula</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:health' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#health"></use>
-            </svg>
-            <span>Health and Wellness</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:household' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#household"></use>
-            </svg>
-            <span>Household Supplies</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:personal' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#personal"></use>
-            </svg>
-            <span>Personal Care</span>
-          </a>
-        </li>
-        <li class="nav-item border-dashed">
-          <a href="{% url 'shop:pet' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#pet"></use>
-            </svg>
-            <span>Pet Food and Supplies</span>
-          </a>
-        </li>
-      </ul>
+     <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
+  <li class="nav-item border-dashed active">
+    <a href="{% url 'shop:category' 'fruits' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#fruits"></use></svg>
+      <span>Fruits and vegetables</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'dairy' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#dairy"></use></svg>
+      <span>Dairy and Eggs</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'meat' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#meat"></use></svg>
+      <span>Meat and Poultry</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'seafood' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#seafood"></use></svg>
+      <span>Seafood</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'bakery' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#bakery"></use></svg>
+      <span>Bakery and Bread</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'canned' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#canned"></use></svg>
+      <span>Canned Goods</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'frozen' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#frozen"></use></svg>
+      <span>Frozen Foods</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'pasta' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#pasta"></use></svg>
+      <span>Pasta and Rice</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'breakfast' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#breakfast"></use></svg>
+      <span>Breakfast Foods</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'snacks' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#snacks"></use></svg>
+      <span>Snacks and Chips</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'beverages' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#beverages"></use></svg>
+      <span>Beverages</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'spices' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#spices"></use></svg>
+      <span>Spices and Seasonings</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'baby' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#baby"></use></svg>
+      <span>Baby Food and Formula</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'health' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#health"></use></svg>
+      <span>Health and Wellness</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'household' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#household"></use></svg>
+      <span>Household Supplies</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'personal' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#personal"></use></svg>
+      <span>Personal Care</span>
+    </a>
+  </li>
+  <li class="nav-item border-dashed">
+    <a href="{% url 'shop:category' 'pet' %}" class="nav-link d-flex align-items-center gap-3 text-dark p-2">
+      <svg width="24" height="24" viewBox="0 0 24 24"><use xlink:href="#pet"></use></svg>
+      <span>Pet Food and Supplies</span>
+    </a>
+  </li>
+</ul>
 
     </div>
 
@@ -1001,94 +967,90 @@ function updateSearch() {
         transition:transform .35s ease;
       ">
 
-        <!-- CATEGORY ITEM -->
-        <a href="{% url 'shop:fruits' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e" />
-          <span>Fruits & Vegetables</span>
-        </a>
+      <a href="{% url 'shop:category' 'fruits' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1542838132-92c53300491e" />
+  <span>Fruits & Vegetables</span>
+</a>
 
-        <a href="{% url 'shop:dairy' %}" class="cat">
-          <img src="https://t4.ftcdn.net/jpg/00/78/39/25/360_F_78392550_0azqO8s1wBexN0q9dm1L3QbbAX6rQoPH.jpg" />
-          <span>Dairy & Eggs</span>
-        </a>
+<a href="{% url 'shop:category' 'dairy' %}" class="cat">
+  <img src="https://t4.ftcdn.net/jpg/00/78/39/25/360_F_78392550_0azqO8s1wBexN0q9dm1L3QbbAX6rQoPH.jpg" />
+  <span>Dairy & Eggs</span>
+</a>
 
-        <a href="{% url 'shop:meat' %}" class="cat">
-          <img src="https://vikingvillagefoods.com/wp-content/uploads/2018/01/meat-buying-items-68c.jpg" />
-          <span>Meat & Poultry</span>
-        </a>
+<a href="{% url 'shop:category' 'meat' %}" class="cat">
+  <img src="https://vikingvillagefoods.com/wp-content/uploads/2018/01/meat-buying-items-68c.jpg" />
+  <span>Meat & Poultry</span>
+</a>
 
-        <a href="{% url 'shop:seafood' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
-          <span>Seafood</span>
-        </a>
+<a href="{% url 'shop:category' 'seafood' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836" />
+  <span>Seafood</span>
+</a>
 
-        <a href="{% url 'shop:bakery' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1608198093002-ad4e005484ec" />
-          <span>Bakery & Bread</span>
-        </a>
+<a href="{% url 'shop:category' 'bakery' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1608198093002-ad4e005484ec" />
+  <span>Bakery & Bread</span>
+</a>
 
-        <a href="{% url 'shop:canned' %}" class="cat">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgXIJZsMIRuqp6yJ6xmBojmipyzGvTTkU9kAXazoNaA&s" />
-          <span>Canned Goods</span>
-        </a>
+<a href="{% url 'shop:category' 'canned' %}" class="cat">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgXIJZsMIRuqp6yJ6xmBojmipyzGvTTkU9kAXazoNaA&s" />
+  <span>Canned Goods</span>
+</a>
 
-        <a href="{% url 'shop:frozen' %}" class="cat">
+<a href="{% url 'shop:category' 'frozen' %}" class="cat">
   <img src="https://www.mytwintiers.com/wp-content/uploads/sites/89/2019/04/2189636061fc636026d5517d51b3adf4_1554642775935_81008419_ver1.0.png" />
   <span>Frozen Foods</span>
 </a>
 
+<a href="{% url 'shop:category' 'pasta' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0" />
+  <span>Pasta & Rice</span>
+</a>
 
-        <a href="{% url 'shop:pasta' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0" />
-          <span>Pasta & Rice</span>
-        </a>
+<a href="{% url 'shop:category' 'breakfast' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e" />
+  <span>Breakfast Foods</span>
+</a>
 
-        <a href="{% url 'shop:breakfast' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1551963831-b3b1ca40c98e" />
-          <span>Breakfast Foods</span>
-        </a>
-
-        <a href="{% url 'shop:snacks' %}" class="cat">
+<a href="{% url 'shop:category' 'snacks' %}" class="cat">
   <img src="https://cablevey.com/wp-content/uploads/2020/11/The-Complete-Guide-on-Snack-Foods.jpg" />
   <span>Snacks & Chips</span>
 </a>
 
+<a href="{% url 'shop:category' 'beverages' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e" />
+  <span>Beverages</span>
+</a>
 
-        <a href="{% url 'shop:beverages' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e" />
-          <span>Beverages</span>
-        </a>
+<a href="{% url 'shop:category' 'spices' %}" class="cat">
+  <img src="https://info.ehl.edu/hubfs/1440/1440x960-spices.jpg" />
+  <span>Spices & Seasonings</span>
+</a>
 
-        <a href="{% url 'shop:spices' %}" class="cat">
-          <img src="https://info.ehl.edu/hubfs/1440/1440x960-spices.jpg" />
-          <span>Spices & Seasonings</span>
-        </a>
+<a href="{% url 'shop:category' 'baby' %}" class="cat">
+  <img src="..." />
+  <span>Baby Food</span>
+</a>
 
-        <a href="{% url 'shop:baby' %}" class="cat">
-          <img src="data:image/jpeg;base64,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" />
-          <span>Baby Food</span>
-        </a>
+<a href="{% url 'shop:category' 'health' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" />
+  <span>Health & Wellness</span>
+</a>
 
-        <a href="{% url 'shop:health' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b" />
-          <span>Health & Wellness</span>
-        </a>
+<a href="{% url 'shop:category' 'household' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1583947215259-38e31be8751f" />
+  <span>Household Supplies</span>
+</a>
 
-        <a href="{% url 'shop:household' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1583947215259-38e31be8751f" />
-          <span>Household Supplies</span>
-        </a>
+<a href="{% url 'shop:category' 'personal' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" />
+  <span>Personal Care</span>
+</a>
 
-        <a href="{% url 'shop:personal' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" />
-          <span>Personal Care</span>
-        </a>
-
-        <a href="{% url 'shop:pet' %}" class="cat">
-          <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e" />
-          <span>Pet Food & Supplies</span>
-        </a>
-
+<a href="{% url 'shop:category' 'pet' %}" class="cat">
+  <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e" />
+  <span>Pet Food & Supplies</span>
+</a>
       </div>
     </div>
   </div>
