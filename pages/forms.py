@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-from pages.models import Profile
+from pages.models import Profile, Product
 
 
 
@@ -50,3 +50,8 @@ class ProfileEditForm(forms.ModelForm):
 
 
 
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'category', 'price', 'image', 'unit_type']

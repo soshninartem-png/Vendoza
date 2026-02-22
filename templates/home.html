@@ -573,260 +573,384 @@ function updateSearch() {
 
 
         <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
-          <ul class="d-flex justify-content-end list-unstyled m-0">
-            <li>
-              <!-- Иконка профиля -->
-            <li>
-              <a href="#" class="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile"
-                aria-controls="offcanvasProfile">
-                <svg width="24" height="24">
-                  <use xlink:href="#user"></use>
-                </svg>
-              </a>
-            </li>
+  <ul class="d-flex justify-content-end list-unstyled m-0">
+    <li>
+    <li>
+      <a href="#" class="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile"
+        aria-controls="offcanvasProfile">
+        <svg width="24" height="24">
+          <use xlink:href="#user"></use>
+        </svg>
+      </a>
+    </li>
 
-            <!-- Offcanvas: профиль (как Uzum) -->
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfile" style="width:360px;">
-              <div class="offcanvas-header">
-                <h5 class="offcanvas-title">Profile</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-              </div>
-              
- 
-              
-              <div class="offcanvas-body">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasProfile" style="width:360px;">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title">Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      </div>
 
-                {% if user.is_authenticated %}
+      <div class="offcanvas-body">
 
-                <!-- Верх профиля -->
-                <div class="d-flex align-items-center gap-3 mb-4">
-                  {% if user.profile.avatar %}
-                  <img src="{{ user.profile.avatar.url }}" class="rounded-circle" width="56" height="56"
-                    style="object-fit:cover;">
-                  {% else %}
-                  <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
-                    style="width:56px;height:56px;">
-                    <svg width="24" height="24">
-                      <use xlink:href="#user"></use>
-                    </svg>
-                  </div>
-                  {% endif %}
+        {% if user.is_authenticated %}
 
-                  <div>
-                    <strong>{{ user.username }}</strong><br>
-                    <small class="text-muted">{{ user.email }}</small>
-                  </div>
-                </div>
-                
+        <div class="d-flex align-items-center gap-3 mb-4">
+          {% if user.profile.avatar %}
+          <img src="{{ user.profile.avatar.url }}" class="rounded-circle" width="56" height="56"
+            style="object-fit:cover;">
+          {% else %}
+          <div class="rounded-circle bg-light d-flex align-items-center justify-content-center"
+            style="width:56px;height:56px;">
+            <svg width="24" height="24">
+              <use xlink:href="#user"></use>
+            </svg>
+          </div>
+          {% endif %}
 
-                <!-- Меню как в Uzum -->
-                <ul class="list-unstyled">
-
-                  <li class="mb-3">
-                    <a href="#" class="text-decoration-none d-flex align-items-center gap-2 text-dark">
-                      📦 <span>My orders</span>
-                    </a>
-                  </li>
-
-                  <li class="mb-3">
-                    <a href="#" class="text-decoration-none d-flex align-items-center gap-2 text-dark">
-                      ❤️ <span>Wishlist</span>
-                    </a>
-                  </li>
-
-<a href="{% url 'shop:balance' %}"
-   style="
-     display:flex;
-     align-items:center;
-     justify-content:center;
-     gap:10px;
-     width:100%;
-     padding:12px 16px;
-     margin-top:12px;
-     background:#ffffff;
-     color:#111827;
-     text-decoration:none;
-     font-size:15px;
-     font-weight:500;
-     border-radius:12px;
-     border:1px solid #e5e7eb;
-   "
->
-    <span style="
-        width:26px;
-        height:26px;
-        border-radius:50%;
-        background:#f3f4f6;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:18px;
-        font-weight:600;
-        color:#111827;
-    ">💰</span>
-    Пополнить баланс
-</a>
-
-
-
-<a href="{% url 'shop:courier_page' %}"
-   style="
-     display:flex;
-     align-items:center;
-     justify-content:center;
-     gap:10px;
-     width:100%;
-     padding:12px 16px;
-     margin-top:12px;
-     background:#ffffff;
-     color:#111827;
-     text-decoration:none;
-     font-size:15px;
-     font-weight:500;
-     border-radius:12px;
-     border:1px solid #e5e7eb;
-     transition: 0.3s;
-   "
-   onmouseover="this.style.background='#f3f4f6'; this.style.transform='scale(1.03)';"
-   onmouseout="this.style.background='#ffffff'; this.style.transform='scale(1)';"
->
-    <span style="
-        width:26px;
-        height:26px;
-        border-radius:50%;
-        background:#f3f4f6;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:18px;
-        font-weight:600;
-        color:#111827;
-    ">🧑‍🚴</span>
-    Стать курьером
-</a>
-
-
-
-<!-- Кнопка для перехода на moizakazu.html -->
-<a href="{% url 'shop:moizakazu' %}"
-   style="
-     display:flex;
-     align-items:center;
-     justify-content:center;
-     gap:10px;
-     width:100%;
-     padding:12px 16px;
-     margin-top:12px;
-     background:#ffffff;
-     color:#111827;
-     text-decoration:none;
-     font-size:15px;
-     font-weight:500;
-     border-radius:12px;
-     border:1px solid #e5e7eb;
-     transition: 0.3s;
-   "
-   onmouseover="this.style.background='#f3f4f6'; this.style.transform='scale(1.03)';"
-   onmouseout="this.style.background='#ffffff'; this.style.transform='scale(1)';"
->
-    <span style="
-        width:26px;
-        height:26px;
-        border-radius:50%;
-        background:#f3f4f6;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:18px;
-        font-weight:600;
-        color:#111827;
-    ">🛒</span>
-    Мои заказы
-</a>
-
-
-
-                  
-
-
-
-
-                  
-                    <a href="{% url 'shop:create_tovar' %}"
-   style="
-     display:flex;
-     align-items:center;
-     justify-content:center;
-     gap:10px;
-     width:100%;
-     padding:12px 16px;
-     margin-top:12px;
-     background:#ffffff;
-     color:#111827;
-     text-decoration:none;
-     font-size:15px;
-     font-weight:500;
-     border-radius:12px;
-     border:1px solid #e5e7eb;
-   "
->
-    <span style="
-        width:26px;
-        height:26px;
-        border-radius:50%;
-        background:#f3f4f6;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-size:18px;
-        font-weight:600;
-        color:#111827;
-    ">+</span>
-    Создать товар
-</a>
- <br>
-
-
-
-                </ul>
-
-                <a href="{% url 'shop:logout' %}" class="btn btn-outline-danger w-100">
-                  Logout
-                </a>
-
-                {% else %}
-
-                <!-- НЕ залогинен -->
-                <p class="text-muted mb-3">You are not logged in</p>
-
-                <div class="d-flex flex-column gap-2">
-                  <a href="{% url 'shop:login' %}" class="btn btn-primary w-100">Login</a>
-                  <a href="{% url 'shop:signup' %}" class="btn btn-outline-secondary w-100">Register</a>
-                </div>
-
-                {% endif %}
-
-              </div>
-            </div>
-            </li>
-            <li>
-  <a href="{% url 'shop:wishlist' %}" class="p-2 mx-1">
-    <svg width="24" height="24">
-      <use xlink:href="#wishlist"></use>
-    </svg>
-  </a>
-</li>
-
-            <li>
-              <a href="{% url 'shop:cart' %}" class="p-2 mx-1">
-                <svg width="24" height="24">
-                  <use xlink:href="#shopping-bag"></use>
-                </svg>
-              </a>
-
-            </li>
-          </ul>
+          <div>
+            <strong>{{ user.username }}</strong><br>
+            <small class="text-muted">{{ user.email }}</small>
+          </div>
         </div>
+
+        <ul class="list-unstyled">
+
+          <a href="{% url 'shop:moizakazu' %}"
+             style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 16px;margin-top:12px;background:#ffffff;color:#111827;text-decoration:none;font-size:15px;font-weight:500;border-radius:12px;border:1px solid #e5e7eb;transition:0.3s;"
+             onmouseover="this.style.background='#f3f4f6'; this.style.transform='scale(1.03)';"
+             onmouseout="this.style.background='#ffffff'; this.style.transform='scale(1)';">
+            <span style="width:26px;height:26px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#111827;">🛒</span>
+            Мои заказы
+          </a>
+
+          <a href="{% url 'shop:create_tovar' %}"
+             style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px 16px;margin-top:12px;background:#ffffff;color:#111827;text-decoration:none;font-size:15px;font-weight:500;border-radius:12px;border:1px solid #e5e7eb;">
+            <span style="width:26px;height:26px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#111827;">+</span>
+            Создать товар
+          </a>
+          <br>
+  <style>
+  * { box-sizing: border-box; }
+
+  .settings-wrapper { width: 100%; margin-top: 12px; }
+
+  .settings-btn {
+    display: flex; align-items: center; justify-content: center;
+    gap: 10px; width: 100%; padding: 12px 16px;
+    background: #ffffff; color: #111827; font-size: 15px;
+    font-weight: 500; border-radius: 12px; border: 1px solid #e5e7eb;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .settings-btn:hover { background: #f9fafb; }
+
+  .settings-btn .icon {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: #f3f4f6; display: flex; align-items: center;
+    justify-content: center; font-size: 16px; color: #111827;
+  }
+
+  .params-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    background: #fff; border-radius: 12px;
+    border: 1px solid transparent; margin-top: 6px;
+  }
+  .params-row.open {
+    max-height: 200px; padding: 10px 12px;
+    border-color: #e5e7eb;
+  }
+
+  .param-btn {
+    padding: 6px 14px; background: #f3f4f6;
+    border: 1px solid #e5e7eb; border-radius: 8px;
+    font-size: 13px; font-weight: 500; color: #111827;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .param-btn:hover { background: #e5e7eb; }
+
+  /* МОДАЛКА */
+  .s-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45); z-index: 9999;
+    align-items: center; justify-content: center;
+  }
+  .s-overlay.open { display: flex; }
+
+  .s-modal {
+    background: #fff; border-radius: 18px;
+    padding: 28px 24px; width: 100%; max-width: 350px;
+    position: relative; animation: pop 0.25s ease;
+  }
+  @keyframes pop {
+    from { transform: scale(0.88); opacity: 0; }
+    to   { transform: scale(1);    opacity: 1; }
+  }
+
+  .s-modal h3 { font-size: 17px; font-weight: 600; margin-bottom: 18px; color: #111827; }
+
+  .s-modal input {
+    width: 100%; padding: 11px 14px; margin-bottom: 10px;
+    border: 1px solid #e5e7eb; border-radius: 10px;
+    font-size: 14px; outline: none; transition: border 0.2s;
+    color: #111827;
+  }
+  .s-modal input:focus { border-color: #111827; }
+
+  .s-modal .actions { display: flex; gap: 8px; margin-top: 6px; }
+
+  .s-save {
+    flex: 1; padding: 11px; background: #111827; color: #fff;
+    border: none; border-radius: 10px; font-size: 14px;
+    font-weight: 500; cursor: pointer;
+  }
+  .s-save:hover { background: #1f2937; }
+
+  .s-cancel {
+    flex: 1; padding: 11px; background: #f3f4f6; color: #111827;
+    border: 1px solid #e5e7eb; border-radius: 10px;
+    font-size: 14px; cursor: pointer;
+  }
+  .s-cancel:hover { background: #e5e7eb; }
+
+  .s-close {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none; font-size: 20px;
+    cursor: pointer; color: #9ca3af; line-height: 1;
+  }
+
+  .s-success {
+    display: none; text-align: center;
+    background: #d1fae5; color: #065f46;
+    border-radius: 8px; padding: 8px 12px;
+    font-size: 13px; margin-top: 10px;
+  }
+
+  .s-error {
+    display: none; text-align: center;
+    background: #fee2e2; color: #991b1b;
+    border-radius: 8px; padding: 8px 12px;
+    font-size: 13px; margin-top: 10px;
+  }
+</style>
+
+<!-- КНОПКА НАСТРОЙКИ -->
+<div class="settings-wrapper">
+  <button class="settings-btn" onclick="toggleParams()">
+    <span class="icon">⚙️</span>
+    Настройки
+  </button>
+
+  <!-- ПАРАМЕТРЫ -->
+  <div class="params-row" id="paramsRow">
+    <button class="param-btn" onclick="openModal('name')">✏️ Имя</button>
+    <button class="param-btn" onclick="openModal('email')">📧 Почта</button>
+    <button class="param-btn" onclick="openModal('username')">👤 Логин</button>
+    <button class="param-btn" onclick="openModal('password')">🔑 Пароль</button>
+    <button class="param-btn" onclick="openModal('phone')">📱 Телефон</button>
+  </div>
+</div>
+
+<!-- МОДАЛКА -->
+<div class="s-overlay" id="sOverlay">
+  <div class="s-modal">
+    <button class="s-close" onclick="closeModal()">✕</button>
+    <h3 id="sTitle"></h3>
+    <div id="sFields"></div>
+    <div class="actions">
+      <button class="s-cancel" onclick="closeModal()">Отмена</button>
+      <button class="s-save" onclick="saveModal()">Сохранить</button>
+    </div>
+    <div class="s-success" id="sSuccess">✅ Сохранено!</div>
+    <div class="s-error"   id="sError"></div>
+  </div>
+</div>
+
+<script>
+  const MODALS = {
+    name: {
+      title: '✏️ Изменить имя',
+      fields: [
+        { id: 'first_name', placeholder: 'Имя',      type: 'text' },
+        { id: 'last_name',  placeholder: 'Фамилия',  type: 'text' }
+      ],
+      validate(d) {
+        if (!d.first_name.trim()) return 'Введите имя';
+        return null;
+      }
+    },
+    email: {
+      title: '📧 Изменить почту',
+      fields: [
+        { id: 'email', placeholder: 'Новая почта', type: 'email' }
+      ],
+      validate(d) {
+        if (!d.email.includes('@')) return 'Некорректная почта';
+        return null;
+      }
+    },
+    username: {
+      title: '👤 Изменить логин',
+      fields: [
+        { id: 'username', placeholder: 'Новый логин', type: 'text' }
+      ],
+      validate(d) {
+        if (d.username.trim().length < 3) return 'Минимум 3 символа';
+        return null;
+      }
+    },
+    password: {
+      title: '🔑 Изменить пароль',
+      fields: [
+        { id: 'old_password',  placeholder: 'Старый пароль',    type: 'password' },
+        { id: 'new_password1', placeholder: 'Новый пароль',     type: 'password' },
+        { id: 'new_password2', placeholder: 'Повторите пароль', type: 'password' }
+      ],
+      validate(d) {
+        if (!d.old_password)             return 'Введите старый пароль';
+        if (d.new_password1.length < 6)  return 'Пароль минимум 6 символов';
+        if (d.new_password1 !== d.new_password2) return 'Пароли не совпадают';
+        return null;
+      }
+    },
+    phone: {
+      title: '📱 Изменить телефон',
+      fields: [
+        { id: 'phone', placeholder: '+7 000 000 00 00', type: 'tel' }
+      ],
+      validate(d) {
+        if (d.phone.trim().length < 7) return 'Введите корректный номер';
+        return null;
+      }
+    }
+  };
+
+  let currentType = null;
+
+  function toggleParams() {
+    document.getElementById('paramsRow').classList.toggle('open');
+  }
+
+  function openModal(type) {
+    currentType = type;
+    const cfg = MODALS[type];
+
+    document.getElementById('sTitle').textContent = cfg.title;
+    document.getElementById('sSuccess').style.display = 'none';
+    document.getElementById('sError').style.display   = 'none';
+
+    document.getElementById('sFields').innerHTML = cfg.fields
+      .map(f => `<input id="${f.id}" type="${f.type}" placeholder="${f.placeholder}">`)
+      .join('');
+
+    document.getElementById('sOverlay').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('sOverlay').classList.remove('open');
+    currentType = null;
+  }
+
+  // Закрыть по клику на фон
+  document.getElementById('sOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  function getCookie(name) {
+    return document.cookie.split(';').reduce((val, c) => {
+      const [k, v] = c.trim().split('=');
+      return k === name ? decodeURIComponent(v) : val;
+    }, '');
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('sError');
+    el.textContent = '❌ ' + msg;
+    el.style.display = 'block';
+  }
+
+  function saveModal() {
+    const cfg = MODALS[currentType];
+    const data = {};
+
+    cfg.fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      if (el) data[f.id] = el.value;
+    });
+
+    // ВАЛИДАЦИЯ
+    const err = cfg.validate(data);
+    if (err) { showError(err); return; }
+
+    document.getElementById('sError').style.display   = 'none';
+    document.getElementById('sSuccess').style.display = 'none';
+
+    // ОТПРАВКА НА СЕРВЕР
+    // СТАЛО
+const urls = {
+  name:     '/settings/change-name/',
+  email:    '/settings/change-email/',
+  username: '/settings/change-username/',
+  password: '/settings/change-password/',
+  phone:    '/settings/change-phone/'
+};
+
+    fetch(urls[currentType], {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken')
+      },
+      body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(res => {
+      if (res.success) {
+        document.getElementById('sSuccess').style.display = 'block';
+        setTimeout(() => closeModal(), 1500);
+      } else {
+        showError(res.error || 'Ошибка, попробуйте снова');
+      }
+    })
+    .catch(() => showError('Ошибка сети'));
+  }
+</script>
+        <a href="{% url 'shop:logout' %}" class="btn btn-outline-danger w-100">
+          Logout
+        </a>
+
+        {% else %}
+
+        <p class="text-muted mb-3">You are not logged in</p>
+
+        <div class="d-flex flex-column gap-2">
+          <a href="{% url 'shop:login' %}" class="btn btn-primary w-100">Login</a>
+          <a href="{% url 'shop:signup' %}" class="btn btn-outline-secondary w-100">Register</a>
+        </div>
+
+        {% endif %}
+
+      </div>
+    </div>
+    </li>
+
+    <li>
+      <a href="{% url 'shop:wishlist' %}" class="p-2 mx-1">
+        <svg width="24" height="24">
+          <use xlink:href="#wishlist"></use>
+        </svg>
+      </a>
+    </li>
+
+    <li>
+      <a href="{% url 'shop:cart' %}" class="p-2 mx-1">
+        <svg width="24" height="24">
+          <use xlink:href="#shopping-bag"></use>
+        </svg>
+      </a>
+    </li>
+  </ul>
+</div>
 
       </div>
     </div>

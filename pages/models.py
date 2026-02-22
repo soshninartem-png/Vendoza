@@ -431,3 +431,42 @@ class PromoCodeUsage(models.Model):
 
     def __str__(self):
         return f"{self.promo_code.code} - Заказ #{self.order.order_number if self.order else 'N/A'}"
+    
+
+
+
+
+
+
+
+class UserSettings(models.Model):
+    LANGUAGE_CHOICES = [
+        ('ru', 'Русский'),
+        ('en', 'English'),
+        ('uz', "O'zbek"),
+    ]
+
+    user        = models.OneToOneField(User, on_delete=models.CASCADE, related_name='settings')
+
+    # Уведомления
+    notif_email = models.BooleanField(default=True,  verbose_name='Email-уведомления')
+    notif_push  = models.BooleanField(default=False, verbose_name='Push-уведомления')
+    notif_sms   = models.BooleanField(default=True,  verbose_name='SMS-уведомления')
+
+    # Интерфейс
+    dark_mode   = models.BooleanField(default=False, verbose_name='Тёмная тема')
+    language    = models.CharField(max_length=5, choices=LANGUAGE_CHOICES, default='ru', verbose_name='Язык')
+    volume      = models.PositiveIntegerField(default=70, verbose_name='Громкость (%)')
+
+    # Приватность
+    analytics   = models.BooleanField(default=True,  verbose_name='Сбор аналитики')
+    twofa       = models.BooleanField(default=False, verbose_name='Двухфакторная аутентификация')
+
+    updated_at  = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name        = 'Настройки пользователя'
+        verbose_name_plural = 'Настройки пользователей'
+
+    def __str__(self):
+        return f'Настройки {self.user.username}'

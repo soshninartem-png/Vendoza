@@ -24,7 +24,15 @@ urlpatterns = [
     path('create_tovar/', views.create_tovar, name='create_tovar'),
     path('moizakazu/', views.moizakazu, name='moizakazu'),
     path('api/apply-promo-code/', views.apply_promo_code, name='apply_promo_code'),
-
+    path('settings/',       views.settings_view, name='settings'),
+    path('settings/save/',  views.settings_save, name='settings-save'),
     # ✅ ОДИН маршрут вместо 17
+
     path('category/<slug:slug>/', views.category_view, name='category'),
+
+    path('settings/change-phone/', views.change_phone, name='change_phone'),
+    path('settings/change-name/',     views.change_name,     name='change_name'),
+    path('settings/change-email/',    views.change_email,    name='change_email'),
+    path('settings/change-username/', views.change_username, name='change_username'),
+    path('settings/change-password/', views.change_password, name='change_password'),
 ]

@@ -16,9 +16,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 
 
-# ─────────────────────────────────────────────
-#  КАТЕГОРИИ — мета-данные (название + иконка)
-# ─────────────────────────────────────────────
 CATEGORY_META = {
     'fruits':    {'name': 'Fruits & Vegetables', 'icon': '🥦'},
     'dairy':     {'name': 'Dairy & Eggs',         'icon': '🥚'},
@@ -40,42 +37,32 @@ CATEGORY_META = {
 }
 
 
-# ─────────────────────────────────────────────
-#  ОДИН VIEW ДЛЯ ВСЕХ КАТЕГОРИЙ
-# ─────────────────────────────────────────────
 def category_view(request, slug):
     meta = CATEGORY_META.get(slug, {
         'name': slug.replace('-', ' ').title(),
         'icon': '🛒',
     })
 
-    # Ищем категорию по slug ИЛИ по названию
     category_obj = None
     category_name = meta['name']
 
-    # Пробуем найти по точному slug
     try:
         category_obj = Category.objects.get(slug=slug)
     except Category.DoesNotExist:
         pass
 
-    # Если не нашли — ищем по названию (contains)
     if not category_obj:
         try:
-            category_obj = Category.objects.filter(
-                name__icontains=slug
-            ).first()
+            category_obj = Category.objects.filter(name__icontains=slug).first()
         except:
             pass
 
-    # Если нашли категорию — берём её продукты
     if category_obj:
         products = Product.objects.filter(category=category_obj)
         category_name = category_obj.name
     else:
         products = Product.objects.none()
 
-    # Поиск
     search_query = request.GET.get('q', '')
     if search_query:
         products = products.filter(
@@ -83,13 +70,11 @@ def category_view(request, slug):
             Q(description__icontains=search_query)
         )
 
-    # Сортировка
     sort_by = request.GET.get('sort', '-created_at')
     allowed_sorts = ['price', '-price', 'name', '-name', 'created_at', '-created_at']
     if sort_by in allowed_sorts:
         products = products.order_by(sort_by)
 
-    # Пагинация
     paginator = Paginator(products, 12)
     page_number = request.GET.get('page', 1)
     try:
@@ -114,9 +99,6 @@ def category_view(request, slug):
     return render(request, 'categories/category.html', context)
 
 
-# ─────────────────────────────────────────────
-#  HOME
-# ─────────────────────────────────────────────
 def home(request):
     categories = Category.objects.all()
     category_slug = request.GET.get('category', '')
@@ -163,9 +145,6 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-# ─────────────────────────────────────────────
-#  PROMO CODE API
-# ─────────────────────────────────────────────
 @csrf_exempt
 def apply_promo_code(request):
     if request.method == 'POST':
@@ -217,9 +196,6 @@ def apply_promo_code(request):
     return JsonResponse({'success': False, 'message': 'Метод не разрешен'}, status=405)
 
 
-# ─────────────────────────────────────────────
-#  AUTH
-# ─────────────────────────────────────────────
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -264,9 +240,6 @@ def logout_view(request):
     return redirect('shop:home')
 
 
-# ─────────────────────────────────────────────
-#  CART
-# ─────────────────────────────────────────────
 @login_required(login_url='login')
 def cart_view(request):
     cart_items = CartItem.objects.filter(user=request.user)
@@ -402,9 +375,6 @@ def edit_cart_item(request, pk):
     return redirect('cart')
 
 
-# ─────────────────────────────────────────────
-#  CHECKOUT
-# ─────────────────────────────────────────────
 @login_required
 def checkout_view(request):
     cart_items = CartItem.objects.filter(user=request.user)
@@ -454,9 +424,6 @@ def checkout(request):
     return render(request, 'checkout.html', {'cart_items': cart_items})
 
 
-# ─────────────────────────────────────────────
-#  ORDERS / ZAKAZ
-# ─────────────────────────────────────────────
 def zakaz_view(request):
     if request.user.is_authenticated:
         cart_items = CartItem.objects.filter(user=request.user)
@@ -546,10 +513,7 @@ def create_order(request):
 
 @login_required
 def moizakazu(request):
-    if request.user.is_authenticated:
-        orders = Order.objects.filter(user=request.user).prefetch_related('items__product')
-    else:
-        orders = []
+    orders = Order.objects.filter(user=request.user).prefetch_related('items__product')
     return render(request, 'moizakazu.html', {'orders': orders})
 
 
@@ -560,28 +524,57 @@ def product_orders_view(request, product_id):
     return render(request, 'product_orders.html', {'product': product, 'orders': orders})
 
 
-# ─────────────────────────────────────────────
-#  PRODUCTS
-# ─────────────────────────────────────────────
 def product_detail(request, id):
     product = get_object_or_404(Product, id=id)
     return render(request, 'product_detail.html', {'product': product})
 
 
+# ─────────────────────────────────────────────
+#  CREATE TOVAR — ИСПРАВЛЕННЫЙ
+# ─────────────────────────────────────────────
+@login_required(login_url='shop:login')
 def create_tovar(request):
+    categories = Category.objects.all()
     if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        price = request.POST.get('price')
+        name = request.POST.get('name', '').strip()
+        description = request.POST.get('description', '').strip()
+        price = request.POST.get('price', '0')
+        category_id = request.POST.get('category')
+        unit_type = request.POST.get('unit_type', 'pcs')
         image = request.FILES.get('image')
-        Product.objects.create(name=name, description=description, price=price, image=image)
-        return redirect('home')
-    return render(request, 'create_tovar.html')
+
+        if not name or not price:
+            messages.error(request, 'Заполните все обязательные поля!')
+            return render(request, 'create_tovar.html', {'categories': categories})
+
+        try:
+            price = Decimal(price)
+        except:
+            messages.error(request, 'Неверный формат цены!')
+            return render(request, 'create_tovar.html', {'categories': categories})
+
+        category = None
+        if category_id:
+            try:
+                category = Category.objects.get(id=category_id)
+            except Category.DoesNotExist:
+                pass
+
+        Product.objects.create(
+            name=name,
+            description=description,
+            price=price,
+            category=category,
+            unit_type=unit_type,
+            image=image,
+        )
+
+        messages.success(request, f'Товар "{name}" успешно создан!')
+        return redirect('shop:home')
+
+    return render(request, 'create_tovar.html', {'categories': categories})
 
 
-# ─────────────────────────────────────────────
-#  SEARCH
-# ─────────────────────────────────────────────
 def search_view(request):
     query = request.GET.get('q', '')
     category_id = request.GET.get('category')
@@ -599,9 +592,6 @@ def search_view(request):
     })
 
 
-# ─────────────────────────────────────────────
-#  WISHLIST
-# ─────────────────────────────────────────────
 @login_required(login_url='shop:login')
 def wishlist(request):
     if request.method == "POST":
@@ -624,9 +614,6 @@ def add_to_wishlist(request, product_id):
     return redirect("wishlist")
 
 
-# ─────────────────────────────────────────────
-#  PROFILE
-# ─────────────────────────────────────────────
 def profile(request):
     return render(request, 'base.html', {
         'signup_form': SignUpForm(),
@@ -647,12 +634,172 @@ def profile_edit(request):
     return render(request, 'profile_edit.html', {'form': form})
 
 
-# ─────────────────────────────────────────────
-#  OTHER PAGES
-# ─────────────────────────────────────────────
 def balance_view(request):
     return render(request, 'balance.html')
 
 
 def courier_page(request):
     return render(request, 'courier.html')
+
+
+
+
+from .models import UserSettings
+
+
+@login_required
+def settings_view(request):
+    """Страница с панелью настроек."""
+    # Получаем или создаём настройки текущего пользователя
+    user_settings, _ = UserSettings.objects.get_or_create(user=request.user)
+    return render(request, 'settings.html', {
+        'user': request.user,
+        'settings': user_settings,
+    })
+
+@login_required
+@require_POST
+def settings_save(request):
+    """
+    Универсальный endpoint для сохранения настроек.
+    Принимает JSON, обрабатывает:
+      - username
+      - email
+      - old_password + new_password
+      - dark_mode, analytics, twofa (bool)
+      - language (str)
+    """
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
+
+    user = request.user
+
+    # ── Изменить имя пользователя ──
+    if 'username' in data:
+        new_username = data['username'].strip()
+        if not new_username:
+            return JsonResponse({'success': False, 'error': 'Имя не может быть пустым'})
+        from django.contrib.auth.models import User
+        if User.objects.filter(username=new_username).exclude(pk=user.pk).exists():
+            return JsonResponse({'success': False, 'error': 'Это имя уже занято'})
+        user.username = new_username
+        user.save(update_fields=['username'])
+        return JsonResponse({'success': True})
+
+    # ── Изменить email ──
+    if 'email' in data:
+        new_email = data['email'].strip()
+        if not new_email or '@' not in new_email:
+            return JsonResponse({'success': False, 'error': 'Некорректный email'})
+        user.email = new_email
+        user.save(update_fields=['email'])
+        return JsonResponse({'success': True})
+
+    # ── Сменить пароль ──
+    if 'old_password' in data and 'new_password' in data:
+        if not user.check_password(data['old_password']):
+            return JsonResponse({'success': False, 'error': 'Неверный текущий пароль'})
+        new_pw = data['new_password']
+        if len(new_pw) < 6:
+            return JsonResponse({'success': False, 'error': 'Минимум 6 символов'})
+        user.set_password(new_pw)
+        user.save()
+        # обновляем сессию чтобы не разлогинился
+        from django.contrib.auth import update_session_auth_hash
+        update_session_auth_hash(request, user)
+        return JsonResponse({'success': True})
+
+    # ── Сохранить настройки (тогглы, язык) ──
+    user_settings, _ = UserSettings.objects.get_or_create(user=user)
+
+    if 'dark_mode' in data:
+        user_settings.dark_mode = bool(data['dark_mode'])
+    if 'analytics' in data:
+        user_settings.analytics = bool(data['analytics'])
+    if 'twofa' in data:
+        user_settings.twofa = bool(data['twofa'])
+    if 'language' in data:
+        user_settings.language = data['language']
+
+    user_settings.save()
+    return JsonResponse({'success': True})
+
+
+
+
+
+@login_required
+def change_name(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    try:
+        data = json.loads(request.body)
+        request.user.first_name = data.get('first_name', '').strip()
+        request.user.last_name  = data.get('last_name', '').strip()
+        request.user.save()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@login_required
+def change_email(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    try:
+        data = json.loads(request.body)
+        request.user.email = data.get('email', '').strip()
+        request.user.save()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@login_required
+def change_username(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    try:
+        data = json.loads(request.body)
+        from django.contrib.auth.models import User
+        new_username = data.get('username', '').strip()
+        if User.objects.filter(username=new_username).exclude(pk=request.user.pk).exists():
+            return JsonResponse({'success': False, 'error': 'Логин уже занят'})
+        request.user.username = new_username
+        request.user.save()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@login_required
+def change_password(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    try:
+        data = json.loads(request.body)
+        user = request.user
+        if not user.check_password(data.get('old_password', '')):
+            return JsonResponse({'success': False, 'error': 'Неверный старый пароль'})
+        if data.get('new_password1') != data.get('new_password2'):
+            return JsonResponse({'success': False, 'error': 'Пароли не совпадают'})
+        if len(data.get('new_password1', '')) < 6:
+            return JsonResponse({'success': False, 'error': 'Минимум 6 символов'})
+        user.set_password(data['new_password1'])
+        user.save()
+        update_session_auth_hash(request, user)
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+@login_required
+def change_phone(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    try:
+        data = json.loads(request.body)
+        profile = request.user.profile
+        profile.phone = data.get('phone', '').strip()
+        profile.save()
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

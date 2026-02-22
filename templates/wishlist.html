@@ -32,8 +32,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text-main);
 form{margin:0;}
 input[type="hidden"]{display:none;}
 a{text-decoration:none;}
-
-/* LAYOUT */
 .layout{display:flex;min-height:100vh;}
 
 /* SIDEBAR */
@@ -75,15 +73,6 @@ a{text-decoration:none;}
 .wishlist-toolbar{display:flex;align-items:center;gap:14px;margin-bottom:20px;flex-wrap:wrap;}
 .wishlist-title{font-size:1.35rem;font-weight:700;letter-spacing:-.3px;}
 .badge-count{background:var(--green-light);color:var(--green);border:1px solid rgba(61,191,108,.25);padding:4px 12px;border-radius:50px;font-size:.8rem;font-weight:700;}
-.wishlist-search-wrap{position:relative;display:flex;align-items:center;flex:1;max-width:380px;}
-.wishlist-search-icon{position:absolute;left:12px;color:var(--text-sub);font-size:.85rem;pointer-events:none;}
-.wishlist-search-input{width:100%;height:38px;padding:0 36px;border:1.5px solid var(--border);border-radius:9px;background:#fff;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--text-main);outline:none;transition:all .25s;}
-.wishlist-search-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(61,191,108,.12);}
-.wishlist-search-input::placeholder{color:var(--text-sub);}
-.wishlist-search-clear{position:absolute;right:10px;background:none;border:none;color:var(--text-sub);font-size:.82rem;cursor:pointer;padding:4px;transition:color .2s;display:none;}
-.wishlist-search-clear:hover{color:#ef4444;}
-.wishlist-filter-select,.sort-select{padding:7px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:'Inter',sans-serif;font-size:.85rem;color:var(--text-main);cursor:pointer;outline:none;transition:border .2s;}
-.wishlist-filter-select:focus,.sort-select:focus{border-color:var(--green);}
 .toolbar-view-btns{display:flex;gap:4px;}
 .view-btn{width:34px;height:34px;border-radius:7px;border:1.5px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-sub);font-size:.9rem;transition:all .2s;}
 .view-btn.active,.view-btn:hover{border-color:var(--green);color:var(--green);background:var(--green-light);}
@@ -105,29 +94,21 @@ a{text-decoration:none;}
 .product-card:nth-child(5){animation-delay:.25s}
 .product-card:nth-child(6){animation-delay:.30s}
 .product-card:hover{border-color:#d1d5db;box-shadow:var(--shadow-md);transform:translateY(-3px);}
-
 .product-image-container{position:relative;width:100%;aspect-ratio:1;background:#f3f4f6;overflow:hidden;display:flex;align-items:center;justify-content:center;}
 .product-image{width:100%;height:100%;object-fit:cover;transition:transform .4s cubic-bezier(.4,0,.2,1);}
 .product-card:hover .product-image{transform:scale(1.05);}
-
-/* Heart (remove from wishlist) — top right of image */
 .wishlist-heart-btn{position:absolute;top:10px;right:10px;width:34px;height:34px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.95rem;box-shadow:var(--shadow-sm);z-index:2;cursor:pointer;transition:all .25s;border:none;}
 .wishlist-heart-btn:hover{transform:scale(1.18);color:#e91e63;background:#fce4ec;}
-
 .card-meta-badges{position:absolute;bottom:10px;left:10px;right:10px;display:flex;align-items:center;justify-content:space-between;gap:6px;}
 .badge-location{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:4px 9px;border-radius:6px;font-size:.72rem;color:var(--text-sub);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:70%;}
 .badge-location i{color:var(--green);font-size:.7rem;}
 .badge-date{background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:4px 9px;border-radius:6px;font-size:.72rem;color:var(--text-sub);font-weight:500;white-space:nowrap;}
-
-/* Card Body */
 .card-body{padding:14px 16px 16px;}
 .product-name{font-family:'Nunito Sans',sans-serif;font-size:.95rem;font-weight:600;color:var(--text-main);margin-bottom:6px;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .product-price-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:0;}
 .product-price{font-family:'Nunito Sans',sans-serif;font-size:1.18rem;font-weight:700;color:var(--text-main);letter-spacing:-.3px;}
 .price-view-link{width:32px;height:32px;background:var(--green-light);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--green);font-size:.85rem;text-decoration:none;transition:all .2s;flex-shrink:0;}
 .price-view-link:hover{background:var(--green);color:#fff;}
-
-/* Card Actions */
 .card-actions{display:flex;gap:8px;margin-top:12px;align-items:center;}
 .qty-ctrl{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;flex-shrink:0;background:var(--bg);}
 .qty-ctrl button{background:none;border:none;width:28px;height:36px;cursor:pointer;font-size:16px;font-weight:700;color:var(--text-sub);display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;}
@@ -179,7 +160,6 @@ a{text-decoration:none;}
   .main-content{margin-top:52px;padding:14px 12px;padding-bottom:76px;}
   .wishlist-toolbar{flex-wrap:wrap;gap:10px;margin-bottom:14px;}
   .wishlist-title{font-size:1.15rem;}
-  .wishlist-search-wrap{order:3;max-width:100%;width:100%;flex:unset;}
   .products-grid{grid-template-columns:1fr 1fr;gap:10px;}
   .card-body{padding:10px 10px 12px;}
   .product-name{font-size:.82rem;}
@@ -240,7 +220,7 @@ a{text-decoration:none;}
 
 <!-- ══ TOPBAR ══ -->
 <header class="topbar">
-  <form method="get" action="{% url 'shop:search' %}" style="flex:1;max-width:560px;">
+  <form method="get" action="{% url 'shop:search' %}" style="flex:1;max-width:560px;" id="topSearchForm">
     <div class="search-bar-inner">
       <select name="category" class="search-cat-select">
         <option value="">All Categories</option>
@@ -249,9 +229,9 @@ a{text-decoration:none;}
         {% endfor %}
       </select>
       <div class="search-divider"></div>
-      <input type="text" name="q" class="search-text-input"
-             placeholder="Search products..."
-             value="{{ request.GET.q|default:'' }}">
+      <input type="text" name="q" id="topSearchInput" class="search-text-input"
+             placeholder="Search in wishlist..."
+             autocomplete="off">
       <button type="submit" class="search-submit-btn">
         <i class="fas fa-search"></i>
       </button>
@@ -261,7 +241,6 @@ a{text-decoration:none;}
   <div class="topbar-right">
     <button class="btn-start-selling" onclick="window.location='{% url 'shop:create_tovar' %}'">Start Selling</button>
 
-    <!-- Profile offcanvas trigger -->
     <button class="topbar-icon-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasProfile">
       <i class="fas fa-user"></i>
     </button>
@@ -327,18 +306,6 @@ a{text-decoration:none;}
     </span>
     {% endif %}
 
-    <!-- Live search inside wishlist -->
-    {% if wishlist_items %}
-    <div class="wishlist-search-wrap">
-      <i class="fas fa-search wishlist-search-icon"></i>
-      <input type="text" id="wishlistSearch" class="wishlist-search-input"
-             placeholder="Search in wishlist..." autocomplete="off">
-      <button class="wishlist-search-clear" id="clearSearch" title="Clear">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    {% endif %}
-
     <div class="toolbar-view-btns" style="margin-left:auto;">
       <button class="view-btn" id="viewList" title="List view"><i class="fas fa-list"></i></button>
       <button class="view-btn active" id="viewGrid" title="Grid view"><i class="fas fa-grip"></i></button>
@@ -360,7 +327,6 @@ a{text-decoration:none;}
     {% for item in wishlist_items %}
     <div class="product-card" data-name="{{ item.product.name|lower }}">
 
-      <!-- IMAGE -->
       <div class="product-image-container">
         {% if item.product.image %}
           <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="product-image" loading="lazy">
@@ -369,7 +335,6 @@ a{text-decoration:none;}
                alt="{{ item.product.name }}" class="product-image">
         {% endif %}
 
-        <!-- REMOVE FROM WISHLIST (heart button top-right) -->
         <form method="POST" action="{% url 'shop:wishlist' %}"
               style="position:absolute;top:10px;right:10px;z-index:3;"
               onsubmit="animateRemove(event, this)">
@@ -380,7 +345,6 @@ a{text-decoration:none;}
           </button>
         </form>
 
-        <!-- Meta badges -->
         <div class="card-meta-badges">
           <span class="badge-location">
             <i class="fas fa-location-dot"></i> Store
@@ -391,7 +355,6 @@ a{text-decoration:none;}
         </div>
       </div>
 
-      <!-- BODY -->
       <div class="card-body">
         <div class="product-name" title="{{ item.product.name }}">{{ item.product.name }}</div>
         <div class="product-price-row">
@@ -401,17 +364,13 @@ a{text-decoration:none;}
           </a>
         </div>
 
-        <!-- ACTIONS: qty ctrl + add to cart + remove + view -->
         <div class="card-actions">
-
-          <!-- Quantity controller -->
           <div class="qty-ctrl">
             <button type="button" onclick="qtyMinus(this)">−</button>
             <input type="number" value="1" min="1" max="99" class="qty-val">
             <button type="button" onclick="qtyPlus(this)">+</button>
           </div>
 
-          <!-- Add to Cart -->
           <form method="POST" action="{% url 'shop:cart' %}"
                 style="flex:1;display:flex;"
                 onsubmit="handleAddToCart(event, this)">
@@ -423,7 +382,6 @@ a{text-decoration:none;}
             </button>
           </form>
 
-          <!-- Remove (trash icon) -->
           <form method="POST" action="{% url 'shop:wishlist' %}"
                 onsubmit="animateRemove(event, this)">
             {% csrf_token %}
@@ -433,11 +391,9 @@ a{text-decoration:none;}
             </button>
           </form>
 
-          <!-- View detail -->
           <a href="{% url 'shop:product_detail' item.product.id %}" class="btn-view-link" title="View details">
             <i class="fas fa-eye"></i>
           </a>
-
         </div>
       </div>
     </div>
@@ -451,7 +407,6 @@ a{text-decoration:none;}
   </div>
 
   {% else %}
-  <!-- EMPTY STATE -->
   <div class="empty-wishlist">
     <div class="empty-icon"><i class="fas fa-heart-crack"></i></div>
     <h2>Your Wishlist is Empty</h2>
@@ -492,9 +447,7 @@ a{text-decoration:none;}
 </div><!-- .layout -->
 
 <script>
-/* ══════════════════════════════════════
-   1. QUANTITY CONTROLS
-══════════════════════════════════════ */
+/* 1. QUANTITY CONTROLS */
 function qtyMinus(btn) {
   const ctrl = btn.closest('.qty-ctrl');
   const input = ctrl.querySelector('.qty-val');
@@ -510,12 +463,10 @@ function qtyPlus(btn) {
   syncHidden(ctrl, val);
 }
 function syncHidden(ctrl, val) {
-  // find the hidden quantity input in the nearby cart form
   const actions = ctrl.closest('.card-actions');
   const hidden = actions.querySelector('.qty-hidden');
   if (hidden) hidden.value = val;
 }
-// Also sync on manual typing
 document.querySelectorAll('.qty-val').forEach(inp => {
   inp.addEventListener('input', function() {
     const val = Math.min(99, Math.max(1, parseInt(this.value) || 1));
@@ -524,26 +475,20 @@ document.querySelectorAll('.qty-val').forEach(inp => {
   });
 });
 
-/* ══════════════════════════════════════
-   2. ADD TO CART — sync qty then submit
-══════════════════════════════════════ */
+/* 2. ADD TO CART */
 function handleAddToCart(e, form) {
   e.preventDefault();
-
-  // sync qty one last time before submit
   const actions = form.closest('.card-actions');
   const qtyVal  = actions.querySelector('.qty-val');
   const hidden  = form.querySelector('.qty-hidden');
   if (qtyVal && hidden) hidden.value = qtyVal.value;
 
-  // button feedback
   const btn  = form.querySelector('.btn-cart');
   const orig = btn.innerHTML;
   btn.classList.add('added');
   btn.innerHTML = '<i class="fas fa-check"></i> Added!';
   btn.disabled  = true;
 
-  // toast
   const name = form.closest('.product-card').querySelector('.product-name').textContent.trim();
   showToast(`"${name.length > 28 ? name.substring(0,28)+'…' : name}" added to cart!`);
 
@@ -556,9 +501,7 @@ function handleAddToCart(e, form) {
   form.submit();
 }
 
-/* ══════════════════════════════════════
-   3. REMOVE FROM WISHLIST (animate card out)
-══════════════════════════════════════ */
+/* 3. REMOVE FROM WISHLIST */
 function animateRemove(e, form) {
   e.preventDefault();
   const card = form.closest('.product-card');
@@ -568,40 +511,38 @@ function animateRemove(e, form) {
   setTimeout(() => form.submit(), 350);
 }
 
-/* ══════════════════════════════════════
-   4. LIVE SEARCH INSIDE WISHLIST
-══════════════════════════════════════ */
-const searchInput = document.getElementById('wishlistSearch');
-const clearBtn    = document.getElementById('clearSearch');
-const noResults   = document.getElementById('noResults');
+/* 4. LIVE SEARCH — topbar filters wishlist cards automatically */
+const topInput  = document.getElementById('topSearchInput');
+const topForm   = document.getElementById('topSearchForm');
+const noResults = document.getElementById('noResults');
 
-function filterCards(q) {
-  const cards   = document.querySelectorAll('.product-card');
-  let visible   = 0;
-  const qLower  = q.toLowerCase().trim();
-  cards.forEach(card => {
-    const match = !qLower || (card.dataset.name || '').includes(qLower);
-    card.style.display = match ? '' : 'none';
-    if (match) visible++;
+if (topInput && document.getElementById('wishlistGrid')) {
+  topInput.addEventListener('input', function() {
+    const q = this.value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.product-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const name  = (card.dataset.name || '').toLowerCase();
+      const match = !q || name.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+
+    if (noResults) {
+      noResults.style.display = (visible === 0 && q) ? 'block' : 'none';
+    }
   });
-  if (noResults) noResults.style.display = (visible === 0 && qLower) ? 'block' : 'none';
-  if (clearBtn)  clearBtn.style.display  = qLower ? 'block' : 'none';
-}
 
-if (searchInput) {
-  searchInput.addEventListener('input', function() { filterCards(this.value); });
-}
-if (clearBtn) {
-  clearBtn.addEventListener('click', function() {
-    searchInput.value = '';
-    filterCards('');
-    searchInput.focus();
+  // Если есть текст — не переходим на страницу поиска, фильтруем на месте
+  topForm.addEventListener('submit', function(e) {
+    if (topInput.value.trim()) {
+      e.preventDefault();
+    }
   });
 }
 
-/* ══════════════════════════════════════
-   5. TOAST
-══════════════════════════════════════ */
+/* 5. TOAST */
 function showToast(msg) {
   const t = document.getElementById('toast');
   document.getElementById('toastText').textContent = msg;
@@ -610,9 +551,7 @@ function showToast(msg) {
   t._t = setTimeout(() => t.classList.remove('show'), 3200);
 }
 
-/* ══════════════════════════════════════
-   6. TABS
-══════════════════════════════════════ */
+/* 6. TABS */
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', function() {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -620,9 +559,7 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
-/* ══════════════════════════════════════
-   7. GRID / LIST VIEW TOGGLE
-══════════════════════════════════════ */
+/* 7. GRID / LIST VIEW TOGGLE */
 const grid = document.getElementById('wishlistGrid');
 document.getElementById('viewGrid')?.addEventListener('click', function() {
   if (!grid) return;
@@ -639,5 +576,9 @@ document.getElementById('viewList')?.addEventListener('click', function() {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
 </body>
 </html>

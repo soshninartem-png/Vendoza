@@ -4,34 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.title }}</title>
-    
+    <title>{{ product.name }}</title>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --blue: #2563eb;
+            --blue:       #2563eb;
             --blue-hover: #1d4ed8;
             --blue-light: #eff6ff;
             --blue-badge: #dbeafe;
-            --yellow: #fbbf24;
-            --text: #111827;
+            --yellow:     #fbbf24;
+            --text:       #111827;
             --text-muted: #6b7280;
-            --border: #e5e7eb;
-            --bg: #f9fafb;
-            --white: #ffffff;
-            --success: #10b981;
-            --shadow: rgba(0, 0, 0, 0.1);
+            --border:     #e5e7eb;
+            --bg:         #f9fafb;
+            --white:      #ffffff;
+            --success:    #10b981;
+            --red:        #ef4444;
+            --shadow:     rgba(0,0,0,0.08);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -48,24 +45,20 @@
         .breadcrumbs {
             display: flex;
             gap: 8px;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-muted);
             margin-bottom: 24px;
             flex-wrap: wrap;
             align-items: center;
         }
-
         .breadcrumbs a {
             color: var(--text-muted);
             text-decoration: none;
-            transition: color 0.2s;
+            transition: color .2s;
         }
+        .breadcrumbs a:hover { color: var(--blue); }
 
-        .breadcrumbs a:hover {
-            color: var(--blue);
-        }
-
-        /* MAIN LAYOUT - 3 равные колонки */
+        /* MAIN LAYOUT */
         .product-layout {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -73,28 +66,23 @@
             margin-bottom: 20px;
         }
 
-        /* Все карточки с одинаковой высотой */
         .card {
             background: var(--white);
             border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 22px;
+            box-shadow: 0 2px 10px var(--shadow);
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
+            transition: box-shadow .3s, transform .3s;
         }
-
         .card:hover {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            transform: translateY(-4px);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
         }
 
-        /* IMAGE CARD */
-        .image-card {
-            position: relative;
-        }
-
+        /* IMAGE */
+        .image-card { position: relative; }
         .image-container {
             width: 100%;
             aspect-ratio: 1;
@@ -105,38 +93,28 @@
             border-radius: 12px;
             overflow: hidden;
         }
-
         .product-image {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            transition: transform 0.5s ease;
+            transition: transform .5s ease;
         }
-
-        .image-container:hover .product-image {
-            transform: scale(1.05);
-        }
+        .image-container:hover .product-image { transform: scale(1.06); }
 
         .badge-sale {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 22px; left: 22px;
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
-            padding: 8px 16px;
+            padding: 7px 14px;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            font-size: 13px;
+            box-shadow: 0 4px 12px rgba(239,68,68,.3);
             z-index: 1;
         }
 
         /* INFO CARD */
-        .info-card {
-            display: flex;
-            flex-direction: column;
-        }
-
         .rating-section {
             display: flex;
             align-items: center;
@@ -145,279 +123,117 @@
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border);
         }
-
-        .stars {
-            color: var(--yellow);
-            font-size: 16px;
-            letter-spacing: 2px;
-        }
-
-        .rating-text {
-            color: var(--text);
-            font-weight: 700;
-            font-size: 15px;
-        }
-
+        .stars { color: var(--yellow); font-size: 16px; letter-spacing: 2px; }
+        .rating-text { font-weight: 700; font-size: 15px; }
         .rating-link {
             color: var(--blue);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: color .2s;
         }
+        .rating-link:hover { text-decoration: underline; }
 
-        .rating-link:hover {
-            text-decoration: underline;
-        }
+        .section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+        .description-text { color: #374151; line-height: 1.75; font-size: 14px; flex: 1; }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text);
-        }
-
-        .description-text {
-            color: #374151;
-            line-height: 1.7;
-            font-size: 14px;
-            flex: 1;
-        }
-
-        /* PRICE CARD */
-        .price-card-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .price-section {
-            margin-bottom: 20px;
-        }
-
+        /* PRICE */
+        .price-section { margin-bottom: 18px; }
         .price-current {
             font-size: 36px;
             font-weight: 800;
             color: var(--blue);
             line-height: 1;
-            letter-spacing: -0.02em;
+            letter-spacing: -.02em;
         }
-
         .price-old {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-muted);
             text-decoration: line-through;
-            margin-top: 6px;
+            margin-top: 5px;
         }
 
+        /* INSTALLMENT */
         .installment-card {
-            background: linear-gradient(135deg, var(--blue-light) 0%, var(--blue-badge) 100%);
+            background: linear-gradient(135deg, var(--blue-light), var(--blue-badge));
             border-radius: 14px;
-            padding: 18px;
+            padding: 16px;
             margin-bottom: 16px;
             border: 1px solid #bfdbfe;
         }
-
         .installment-tabs {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 6px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
-
         .tab {
-            padding: 10px 6px;
+            padding: 9px 4px;
             border: none;
-            background: rgba(255,255,255,0.6);
-            border-radius: 10px;
+            background: rgba(255,255,255,.6);
+            border-radius: 9px;
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all .2s;
             text-align: center;
             color: var(--text-muted);
+            font-family: inherit;
         }
-
-        .tab:hover {
-            background: rgba(255,255,255,0.8);
-        }
-
+        .tab:hover { background: rgba(255,255,255,.8); }
         .tab.active {
             background: white;
             color: var(--blue);
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 2px 8px rgba(37,99,235,.2);
             transform: translateY(-1px);
         }
+        .installment-info { text-align: center; }
+        .installment-price { font-size: 26px; font-weight: 800; color: var(--blue); }
+        .installment-term { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-        .installment-info {
-            text-align: center;
-        }
-
-        .installment-price {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--blue);
-        }
-
-        .installment-term {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .btn {
-            padding: 14px 20px;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-family: inherit;
-        }
-
-        .btn-primary {
-            background: var(--blue);
-            color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-            width: 100%;
-            margin-bottom: 12px;
-        }
-
-        .btn-primary:hover {
-            background: var(--blue-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn-primary.added {
-            background: var(--success);
-        }
-
-        .btn-wishlist {
-            background: white;
-            border: 2px solid var(--border);
-            width: 48px;
-            height: 48px;
-            padding: 0;
-            font-size: 20px;
-        }
-
-        .btn-wishlist:hover {
-            border-color: var(--blue);
-            color: var(--blue);
-        }
-
-        .btn-wishlist.active {
-            border-color: var(--blue);
-            color: var(--blue);
-            background: var(--blue-light);
-        }
-
-        /* Delivery Options */
-        .delivery-options {
-            margin-bottom: 16px;
-        }
-
+        /* DELIVERY */
+        .delivery-options { margin-bottom: 14px; }
         .delivery-option {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 12px;
+            padding: 11px 13px;
             border: 2px solid var(--border);
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all .2s;
             margin-bottom: 8px;
         }
-
-        .delivery-option:hover {
-            border-color: var(--blue);
-            background: var(--blue-light);
-        }
-
-        .delivery-option.active {
-            border-color: var(--blue);
-            background: var(--blue-light);
-        }
-
+        .delivery-option:hover { border-color: var(--blue); background: var(--blue-light); }
+        .delivery-option.active { border-color: var(--blue); background: var(--blue-light); }
         .delivery-radio {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border-radius: 50%;
             border: 2px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transition: border-color .2s;
+            position: relative;
         }
-
-        .delivery-option.active .delivery-radio {
-            border-color: var(--blue);
-        }
-
+        .delivery-option.active .delivery-radio { border-color: var(--blue); }
         .delivery-radio::after {
             content: '';
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             border-radius: 50%;
             background: var(--blue);
             opacity: 0;
-            transition: opacity 0.2s;
+            transition: opacity .2s;
+            position: absolute;
         }
+        .delivery-option.active .delivery-radio::after { opacity: 1; }
+        .delivery-info { flex: 1; }
+        .delivery-title { font-weight: 600; font-size: 14px; }
+        .delivery-desc { font-size: 12px; color: var(--text-muted); }
+        .delivery-price { font-weight: 700; font-size: 14px; color: var(--blue); }
 
-        .delivery-option.active .delivery-radio::after {
-            opacity: 1;
-        }
-
-        .delivery-info {
-            flex: 1;
-        }
-
-        .delivery-title {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text);
-        }
-
-        .delivery-desc {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .delivery-price {
-            font-weight: 700;
-            font-size: 15px;
-            color: var(--blue);
-        }
-
-        /* Info boxes */
-        .info-box {
-            padding: 12px;
-            background: var(--bg);
-            border-radius: 10px;
-            margin-bottom: 12px;
-            font-size: 13px;
-            border: 1px solid var(--border);
-        }
-
-        .info-box-title {
-            font-weight: 700;
-            color: var(--text);
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-box-text {
-            color: var(--text-muted);
-        }
-
-        /* Total Price */
+        /* TOTAL */
         .total-price {
             padding: 14px;
             background: linear-gradient(135deg, #fef3c7, #fde68a);
@@ -425,141 +241,172 @@
             margin-bottom: 16px;
             border: 1px solid #fcd34d;
         }
+        .total-label { font-size: 12px; color: var(--text-muted); margin-bottom: 3px; }
+        .total-amount { font-size: 28px; font-weight: 800; color: var(--text); }
 
-        .total-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
+        /* BUTTONS */
+        .action-row { display: flex; gap: 10px; margin-bottom: 14px; align-items: stretch; }
+        .btn {
+            padding: 13px 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+            text-decoration: none;
         }
+        .btn-primary {
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37,99,235,.3);
+            flex: 1;
+        }
+        .btn-primary:hover {
+            background: var(--blue-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37,99,235,.4);
+        }
+        .btn-primary.added { background: var(--success); box-shadow: 0 4px 14px rgba(16,185,129,.3); }
+        .btn-primary:disabled { opacity: .85; cursor: default; transform: none !important; }
 
-        .total-amount {
-            font-size: 28px;
-            font-weight: 800;
+        .btn-wishlist {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: white;
+            border: 2px solid var(--border);
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .25s;
+            flex-shrink: 0;
+            color: var(--text-muted);
+        }
+        .btn-wishlist:hover { border-color: var(--red); color: var(--red); background: #fef2f2; }
+        .btn-wishlist.in-wishlist { border-color: var(--red); color: var(--red); background: #fef2f2; }
+
+        /* INFO BOX */
+        .info-box {
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            border: 1px solid var(--border);
+        }
+        .info-box-title {
+            font-weight: 700;
             color: var(--text);
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .info-box-text { color: var(--text-muted); }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            background: #1a1a1a;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,.22);
+            z-index: 9999;
+            transform: translateY(90px);
+            opacity: 0;
+            transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+            pointer-events: none;
+            max-width: 320px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast-icon {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: var(--success);
+            display: flex; align-items: center; justify-content: center;
+            font-size: .85rem; flex-shrink: 0;
         }
 
         /* FULL WIDTH SECTIONS */
         .full-width-section {
             background: var(--white);
             border-radius: 16px;
-            padding: 24px;
+            padding: 28px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 10px var(--shadow);
             border: 1px solid var(--border);
         }
-
-        .section-header {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--text);
-        }
+        .section-header { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
 
         /* REVIEWS */
         .review-card {
             border-bottom: 1px solid var(--border);
             padding: 16px 0;
-            transition: all 0.2s;
+            transition: all .2s;
         }
-
+        .review-card:last-child { border-bottom: none; }
         .review-card:hover {
             background: var(--bg);
             padding: 16px;
             margin: 0 -16px;
             border-radius: 12px;
         }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .reviewer-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .review-date { color: var(--text-muted); font-size: 12px; }
+        .review-text { color: #374151; line-height: 1.6; font-size: 13px; }
+        .no-reviews { color: var(--text-muted); text-align: center; padding: 28px 20px; font-size: 14px; }
 
-        .review-card:last-child {
-            border-bottom: none;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .reviewer-name {
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
-
-        .review-date {
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        .review-text {
-            color: #374151;
-            line-height: 1.6;
-            font-size: 13px;
-        }
-
-        /* COMMENT FORM */
+        /* REVIEW FORM */
         .comment-form {
             background: var(--bg);
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
+            padding: 22px;
+            border-radius: 14px;
+            margin-top: 24px;
             border: 1px solid var(--border);
         }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 600;
-            font-size: 14px;
-            margin-bottom: 8px;
-            color: var(--text);
-        }
-
-        .form-input,
-        .form-textarea {
+        .comment-form h3 { font-size: 17px; font-weight: 700; margin-bottom: 18px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 7px; }
+        .form-input, .form-textarea {
             width: 100%;
             padding: 12px 14px;
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: 10px;
             font-size: 14px;
             font-family: inherit;
-            transition: all 0.2s;
+            transition: all .2s;
+            background: white;
         }
-
-        .form-input:focus,
-        .form-textarea:focus {
+        .form-input:focus, .form-textarea:focus {
             outline: none;
             border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            box-shadow: 0 0 0 3px rgba(37,99,235,.1);
         }
+        .form-textarea { resize: vertical; min-height: 100px; }
 
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .rating-input {
-            display: flex;
-            gap: 8px;
-            font-size: 28px;
-        }
-
+        .rating-input { display: flex; gap: 6px; font-size: 30px; }
         .star-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #d1d5db;
-            transition: all 0.2s;
-            padding: 0;
+            background: none; border: none;
+            cursor: pointer; color: #d1d5db;
+            transition: all .2s; padding: 0; line-height: 1;
         }
-
-        .star-btn:hover,
-        .star-btn.active {
-            color: var(--yellow);
-            transform: scale(1.1);
-        }
+        .star-btn:hover, .star-btn.active { color: var(--yellow); transform: scale(1.15); }
 
         .btn-submit {
             background: var(--blue);
@@ -568,57 +415,58 @@
             border: none;
             border-radius: 10px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all .2s;
+            font-family: inherit;
         }
-
         .btn-submit:hover {
             background: var(--blue-hover);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 14px rgba(37,99,235,.3);
         }
 
         /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .product-layout {
-                grid-template-columns: 1fr;
-            }
-        }
-
+        @media (max-width: 1024px) { .product-layout { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
-            .container {
-                padding: 16px;
-            }
-
-            .installment-tabs {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .container { padding: 14px; }
+            .installment-tabs { grid-template-columns: repeat(2,1fr); }
+            .full-width-section { padding: 18px; }
         }
     </style>
 </head>
 <body>
 
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <div class="toast-icon">✓</div>
+    <span id="toastText"></span>
+</div>
+
 <div class="container">
+
     <!-- BREADCRUMBS -->
     <div class="breadcrumbs">
-        <a href="/">Главная</a>
+        <a href="{% url 'shop:home' %}">Главная</a>
         <span>›</span>
-        <a href="#">{{ product.category }}</a>
+        {% if product.category %}
+        <a href="{% url 'shop:category' product.category.slug %}">{{ product.category.name }}</a>
         <span>›</span>
-        <span>{{ product.title }}</span>
+        {% endif %}
+        <span>{{ product.name }}</span>
     </div>
 
-    <!-- MAIN PRODUCT LAYOUT - 3 равные колонки -->
+    <!-- MAIN LAYOUT -->
     <div class="product-layout">
 
         <!-- COLUMN 1: IMAGE -->
         <div class="card image-card">
-            {% if product.old_price %}
-            <div class="badge-sale">-{{ product.discount_percent|default:"0" }}%</div>
-            {% endif %}
             <div class="image-container">
-                <img src="{{ product.image.url }}" alt="{{ product.title }}" class="product-image">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                {% else %}
+                    <img src="https://placehold.co/500x500/eff6ff/2563eb?text={{ product.name|urlencode }}" alt="{{ product.name }}" class="product-image">
+                {% endif %}
             </div>
         </div>
 
@@ -626,25 +474,38 @@
         <div class="card info-card">
             <div class="rating-section">
                 <span class="stars">★★★★★</span>
-                <span class="rating-text">{{ product.rating|default:"4.7" }}</span>
-                <a href="#reviews" class="rating-link">{{ product.review_count|default:"0" }} отзывов</a>
+                <span class="rating-text">4.8</span>
+                <a href="#reviews" class="rating-link">Смотреть отзывы</a>
             </div>
 
-            <h2 class="section-title">Описание товара</h2>
-            <div class="description-text">
-                {{ product.description|default:"500g" }}
+            <h1 class="section-title">{{ product.name }}</h1>
+            <p class="description-text">{{ product.description|default:"Описание отсутствует." }}</p>
+
+            {% if product.unit_type or product.category %}
+            <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+                {% if product.unit_type %}
+                <span style="background:var(--blue-light);color:var(--blue);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;">
+                    {{ product.get_unit_type_display }}
+                </span>
+                {% endif %}
+                {% if product.category %}
+                <span style="background:var(--bg);color:var(--text-muted);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border);">
+                    {{ product.category.name }}
+                </span>
+                {% endif %}
             </div>
+            {% endif %}
         </div>
 
         <!-- COLUMN 3: PRICE & ACTIONS -->
-        <div class="card price-card-wrapper">
+        <div class="card">
+
+            <!-- Price -->
             <div class="price-section">
-                <div class="price-current" id="basePrice">{{ product.price|floatformat:0 }} $</div>
-                {% if product.old_price %}
-                <div class="price-old">{{ product.old_price|floatformat:0 }} $</div>
-                {% endif %}
+                <div class="price-current">${{ product.price }}</div>
             </div>
 
+            <!-- Installment -->
             <div class="installment-card">
                 <div class="installment-tabs">
                     <button class="tab" data-months="3">3 мес</button>
@@ -653,18 +514,18 @@
                     <button class="tab active" data-months="24">24 мес</button>
                 </div>
                 <div class="installment-info">
-                    <div class="installment-price" id="monthlyPrice">0 $</div>
+                    <div class="installment-price" id="monthlyPrice">–</div>
                     <div class="installment-term" id="monthlyTerm">× 24 мес</div>
                 </div>
             </div>
 
-            <!-- DELIVERY OPTIONS -->
+            <!-- Delivery -->
             <div class="delivery-options">
                 <div class="delivery-option active" data-price="0">
                     <div class="delivery-radio"></div>
                     <div class="delivery-info">
-                        <div class="delivery-title">Самовывоз</div>
-                        <div class="delivery-desc">Бесплатно</div>
+                        <div class="delivery-title">🏪 Самовывоз</div>
+                        <div class="delivery-desc">Бесплатно, сегодня</div>
                     </div>
                     <div class="delivery-price">0 $</div>
                 </div>
@@ -672,61 +533,55 @@
                     <div class="delivery-radio"></div>
                     <div class="delivery-info">
                         <div class="delivery-title">🚚 Доставка</div>
-                        <div class="delivery-desc">1-3 дня по городу</div>
+                        <div class="delivery-desc">1–3 дня по городу</div>
                     </div>
                     <div class="delivery-price">+10 $</div>
                 </div>
             </div>
 
-            <!-- TOTAL PRICE -->
+            <!-- Total -->
             <div class="total-price">
                 <div class="total-label">Итого к оплате:</div>
-                <div class="total-amount" id="totalPrice">{{ product.price|floatformat:0 }} $</div>
+                <div class="total-amount" id="totalPrice">${{ product.price }}</div>
             </div>
 
-            <!-- ACTION BUTTONS -->
-            <div style="display: flex; gap: 10px; margin-bottom: 16px;">
-                <div class="col">
-              <form method="post" action="{% url 'shop:cart' %}">
-                {% csrf_token %}
-                <input type="hidden" name="product_id" value="{{ product.id }}">
-                <button type="submit"
-                        class="btn btn-primary rounded-1 p-2 fs-7 w-100">
-                  <svg width="18" height="18">
-                    <use xlink:href="#cart"></use>
-                  </svg>
-                  Add to Cart
-                </button>
-              </form>
-            </div>
-                  <div class="col-2">
-              <form method="post" action="{% url 'shop:wishlist' %}">
-                {% csrf_token %}
-                <input type="hidden" name="product_id" value="{{ product.id }}">
-                <button type="submit"
-                        class="btn btn-outline-dark rounded-1 p-2 fs-6">
-                  <svg width="0.25" height="0.25">
-                    <img src="https://icon.boxicons.com/3.0.7/4x/basic/rounded/200/bx-heart.webp" alt="">
-                  </svg>
-                </button>
-              </form>
-            </div>
+            <!-- Action buttons -->
+            <div class="action-row">
+
+                <!-- Add to Cart -->
+                <form method="POST" action="{% url 'shop:cart' %}" id="cartForm" style="flex:1;display:flex;">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="btn btn-primary" id="addToCartBtn" style="width:100%;">
+                        🛒 В корзину
+                    </button>
+                </form>
+
+                <!-- Wishlist -->
+                <form method="POST" action="{% url 'shop:wishlist' %}" id="wishlistForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <button type="submit" class="btn-wishlist {% if in_wishlist %}in-wishlist{% endif %}" id="wishlistBtn" title="В избранное">
+                        {% if in_wishlist %}♥{% else %}♡{% endif %}
+                    </button>
+                </form>
 
             </div>
 
-            <!-- PAYMENT INFO -->
+            <!-- Info boxes -->
             <div class="info-box">
-                <div class="info-box-title">
-                    <span>💵</span>
-                    <span>Способ оплаты</span>
-                </div>
-                <div class="info-box-text">Только наличными при получении</div>
+                <div class="info-box-title"><span>💵</span><span>Способ оплаты</span></div>
+                <div class="info-box-text">Наличными или картой при получении</div>
             </div>
-        </div>
+            <div class="info-box">
+                <div class="info-box-title"><span>🔄</span><span>Возврат</span></div>
+                <div class="info-box-text">Возврат в течение 14 дней</div>
+            </div>
 
+        </div>
     </div>
 
-    <!-- REVIEWS SECTION -->
+    <!-- REVIEWS -->
     <div class="full-width-section" id="reviews">
         <h2 class="section-header">Отзывы покупателей</h2>
 
@@ -737,31 +592,30 @@
                     <div class="review-header">
                         <div>
                             <div class="reviewer-name">{{ review.user_name }}</div>
-                            <div class="stars" style="font-size: 14px;">
+                            <div class="stars" style="font-size:13px;">
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="review-date">{{ review.created_at|date:"d E" }}</div>
+                        <div class="review-date">{{ review.created_at|date:"d M Y" }}</div>
                     </div>
                     <div class="review-text">{{ review.comment }}</div>
                 </div>
                 {% endfor %}
             {% else %}
-                <p style="color: var(--text-muted); text-align: center; padding: 20px;">Пока нет отзывов. Будьте первым!</p>
+                <p class="no-reviews">😊 Пока нет отзывов. Будьте первым!</p>
             {% endif %}
         </div>
 
-        <!-- COMMENT FORM -->
+        <!-- Comment form -->
         <div class="comment-form">
-            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">Оставить отзыв</h3>
+            <h3>Оставить отзыв</h3>
             <form id="reviewForm">
                 <div class="form-group">
                     <label class="form-label">Ваше имя</label>
-                    <input type="text" class="form-input" id="userName" required placeholder="Введите ваше имя">
+                    <input type="text" class="form-input" id="userName" placeholder="Введите ваше имя" required>
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Оценка</label>
                     <div class="rating-input" id="ratingInput">
@@ -771,14 +625,12 @@
                         <button type="button" class="star-btn" data-rating="4">★</button>
                         <button type="button" class="star-btn" data-rating="5">★</button>
                     </div>
-                    <input type="hidden" id="ratingValue" value="5" required>
+                    <input type="hidden" id="ratingValue" value="5">
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Ваш отзыв</label>
-                    <textarea class="form-textarea" id="reviewText" required placeholder="Расскажите о своем опыте использования товара"></textarea>
+                    <textarea class="form-textarea" id="reviewText" placeholder="Расскажите о своём опыте" required></textarea>
                 </div>
-
                 <button type="submit" class="btn-submit">Отправить отзыв</button>
             </form>
         </div>
@@ -787,206 +639,221 @@
 </div>
 
 <script>
-    // Product data
-    const productData = {
-        id: {{ product.id|default:0 }},
-        title: "{{ product.title|escapejs }}",
-        price: {{ product.price|default:0 }},
-        image: "{{ product.image.url|default:'' }}"
-    };
-
-    let basePrice = productData.price;
+    const basePrice = {{ product.price|default:0 }};
     let deliveryPrice = 0;
 
-    // ============================================
-    // DELIVERY OPTIONS
-    // ============================================
-    
-    const deliveryOptions = document.querySelectorAll('.delivery-option');
-    const totalPriceEl = document.getElementById('totalPrice');
-    
-    deliveryOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            deliveryOptions.forEach(opt => opt.classList.remove('active'));
+    /* DELIVERY */
+    document.querySelectorAll('.delivery-option').forEach(opt => {
+        opt.addEventListener('click', function () {
+            document.querySelectorAll('.delivery-option').forEach(o => o.classList.remove('active'));
             this.classList.add('active');
-            
             deliveryPrice = parseFloat(this.dataset.price);
-            updateTotalPrice();
+            updateTotal();
         });
     });
 
-    function updateTotalPrice() {
+    function updateTotal() {
         const total = basePrice + deliveryPrice;
-        totalPriceEl.textContent = Math.ceil(total) + ' $';
+        document.getElementById('totalPrice').textContent = '$' + total.toFixed(2).replace(/\.00$/, '');
     }
 
-    // ============================================
-    // INSTALLMENT CALCULATOR
-    // ============================================
-    
-    const tabs = document.querySelectorAll('.tab');
-    const monthlyPrice = document.getElementById('monthlyPrice');
-    const monthlyTerm = document.getElementById('monthlyTerm');
-
-    function updateInstallment(months) {
-        const monthly = Math.ceil(basePrice / months);
-        monthlyPrice.textContent = monthly + ' $';
-        monthlyTerm.textContent = '× ' + months + ' мес';
-    }
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            const months = parseInt(tab.dataset.months);
-            updateInstallment(months);
+    /* INSTALLMENT */
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', function () {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            const months = parseInt(this.dataset.months);
+            document.getElementById('monthlyPrice').textContent = '$' + Math.ceil(basePrice / months);
+            document.getElementById('monthlyTerm').textContent = '× ' + months + ' мес';
         });
     });
+    // Init
+    document.getElementById('monthlyPrice').textContent = '$' + Math.ceil(basePrice / 24);
 
-    updateInstallment(24);
-
-    // ============================================
-    // CART FUNCTIONALITY
-    // ============================================
-    
-    function getCart() {
-        const cart = localStorage.getItem('cart');
-        return cart ? JSON.parse(cart) : [];
-    }
-
-    function saveCart(cart) {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }
-
-    function addToCart(product, delivery) {
-        let cart = getCart();
-        const totalPrice = product.price + delivery;
-        
-        const existingProduct = cart.find(item => item.id === product.id);
-        
-        if (existingProduct) {
-            existingProduct.quantity += 1;
-        } else {
-            cart.push({
-                id: product.id,
-                title: product.title,
-                price: totalPrice,
-                basePrice: product.price,
-                deliveryPrice: delivery,
-                image: product.image,
-                quantity: 1
-            });
-        }
-        
-        saveCart(cart);
-        return cart;
-    }
-
-    const addToCartBtn = document.getElementById('addToCart');
-    const cartButtonText = document.getElementById('cartButtonText');
-
-    addToCartBtn.addEventListener('click', function() {
-        const cart = addToCart(productData, deliveryPrice);
-        
-        this.classList.add('added');
-        cartButtonText.innerHTML = '✓ Добавлено в корзину';
-        this.disabled = true;
-        
-        setTimeout(() => {
-            this.classList.remove('added');
-            cartButtonText.innerHTML = 'Добавить в корзину';
-            this.disabled = false;
-        }, 2000);
-        
-        console.log('Корзина:', cart);
-    });
-
-    // ============================================
-    // WISHLIST
-    // ============================================
-    
-    const wishlistBtn = document.getElementById('wishlist');
-    
-    wishlistBtn.addEventListener('click', function() {
-        this.classList.toggle('active');
-        this.innerHTML = this.classList.contains('active') ? '♥' : '♡';
-    });
-
-    // ============================================
-    // RATING STARS
-    // ============================================
-    
-    const starBtns = document.querySelectorAll('.star-btn');
-    const ratingValue = document.getElementById('ratingValue');
-    
-    starBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const rating = parseInt(this.dataset.rating);
-            ratingValue.value = rating;
-            
-            starBtns.forEach((star, index) => {
-                if (index < rating) {
-                    star.classList.add('active');
-                } else {
-                    star.classList.remove('active');
-                }
-            });
-        });
-    });
-
-    // Set default rating
-    starBtns.forEach(star => star.classList.add('active'));
-
-    // ============================================
-    // REVIEW FORM SUBMISSION
-    // ============================================
-    
-    const reviewForm = document.getElementById('reviewForm');
-    const reviewsList = document.getElementById('reviewsList');
-    
-    reviewForm.addEventListener('submit', function(e) {
+    /* ADD TO CART */
+    document.getElementById('cartForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        
-        const userName = document.getElementById('userName').value;
+        const btn = document.getElementById('addToCartBtn');
+        const orig = btn.innerHTML;
+        btn.classList.add('added');
+        btn.innerHTML = '✓ Добавлено!';
+        btn.disabled = true;
+        showToast('{{ product.name|escapejs }} добавлен в корзину!');
+        setTimeout(() => {
+            btn.classList.remove('added');
+            btn.innerHTML = orig;
+            btn.disabled = false;
+        }, 2200);
+        this.submit();
+    });
+
+    /* WISHLIST */
+    document.getElementById('wishlistForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const btn = document.getElementById('wishlistBtn');
+        const isIn = btn.classList.contains('in-wishlist');
+        btn.classList.toggle('in-wishlist');
+        btn.innerHTML = isIn ? '♡' : '♥';
+        showToast(isIn ? 'Удалено из избранного' : 'Добавлено в избранное! ♥');
+        this.submit();
+    });
+
+    /* TOAST */
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toastText').textContent = msg;
+        t.classList.add('show');
+        clearTimeout(t._t);
+        t._t = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    /* STARS */
+    const starBtns = document.querySelectorAll('.star-btn');
+    starBtns.forEach(btn => {
+        btn.addEventListener('click', function () {
+            const r = parseInt(this.dataset.rating);
+            document.getElementById('ratingValue').value = r;
+            starBtns.forEach((s, i) => s.classList.toggle('active', i < r));
+        });
+        btn.addEventListener('mouseenter', function () {
+            const r = parseInt(this.dataset.rating);
+            starBtns.forEach((s, i) => s.style.color = i < r ? '#fbbf24' : '');
+        });
+        btn.addEventListener('mouseleave', () => {
+            starBtns.forEach(s => s.style.color = '');
+        });
+    });
+    starBtns.forEach(s => s.classList.add('active'));
+
+    /* REVIEW FORM */
+    document.getElementById('reviewForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('userName').value.trim();
         const rating = parseInt(document.getElementById('ratingValue').value);
-        const reviewText = document.getElementById('reviewText').value;
-        
-        // Create review card
-        const reviewCard = document.createElement('div');
-        reviewCard.className = 'review-card';
-        
+        const text = document.getElementById('reviewText').value.trim();
+        if (!name || !text) return;
+
         const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
-        const currentDate = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' });
-        
-        reviewCard.innerHTML = `
+        const date = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        const card = document.createElement('div');
+        card.className = 'review-card';
+        card.innerHTML = `
             <div class="review-header">
                 <div>
-                    <div class="reviewer-name">${userName}</div>
-                    <div class="stars" style="font-size: 14px;">${stars}</div>
+                    <div class="reviewer-name">${name}</div>
+                    <div class="stars" style="font-size:13px;">${stars}</div>
                 </div>
-                <div class="review-date">${currentDate}</div>
+                <div class="review-date">${date}</div>
             </div>
-            <div class="review-text">${reviewText}</div>
+            <div class="review-text">${text}</div>
         `;
-        
-        // Check if "no reviews" message exists
-        const noReviewsMsg = reviewsList.querySelector('p');
-        if (noReviewsMsg) {
-            noReviewsMsg.remove();
-        }
-        
-        // Add to top of reviews list
-        reviewsList.insertBefore(reviewCard, reviewsList.firstChild);
-        
-        // Reset form
-        reviewForm.reset();
-        starBtns.forEach(star => star.classList.add('active'));
-        ratingValue.value = 5;
-        
-        // Show success message
-        alert('Спасибо за ваш отзыв!');
+
+        const list = document.getElementById('reviewsList');
+        const noMsg = list.querySelector('.no-reviews');
+        if (noMsg) noMsg.remove();
+        list.insertBefore(card, list.firstChild);
+
+        this.reset();
+        starBtns.forEach(s => s.classList.add('active'));
+        document.getElementById('ratingValue').value = 5;
+        showToast('Спасибо за ваш отзыв! ⭐');
     });
 </script>
 
+
+
+
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+
+      <!-- BRAND -->
+      <div class="footer-col">
+        <h1 class="footer-logo">Vendoza</h1>
+        <p class="footer-desc">
+          Modern marketplace with quality products and fast delivery.
+        </p>
+
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <!-- COMPANY -->
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Conditions</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+
+      <!-- QUICK LINKS -->
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="#">Offers</a></li>
+          <li><a href="#">Coupons</a></li>
+          <li><a href="#">Stores</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+
+      <!-- SUPPORT -->
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Returns</a></li>
+        </ul>
+      </div>
+
+      <!-- SUBSCRIBE -->
+      <div class="footer-col">
+        <h5>Subscribe</h5>
+        <p class="footer-desc">Get updates and special offers</p>
+        <form class="subscribe-form">
+          <input type="email" placeholder="Email address">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © {{ year|default:"2026" }} Vendoza — All rights reserved
+    </div>
+  </div>
+</footer>
+
+  <div id="footer-bottom">
+    <div class="container-lg">
+      <div class="row">
+        <div class="col-md-6 copyright">
+          <p>© 2026 Vendoza. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 credit-link text-start text-md-end">
+          <p>HTML Template by <a href="https://templatesjungle.com/">TemplatesJungle</a> Distributed By <a
+              href="https://themewagon.com">ThemeWagon</a> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
