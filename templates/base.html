@@ -204,16 +204,15 @@
         <h2 class="form-title">Welcome back 👋</h2>
         <p class="form-sub">Sign in to your Vendoza account</p>
 
-        <div class="socials">
-          <a href="{% provider_login_url 'google' %}" class="social-btn">
-            <i class="fab fa-google"></i> Google
-          </a>
-          <a href="#" class="social-btn">
-            <i class="fab fa-facebook-f"></i> Facebook
-          </a>
-        </div>
-        <div class="divider"><span>or continue with email</span></div>
-
+      <div class="socials">
+  <a href="{% provider_login_url 'google' %}" class="social-btn">
+    <i class="fab fa-google"></i> Google
+  </a>
+  <a href="{% provider_login_url 'facebook' %}" class="social-btn">
+    <i class="fab fa-facebook-f"></i> Facebook
+  </a>
+</div>
+<div class="divider"><span>or continue with email</span></div>
         <form method="POST" action="{% url 'shop:login' %}">
           {% csrf_token %}
           {% if signin_form %}
